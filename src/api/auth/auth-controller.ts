@@ -1,26 +1,22 @@
 import { UserData } from './auth-types';
-import instance from '../instance';
-import axios from 'axios';
+import { instance } from '../instance';
 
 class AuthController {
   public static async createNewUser(email: string, password: string) {
     try {
       const user: Partial<UserData> = {
-        email,
-        password,
+        email: email,
+        password: password,
         avatar: null,
         coins: 0,
         achievements: [],
         exp: 0,
         level: 1,
-        isAuth: false,
       };
 
-      const response = instance.post('/register', {
-        body: JSON.stringify(user),
-      });
+      const response = await instance.post('/register', user);
 
-      const data = await response;
+      const data = response.data;
 
       if (!data) {
         throw new Error(`${data}`);
@@ -31,18 +27,16 @@ class AuthController {
       console.log(err);
     }
   }
-  public static async isAuthUser(login: string, password: string) {
+  public static async isAuthUser(email: string, password: string) {
     try {
       const body = {
-        login,
+        email,
         password,
       };
 
-      const response = axios.post('/login', {
-        body: JSON.stringify(body),
-      });
+      const response = await instance.post('/login', body);
 
-      const data = await response;
+      const data = response.data;
 
       if (!data) {
         throw new Error(data);
