@@ -8,13 +8,13 @@ class AuthController {
         email: email,
         password: password,
         avatar: null,
-        coins: 0,
+        coins: 1000,
         achievements: [],
         exp: 0,
         level: 1,
       };
 
-      const response = await instance.post('/register', user);
+      const response: any = await instance.post('/register', user);
 
       const data = response.data;
 
@@ -34,7 +34,7 @@ class AuthController {
         password,
       };
 
-      const response = await instance.post('/login', body);
+      const response: any = await instance.post('/login', body);
 
       const data = response.data;
 
@@ -43,6 +43,25 @@ class AuthController {
       }
 
       return data;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  public static async isAuthMe(email: string, id: string) {
+    try {
+      const body: any = {
+        email,
+        id,
+      };
+
+      const response: any = await instance.get(`/660/users/${id}`, body);
+
+      if (!response.data) {
+        throw new Error(response);
+      }
+
+      return response.data;
     } catch (err) {
       console.log(err);
     }

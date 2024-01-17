@@ -7,6 +7,7 @@ export interface UserData {
   exp: number;
   level: number;
   isAuth: boolean;
+  id: null | string;
 }
 
 export interface UserResponse {

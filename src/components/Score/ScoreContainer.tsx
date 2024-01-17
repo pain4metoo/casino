@@ -1,9 +1,14 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { withAuthRedirect } from '../../hoc/withAuthRedirect';
 import Score from './Score';
+import { withAuthMeRedirect } from '../../hoc/withAuthMeRedirect';
+import { isAuthMeThunk } from '../../redux/auth-reducer';
 
 const ScoreContainer = (props: any) => {
+  if (props.id && props.email && props.token) {
+    props.isAuthMeThunk(props.email, props.id);
+  }
+
   return <Score {...props} />;
 };
 
@@ -14,6 +19,8 @@ const mapStateToProps = (state: any) => {
 };
 
 export default compose(
-  connect(mapStateToProps),
-  withAuthRedirect,
+  connect(mapStateToProps, {
+    isAuthMeThunk,
+  }),
+  withAuthMeRedirect,
 )(ScoreContainer);

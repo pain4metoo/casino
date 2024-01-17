@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import Header from './Header';
+import { exitFromProfile } from '../../redux/auth-reducer';
 
 const HeaderContainerApi = (props: any) => {
   return <Header {...props} />;
@@ -11,6 +12,8 @@ const mapStateToProps = (state: any) => {
   };
 };
 
-const HeaderContainer = connect(mapStateToProps)(HeaderContainerApi);
+const HeaderContainer = connect(mapStateToProps, {
+  exitFromProfile,
+})(HeaderContainerApi);
 
 export default HeaderContainer;

@@ -4,7 +4,7 @@ import WelcomeUnauthContainer from './WelcomeUnauth/Welcome-Unauth-Container';
 const Welcome = (props: any) => {
   return (
     <div className='welcome'>
-      {props.isAuth ? <WelcomeAuth /> : <WelcomeUnauthContainer />}
+      {props.isAuth ? <WelcomeAuth {...props} /> : <WelcomeUnauthContainer />}
     </div>
   );
 };

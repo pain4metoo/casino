@@ -1,13 +1,17 @@
 import { connect } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 
-const mapStateToPropsForRedirect = (state: any) => ({
-  isAuth: state.auth.isAuth,
+const mapStateToPropsForRedirect = () => ({
+  id: localStorage.getItem('id'),
+  email: localStorage.getItem('email'),
+  token: localStorage.getItem('token'),
 });
 
-export const withAuthRedirect = (Component: any) => {
+export const withAuthMeRedirect = (Component: any) => {
   const RedirectComponent = (props: any) => {
-    if (!props.isAuth) return <Navigate to={'/login/'} />;
+    if (!props.id || !props.email || !props.token) {
+      return <Navigate to={'/login/'} />;
+    }
 
     return <Component {...props} />;
   };

@@ -10,9 +10,9 @@ const App = () => {
   return (
     <div className='app'>
       <HeaderContainer />
-      <ProfileContainer />
+
       <Routes>
-        {/* <Route path='/' element={<WelcomeContainer />} /> */}
+        <Route path='/' element={<WelcomeContainer />} />
         <Route path='/login' element={<LoginContainer />} />
         <Route path='/game' element={<GameContainer />} />
         <Route path='/profile' element={<ProfileContainer />} />

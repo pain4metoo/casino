@@ -1,0 +1,60 @@
+.profile {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.inner {
+  padding: 1rem;
+  border: 1px solid green;
+}
+
+.block {
+  display: flex;
+}
+
+.exp {
+  margin-bottom: 2rem;
+  &_text {
+    font-size: 3rem;
+    font-weight: 400;
+  }
+}
+
+.balance {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  &_text {
+    font-size: 2rem;
+    margin: 0;
+  }
+}
+
+.avatar {
+  width: 30rem;
+  height: 30rem;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.achiev {
+  &_img {
+    width: 7rem;
+    height: 7rem;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+  &_text {
+    font-size: 2rem;
+    font-weight: 400;
+    text-decoration: none;
+  }
+}
+
+.level {
+  &_text {
+    font-size: 2rem;
+  }
+}

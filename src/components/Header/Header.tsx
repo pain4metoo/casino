@@ -11,7 +11,7 @@ const Header = (props: any) => {
         <img className={styles.logo} src={logo} alt='logo' />
       </NavLink>
 
-      {props.isAuth ? <NavbarAuth /> : <NavbarUnauth />}
+      {props.isAuth ? <NavbarAuth {...props} /> : <NavbarUnauth />}
     </div>
   );
 };
