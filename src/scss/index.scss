@@ -1,0 +1,21 @@
+@import './fonts.scss';
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+html {
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  font-size: 10px;
+}
+
+body {
+  font-family: 'Thasadith', sans-serif;
+  font-size: 2rem;
+  font-weight: 400;
+  background: url('../assets/images/bg.jpg') no-repeat center/cover;
+  color: #fff;
+}

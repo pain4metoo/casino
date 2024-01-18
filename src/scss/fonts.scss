@@ -1,0 +1,19 @@
+@font-face {
+  font-family: 'Thasadith';
+  src: url('../assets/fonts/Thasadith-Regular.eot');
+  src: local('☺'), url('../assets/fonts/Thasadith-Regular.woff') format('woff'),
+    url('../assets/fonts/Thasadith-Regular.ttf') format('truetype'),
+    url('../assets/fonts/Thasadith-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Thasadith';
+  src: url('../assets/fonts/Thasadith-Bold.eot');
+  src: local('☺'), url('../assets/fonts/Thasadith-Bold.woff') format('woff'),
+    url('../assets/fonts/Thasadith-Bold.ttf') format('truetype'),
+    url('../assets/fonts/Thasadith-Bold.woff') format('woff2');
+  font-weight: bold;
+  font-style: normal;
+}

@@ -2,11 +2,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: green;
+  background: rgba(20, 19, 17, 0.5);
+  backdrop-filter: blur(0.6rem);
+  min-height: 8rem;
 }
 
 .logo {
-  width: 8rem;
-  height: 8rem;
+  width: 6rem;
+  height: 6rem;
   object-fit: cover;
 }

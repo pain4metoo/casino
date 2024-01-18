@@ -1,19 +1,19 @@
 export interface ILoginState {
-  login: string;
+  email: string;
   password: string;
 }
 
 const initialState: ILoginState = {
-  login: '',
+  email: '',
   password: '',
 };
 
 const LoginReducer = (state = initialState, action: any) => {
   switch (action.type) {
-    case 'SET-AUTH-LOGIN':
+    case 'SET-AUTH-EMAIL':
       return {
         ...state,
-        login: action.login,
+        email: action.email,
       };
 
     case 'SET-AUTH-PASSWORD':
@@ -26,12 +26,12 @@ const LoginReducer = (state = initialState, action: any) => {
   }
 };
 
-export const changeLoginAction = (login: string) => ({
-  type: 'SET-AUTH-LOGIN',
-  login,
+export const loginPageEmailAction = (email: string) => ({
+  type: 'SET-AUTH-EMAIL',
+  email,
 });
 
-export const changePasswordAction = (password: string) => ({
+export const loginPagePasswordAction = (password: string) => ({
   type: 'SET-AUTH-PASSWORD',
   password,
 });

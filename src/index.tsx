@@ -1,11 +1,10 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'normalize.css';
+import './scss/index.scss';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.scss';
-import 'normalize.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import App from './components/App';
 import store from './redux/store';
 import AppContainer from './components/AppContainer';
 

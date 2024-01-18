@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import Login from './Login';
 import {
-  changeLoginAction,
-  changePasswordAction,
+  loginPageEmailAction,
+  loginPagePasswordAction,
 } from '../../redux/login-reducer';
 import { loginUserThunk } from '../../redux/auth-reducer';
 import { Navigate } from 'react-router-dom';
@@ -14,13 +14,13 @@ const LoginContainer = (props: any) => {
 
 const mapStateToProps = (state: any) => {
   return {
-    login: state.loginPage.login,
+    email: state.loginPage.email,
     password: state.loginPage.password,
     isAuth: state.auth.isAuth,
   };
 };
 export default connect(mapStateToProps, {
-  changeLoginAction,
-  changePasswordAction,
+  loginPageEmailAction,
+  loginPagePasswordAction,
   loginUserThunk,
 })(LoginContainer);

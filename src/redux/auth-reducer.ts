@@ -6,6 +6,7 @@ import { AxiosResponse } from 'axios';
 const initialState: UserData = {
   email: '',
   password: '',
+  login: '',
   avatar: null,
   coins: 0,
   achievements: [],
@@ -89,14 +90,20 @@ export const exitFromProfile = () => ({
   type: 'EXIT-FROM-PROFILE',
 });
 
-export const registerUserThunk = (email: string, password: string) => {
+export const registerUserThunk = (
+  email: string,
+  password: string,
+  login: string,
+) => {
   return (dispatch: Dispatch) => {
-    AuthController.createNewUser(email, password).then((response: any) => {
-      if (response) {
-        dispatch(registerUserAction(response.user));
-        dispatch(setTokenAction(response));
-      }
-    });
+    AuthController.createNewUser(email, password, login).then(
+      (response: any) => {
+        if (response) {
+          dispatch(registerUserAction(response.user));
+          dispatch(setTokenAction(response));
+        }
+      },
+    );
   };
 };
 

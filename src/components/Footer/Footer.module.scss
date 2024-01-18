@@ -1,0 +1,27 @@
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  padding: 0 2rem;
+  background: rgba(20, 19, 17, 0.5);
+  backdrop-filter: blur(0.6rem);
+  min-height: 5rem;
+}
+
+.year {
+  font-size: 2rem;
+  font-weight: 400;
+  margin: 0;
+}
+
+.author {
+  font-size: 2rem;
+  font-weight: 400;
+  text-decoration: none;
+  transition: 0.5s ease;
+  color: #fff;
+  &:hover {
+    color: bisque;
+  }
+}

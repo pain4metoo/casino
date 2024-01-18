@@ -1,6 +1,7 @@
 export interface UserData {
   email: string;
   password: string;
+  login: string;
   avatar: null;
   coins: number;
   achievements: Array<string>;

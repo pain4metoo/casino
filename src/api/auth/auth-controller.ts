@@ -2,10 +2,15 @@ import { UserData } from './auth-types';
 import { instance } from '../instance';
 
 class AuthController {
-  public static async createNewUser(email: string, password: string) {
+  public static async createNewUser(
+    email: string,
+    password: string,
+    login: string,
+  ) {
     try {
       const user: Partial<UserData> = {
         email: email,
+        login: login,
         password: password,
         avatar: null,
         coins: 1000,

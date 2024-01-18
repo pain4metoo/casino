@@ -15,7 +15,7 @@ const Profile = (props: any) => {
         <div className={styles.block}>
           <img className={styles.avatar} src={avatarIMG} alt='avatar' />
           <div className={styles.info}>
-            <h2 className={styles.name}>{`Hello ${props.user.email}`}</h2>
+            <h2 className={styles.name}>{`Hello ${props.user.login}`}</h2>
 
             <div className={styles.exp}>
               <h3 className={styles.exp_text}>Experience</h3>

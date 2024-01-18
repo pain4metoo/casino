@@ -14,6 +14,7 @@ const WelcomeContainer = (props: any) => {
 const mapStateToProps = (state: any) => {
   return {
     isAuth: state.auth.isAuth,
+    login: state.auth.login,
     id: localStorage.getItem('id'),
     email: localStorage.getItem('email'),
     token: localStorage.getItem('token'),

@@ -1,26 +1,24 @@
+import styles from './Login.module.scss';
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
 const Login = (props: any) => {
-  const changeLogin: any = React.createRef();
+  const changeEmail: any = React.createRef();
   const changePassword: any = React.createRef();
 
   return (
-    <Form>
+    <Form className={styles.form}>
       <Form.Group className='mb-3 fs-1' controlId='formBasicEmail'>
         <Form.Label>Email address</Form.Label>
         <Form.Control
-          ref={changeLogin}
-          onInput={() => props.changeLoginAction(changeLogin.current.value)}
+          ref={changeEmail}
+          onInput={() => props.loginPageEmailAction(changeEmail.current.value)}
           className='fs-3'
-          value={props.login}
+          value={props.email}
           type='email'
           placeholder='Enter email'
         />
-        <Form.Text className='text-muted'>
-          We'll never share your email with anyone else.
-        </Form.Text>
       </Form.Group>
 
       <Form.Group className='mb-3 fs-1' controlId='formBasicPassword'>
@@ -28,7 +26,7 @@ const Login = (props: any) => {
         <Form.Control
           ref={changePassword}
           onInput={() =>
-            props.changePasswordAction(changePassword.current.value)
+            props.loginPagePasswordAction(changePassword.current.value)
           }
           value={props.password}
           className='fs-3'
@@ -36,17 +34,15 @@ const Login = (props: any) => {
           placeholder='Password'
         />
       </Form.Group>
-      <Form.Group className='mb-3 fs-3' controlId='formBasicCheckbox'>
-        <Form.Check type='checkbox' label='Check me out' />
-      </Form.Group>
       <Button
         onClick={() =>
           props.loginUserThunk(
-            changeLogin.current.value,
+            changeEmail.current.value,
             changePassword.current.value,
           )
         }
         className='fs-3'
+        size='lg'
         variant='primary'
         type='button'>
         login
