@@ -4,18 +4,12 @@ import { ISymbol } from './GenerateGameLogic';
 import Symbol from './GameSymbol';
 
 const Game = (props: any) => {
-  const field = (g: any) => {
-    g.beginFill(0x0033cc, 0);
-    g.drawRect(350, 50, 500, 600);
-    g.endFill();
-  };
-
   const playSpin = () => {
     props.setSpinThunk();
   };
 
   const symbolsArr = props.gameField.map((arr: Array<ISymbol>, i: number) => {
-    return arr.map((symbol: ISymbol, i) => {
+    return [...arr].map((symbol: ISymbol, i) => {
       return (
         <Symbol
           setSpinIsRunningAction={props.setSpinIsRunningAction}
@@ -26,21 +20,22 @@ const Game = (props: any) => {
     });
   });
 
-  if (props.isWin) {
-    symbolsArr.map((arr: any) => {
-      arr.map((el: any, i: number) => {
-        if (el.props.symbolData.isWin) {
-          return (
-            <Symbol
-              setSpinIsRunningAction={props.setSpinIsRunningAction}
-              symbolData={{ ...el.props.symbolData }}
-              key={i}
-            />
-          );
-        }
-      });
-    });
-  }
+  // if (props.isWin) {
+  //   symbolsArr.map((arr: any) => {
+  //     arr.map((el: any, i: number) => {
+  //       if (el.props.symbolData.isWin) {
+  //         return (
+  //           <Symbol
+  //             setSpinIsRunningAction={props.setSpinIsRunningAction}
+  //             symbolData={{ ...el.props.symbolData }}
+  //             key={i}
+  //           />
+  //         );
+  //       }
+  //     });
+  //   });
+  // }
+
   return (
     <div className={styles.game}>
       <button
@@ -55,9 +50,9 @@ const Game = (props: any) => {
         height={700}
         options={{
           antialias: true,
+          resizeTo: window,
         }}>
         {props.isSpin ? symbolsArr : null}
-        <Graphics draw={field} />
       </Stage>
     </div>
   );
