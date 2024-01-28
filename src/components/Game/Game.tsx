@@ -1,5 +1,5 @@
 import styles from './Game.module.scss';
-import { Stage, Graphics, createRoot } from '@pixi/react';
+import { Stage } from '@pixi/react';
 import { ISymbol } from './GenerateGameLogic';
 import Symbol from './GameSymbol';
 
@@ -9,9 +9,10 @@ const Game = (props: any) => {
   };
 
   const symbolsArr = props.gameField.map((arr: Array<ISymbol>, i: number) => {
-    return [...arr].map((symbol: ISymbol, i) => {
+    return arr.map((symbol: ISymbol, i) => {
       return (
         <Symbol
+          isRunning={props.isRunning}
           setSpinIsRunningAction={props.setSpinIsRunningAction}
           symbolData={{ ...symbol }}
           key={i}
@@ -19,22 +20,6 @@ const Game = (props: any) => {
       );
     });
   });
-
-  // if (props.isWin) {
-  //   symbolsArr.map((arr: any) => {
-  //     arr.map((el: any, i: number) => {
-  //       if (el.props.symbolData.isWin) {
-  //         return (
-  //           <Symbol
-  //             setSpinIsRunningAction={props.setSpinIsRunningAction}
-  //             symbolData={{ ...el.props.symbolData }}
-  //             key={i}
-  //           />
-  //         );
-  //       }
-  //     });
-  //   });
-  // }
 
   return (
     <div className={styles.game}>

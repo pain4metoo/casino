@@ -2,6 +2,7 @@ import styles from './WelcomeUnauth.module.scss';
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import ModalError from '../../Modals/ModalError';
 
 const WelcomeUnauth = (props: any) => {
   const newEmail: any = React.createRef();
@@ -54,6 +55,13 @@ const WelcomeUnauth = (props: any) => {
         type='button'>
         register
       </Button>
+      {props.errorTextRegister ? (
+        <div
+          className={`${styles.alert_error} alert alert-danger`}
+          role='alert'>
+          {props.errorTextRegister}
+        </div>
+      ) : null}
     </Form>
   );
 };

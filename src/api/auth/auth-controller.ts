@@ -1,5 +1,6 @@
 import { UserData } from './auth-types';
 import { instance } from '../instance';
+import { AxiosResponse } from 'axios';
 
 class AuthController {
   public static async createNewUser(
@@ -28,8 +29,10 @@ class AuthController {
       }
 
       return data;
-    } catch (err) {
-      console.log(err);
+    } catch (err: any) {
+      if (err.response.data) {
+        return err.response.data;
+      }
     }
   }
   public static async isAuthUser(email: string, password: string) {
@@ -39,7 +42,7 @@ class AuthController {
         password,
       };
 
-      const response: any = await instance.post('/login', body);
+      const response: AxiosResponse = await instance.post('/login', body);
 
       const data = response.data;
 
@@ -48,19 +51,18 @@ class AuthController {
       }
 
       return data;
-    } catch (err) {
-      console.log(err);
+    } catch (err: any) {
+      if (err.response.data) {
+        return err.response.data;
+      }
     }
   }
 
-  public static async isAuthMe(email: string, id: string) {
+  public static async isAuthMe() {
     try {
-      const body: any = {
-        email,
-        id,
-      };
-
-      const response: any = await instance.get(`/660/users/${id}`, body);
+      const response: any = await instance.get(
+        `/600/users/${localStorage.getItem('id')}`,
+      );
 
       if (!response.data) {
         throw new Error(response);
@@ -70,6 +72,14 @@ class AuthController {
     } catch (err) {
       console.log(err);
     }
+  }
+
+  public static isAuthMeCheckData() {
+    if (localStorage.getItem('id') && localStorage.getItem('token')) {
+      return true;
+    }
+
+    return false;
   }
 }
 

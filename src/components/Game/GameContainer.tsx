@@ -10,21 +10,20 @@ import {
 } from '../../redux/game-reducer';
 
 const GameContainer = (props: any) => {
-  if (props.id && props.email && props.token) {
-    props.isAuthMeThunk(props.email, props.id);
+  if (!props.isAuth) {
+    props.isAuthMeThunk();
   }
   return <Game {...props} />;
 };
 
 const mapStateToProps = (state: any) => {
   return {
-    isAuth: state.auth.isAuth,
-    isWin: state.game.isWin,
     isRunning: state.game.isRunning,
     isSpin: state.game.isSpin,
     gameField: state.game.gameField,
   };
 };
+
 export default compose(
   connect(mapStateToProps, {
     isAuthMeThunk,

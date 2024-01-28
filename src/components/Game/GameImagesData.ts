@@ -1,13 +1,14 @@
-import symbol1 from '../../assets/images/symbols/1.png';
-import symbol2 from '../../assets/images/symbols/2.png';
-import symbol3 from '../../assets/images/symbols/3.png';
-import symbol4 from '../../assets/images/symbols/4.png';
-import symbol5 from '../../assets/images/symbols/5.png';
-import symbol6 from '../../assets/images/symbols/6.png';
-import symbol7 from '../../assets/images/symbols/7.png';
-import symbol8 from '../../assets/images/symbols/8.png';
-import symbol9 from '../../assets/images/symbols/9.png';
-import symbol10 from '../../assets/images/symbols/10.png';
+import { Assets } from 'pixi.js';
+const symbol1 = require(`../../assets/images/symbols-win/1.gif`);
+const symbol2 = require(`../../assets/images/symbols-win/2.gif`);
+const symbol3 = require(`../../assets/images/symbols-win/3.gif`);
+const symbol4 = require(`../../assets/images/symbols-win/4.gif`);
+const symbol5 = require(`../../assets/images/symbols-win/5.gif`);
+const symbol6 = require(`../../assets/images/symbols-win/6.gif`);
+const symbol7 = require(`../../assets/images/symbols-win/7.gif`);
+const symbol8 = require(`../../assets/images/symbols-win/8.gif`);
+const symbol9 = require(`../../assets/images/symbols-win/9.gif`);
+const symbol10 = require(`../../assets/images/symbols-win/10.gif`);
 
 const symbolsImageData = [
   symbol1,
@@ -22,4 +23,15 @@ const symbolsImageData = [
   symbol10,
 ];
 
-export default symbolsImageData;
+export const resultGIFImages: any[] = [];
+
+const loadFIG = async () => {
+  for (let i = 0; i < symbolsImageData.length; i++) {
+    const gif = await Assets.load(symbolsImageData[i]);
+
+    resultGIFImages.push(gif);
+  }
+};
+window.onload = () => {
+  loadFIG();
+};

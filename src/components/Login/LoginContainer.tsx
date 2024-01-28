@@ -4,23 +4,29 @@ import {
   loginPageEmailAction,
   loginPagePasswordAction,
 } from '../../redux/login-reducer';
-import { loginUserThunk } from '../../redux/auth-reducer';
+import { isAuthMeThunk, loginUserThunk } from '../../redux/auth-reducer';
 import { Navigate } from 'react-router-dom';
 
 const LoginContainer = (props: any) => {
-  if (props.isAuth) return <Navigate to={'/game/'} />;
+  if (!props.isAuth) {
+    props.isAuthMeThunk();
+  }
+  if (props.isAuth) return <Navigate to={'/'} />;
   return <Login {...props} />;
 };
 
 const mapStateToProps = (state: any) => {
   return {
+    isShowModalError: state.auth.isShowModalError,
+    isAuth: state.auth.isAuth,
     email: state.loginPage.email,
     password: state.loginPage.password,
-    isAuth: state.auth.isAuth,
+    errorTextLogin: state.auth.errorTextLogin,
   };
 };
 export default connect(mapStateToProps, {
   loginPageEmailAction,
   loginPagePasswordAction,
   loginUserThunk,
+  isAuthMeThunk,
 })(LoginContainer);

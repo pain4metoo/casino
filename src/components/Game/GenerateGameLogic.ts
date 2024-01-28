@@ -1,6 +1,3 @@
-import { setSpinAction } from '../../redux/game-reducer';
-import symbolsImageData from './GameImagesData';
-
 export interface ISymbol {
   id: number;
   xStart: number;

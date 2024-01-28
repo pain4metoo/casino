@@ -5,14 +5,13 @@ import GenerateSpinCycle, {
 
 interface IGameField {
   gameField: Array<Array<ISymbol>>;
-  isWin: boolean;
+
   isRunning: boolean;
   isSpin: boolean;
 }
 
 const initiatState: IGameField = {
   gameField: [],
-  isWin: false,
   isRunning: false,
   isSpin: false,
 };
@@ -26,18 +25,9 @@ const gameReducer = (state = initiatState, action: any) => {
       };
 
     case 'CHECK-WIN':
-      let isWin = false;
-      action.gameField.forEach((arr: any) => {
-        arr.forEach((el: any) => {
-          if (el.isWin) {
-            isWin = true;
-          }
-        });
-      });
       return {
         ...state,
         gameField: [...action.gameField],
-        isWin,
       };
     case 'SET-ISSPIN-CLICK':
       return {
@@ -75,21 +65,18 @@ export const setSpinIsRunningAction = (flag: boolean) => ({
 });
 
 export const setSpinThunk = () => {
-  return (dispach: any) => {
-    dispach(setIsSpinClickAction(false)); // delete old field
-    dispach(setSpinIsRunningAction(false)); // default spin state in the start
+  return (dispatch: any) => {
+    dispatch(setIsSpinClickAction(false)); // delete old field
+    dispatch(setSpinIsRunningAction(false)); // default spin state in the start
     GenerateSpinCycle.spinCycle().then((res: Array<Array<ISymbol>>) => {
-      dispach(setSpinAction(res)); // create new field
-      dispach(setIsSpinClickAction(true)); // render new field
-      dispach(setSpinIsRunningAction(true)); // render spin state
+      dispatch(setSpinAction(res)); // create new field
 
-      setTimeout(() => {
-        GenerateSpinCycle.checkWinSymbols().then(
-          (res: Array<Array<ISymbol>>) => {
-            dispach(checkWinCombination(res));
-          },
-        );
-      }, 3500);
+      dispatch(setIsSpinClickAction(true)); // render new field
+      dispatch(setSpinIsRunningAction(true)); // render spin state
+
+      GenerateSpinCycle.checkWinSymbols().then((res: Array<Array<ISymbol>>) => {
+        dispatch(checkWinCombination(res)); // check win combinations
+      });
     });
   };
 };

@@ -5,15 +5,14 @@ import { withAuthMeRedirect } from '../../hoc/withAuthMeRedirect';
 import { isAuthMeThunk } from '../../redux/auth-reducer';
 
 const ProfileContainer = (props: any) => {
-  if (props.id && props.email && props.token && !props.isAuth) {
-    props.isAuthMeThunk(props.email, props.id);
+  if (!props.isAuth) {
+    props.isAuthMeThunk();
   }
   return <Profile {...props} />;
 };
 
 const mapStateToProps = (state: any) => {
   return {
-    isAuth: state.auth.isAuth,
     user: state.auth,
   };
 };

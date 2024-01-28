@@ -1,25 +1,12 @@
 import { Container, Sprite, useApp, useTick } from '@pixi/react';
 import { useEffect, useRef, useState } from 'react';
 import '@pixi/gif';
+import * as PIXI from 'pixi.js';
 import { Assets } from '@pixi/assets';
+import { resultGIFImages } from './GameImagesData';
 
 const Symbol = (props: any) => {
-  const app = useApp();
   const symbolContainer: any = useRef(null);
-  let currentImage: any = null;
-
-  useEffect(() => {
-    const imageWIN = require(`../../assets/images/symbols-win/${props.symbolData.id}.gif`);
-    const loadFIG = async () => {
-      const gif = await Assets.load(imageWIN);
-
-      return gif;
-    };
-
-    loadFIG().then(res => {
-      currentImage = res;
-    });
-  });
 
   let startY = -500;
 
@@ -39,21 +26,23 @@ const Symbol = (props: any) => {
 
   let [y, setY] = useState(startY);
 
+  useEffect(() => {
+    if (props.symbolData.isWin && !props.isRunning) {
+      if (symbolContainer.current) {
+        // symbolContainer.current.removeChildren();
+        symbolContainer.current.addChild(resultGIFImages[props.symbolData.id]);
+      }
+    }
+  });
+
   useTick(() => {
-    if (y >= props.symbolData.yEnd) {
+    if (y <= props.symbolData.yEnd) {
+      setY(y + 30);
+    } else {
       if (props.symbolData.yEnd === 50) {
         props.setSpinIsRunningAction(false);
-        if (props.symbolData.isWin) {
-          if (symbolContainer.current) {
-            symbolContainer.current.addChild(currentImage);
-          }
-        }
       }
-
-      return false;
     }
-
-    setY(y + 30);
   });
 
   const image = require(`../../assets/images/symbols/${props.symbolData.id}.png`);

@@ -6,9 +6,7 @@ const AppContainerApi = (props: any) => {
 };
 
 const mapStateToProps = (state: any) => {
-  return {
-    isAuth: state.auth.isAuth,
-  };
+  return {};
 };
 
 const AppContainer = connect(mapStateToProps)(AppContainerApi);
