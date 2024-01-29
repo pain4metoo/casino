@@ -1,9 +1,6 @@
 import { Container, Sprite, useApp, useTick } from '@pixi/react';
 import { useEffect, useRef, useState } from 'react';
-import '@pixi/gif';
 import * as PIXI from 'pixi.js';
-import { Assets } from '@pixi/assets';
-import { resultGIFImages } from './GameImagesData';
 
 const Symbol = (props: any) => {
   const symbolContainer: any = useRef(null);
@@ -26,31 +23,37 @@ const Symbol = (props: any) => {
 
   let [y, setY] = useState(startY);
 
-  useEffect(() => {
-    if (props.symbolData.isWin && !props.isRunning) {
-      if (symbolContainer.current) {
-        // symbolContainer.current.removeChildren();
-        symbolContainer.current.addChild(resultGIFImages[props.symbolData.id]);
-      }
-    }
-  });
+  // useEffect(() => {
+  //   if (props.symbolData.isWin && !props.isRunning) {
+  //     if (symbolContainer.current) {
+  //       symbolContainer.current.addChild(resultGIFImages[props.symbolData.id]);
+  //     }
+  //   }
+  // });
 
   useTick(() => {
     if (y <= props.symbolData.yEnd) {
       setY(y + 30);
-    } else {
-      if (props.symbolData.yEnd === 50) {
-        props.setSpinIsRunningAction(false);
-      }
+    }
+    if (y >= props.symbolData.yEnd) {
     }
   });
 
   const image = require(`../../assets/images/symbols/${props.symbolData.id}.png`);
+  let winImage = '';
+
+  if (props.symbolData.isWin) {
+    winImage = require(`../../assets/images/symbols-win/${props.symbolData.id}.mp4`);
+
+    const bg = PIXI.Texture.from(winImage);
+
+    (bg.baseTexture.resource as any).source.loop = true;
+  }
 
   return (
     <Container ref={symbolContainer} position={[props.symbolData.xStart, y]}>
       <Sprite
-        image={image}
+        image={props.symbolData.isWin ? winImage : image}
         width={props.symbolData.width}
         height={props.symbolData.height}
       />

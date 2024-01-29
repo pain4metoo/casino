@@ -18,6 +18,7 @@ const GameContainer = (props: any) => {
 
 const mapStateToProps = (state: any) => {
   return {
+    isWin: state.game.isWin,
     isRunning: state.game.isRunning,
     isSpin: state.game.isSpin,
     gameField: state.game.gameField,

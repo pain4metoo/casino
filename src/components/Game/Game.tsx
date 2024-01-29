@@ -13,7 +13,7 @@ const Game = (props: any) => {
       return (
         <Symbol
           isRunning={props.isRunning}
-          setSpinIsRunningAction={props.setSpinIsRunningAction}
+          isWin={props.isWin}
           symbolData={{ ...symbol }}
           key={i}
         />

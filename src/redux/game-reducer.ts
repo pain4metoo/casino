@@ -8,12 +8,14 @@ interface IGameField {
 
   isRunning: boolean;
   isSpin: boolean;
+  isWin: boolean;
 }
 
 const initiatState: IGameField = {
   gameField: [],
   isRunning: false,
   isSpin: false,
+  isWin: false,
 };
 
 const gameReducer = (state = initiatState, action: any) => {
@@ -22,12 +24,31 @@ const gameReducer = (state = initiatState, action: any) => {
       return {
         state,
         gameField: [...action.gameField],
+        isSpin: true,
+        isRunning: true,
       };
 
     case 'CHECK-WIN':
+      let isWin = false;
+
+      for (let i = 0; i < action.gameField.length; i++) {
+        for (let g = 0; g < action.gameField[i].length; g++) {
+          if (action.gameField[i][g].isWin) {
+            isWin = true;
+            return {
+              ...state,
+              gameField: [...action.gameField],
+              isWin,
+              isRunning: false,
+            };
+          }
+        }
+      }
+
       return {
         ...state,
-        gameField: [...action.gameField],
+        isWin: false,
+        isRunning: false,
       };
     case 'SET-ISSPIN-CLICK':
       return {
@@ -71,12 +92,13 @@ export const setSpinThunk = () => {
     GenerateSpinCycle.spinCycle().then((res: Array<Array<ISymbol>>) => {
       dispatch(setSpinAction(res)); // create new field
 
-      dispatch(setIsSpinClickAction(true)); // render new field
-      dispatch(setSpinIsRunningAction(true)); // render spin state
-
-      GenerateSpinCycle.checkWinSymbols().then((res: Array<Array<ISymbol>>) => {
-        dispatch(checkWinCombination(res)); // check win combinations
-      });
+      setTimeout(() => {
+        GenerateSpinCycle.checkWinSymbols().then(
+          (res: Array<Array<ISymbol>>) => {
+            dispatch(checkWinCombination(res)); // check win combinations
+          },
+        );
+      }, 3500);
     });
   };
 };
