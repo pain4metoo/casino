@@ -1,7 +1,8 @@
 import styles from './Game.module.scss';
-import { Stage } from '@pixi/react';
+import { Stage, useApp } from '@pixi/react';
 import { ISymbol } from './GenerateGameLogic';
 import Symbol from './GameSymbol';
+import { useEffect } from 'react';
 
 const Game = (props: any) => {
   const playSpin = () => {
@@ -9,13 +10,24 @@ const Game = (props: any) => {
   };
 
   const symbolsArr = props.gameField.map((arr: Array<ISymbol>, i: number) => {
-    return arr.map((symbol: ISymbol, i) => {
+    return arr.map((symbol: ISymbol, g) => {
+      let isLastSymbol =
+        i === props.gameField.length - 1 && g === arr.length - 1;
+
+      let isFirstSymbol = i === 0 && g === 0;
+
       return (
         <Symbol
+          isRemoveSymbolsStage={props.isRemoveSymbolsStage}
+          isOmitSymbols={props.isOmitSymbols}
+          omitSymbolsThunk={props.omitSymbolsThunk}
+          checkWinThunk={props.checkWinThunk}
           isRunning={props.isRunning}
           isWin={props.isWin}
           symbolData={{ ...symbol }}
-          key={i}
+          key={g}
+          isLastSymbol={isLastSymbol}
+          isFirstSymbol={isFirstSymbol}
         />
       );
     });

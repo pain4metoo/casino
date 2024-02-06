@@ -9,6 +9,8 @@ interface IGameField {
   isRunning: boolean;
   isSpin: boolean;
   isWin: boolean;
+  isRemoveSymbolsStage: boolean;
+  isOmitSymbols: boolean;
 }
 
 const initiatState: IGameField = {
@@ -16,6 +18,8 @@ const initiatState: IGameField = {
   isRunning: false,
   isSpin: false,
   isWin: false,
+  isRemoveSymbolsStage: false,
+  isOmitSymbols: false,
 };
 
 const gameReducer = (state = initiatState, action: any) => {
@@ -26,9 +30,12 @@ const gameReducer = (state = initiatState, action: any) => {
         gameField: [...action.gameField],
         isSpin: true,
         isRunning: true,
+        isWin: false,
+        isOmitSymbols: false,
       };
 
     case 'CHECK-WIN':
+      console.log('CHECK WIN');
       let isWin = false;
 
       for (let i = 0; i < action.gameField.length; i++) {
@@ -38,8 +45,8 @@ const gameReducer = (state = initiatState, action: any) => {
             return {
               ...state,
               gameField: [...action.gameField],
+              isRunning: true,
               isWin,
-              isRunning: false,
             };
           }
         }
@@ -49,6 +56,33 @@ const gameReducer = (state = initiatState, action: any) => {
         ...state,
         isWin: false,
         isRunning: false,
+        isOmitSymbols: false,
+        isRemoveSymbolsStage: false,
+      };
+
+    case 'REMOVE-SYMBOL':
+      console.log('REMOVE-SYMBOLS');
+      return {
+        ...state,
+        isRunning: true,
+        isWin: true,
+        isRemoveSymbolsStage: action.flag,
+      };
+
+    case 'OMIT-SYMBOLS':
+      console.log('OMIT-SYMBOLS');
+      return {
+        ...state,
+        isRunning: true,
+        isWin: true,
+        isOmitSymbols: true,
+      };
+
+    case 'GOODNESS-OF-CHARACTERS':
+      console.log('GOODNESS-OF-CHARACTERS');
+      return {
+        ...state,
+        gameField: [...action.gameField],
       };
     case 'SET-ISSPIN-CLICK':
       return {
@@ -60,6 +94,7 @@ const gameReducer = (state = initiatState, action: any) => {
         ...state,
         isRunning: action.flag,
       };
+
     default:
       return state;
   }
@@ -85,20 +120,49 @@ export const setSpinIsRunningAction = (flag: boolean) => ({
   flag,
 });
 
+const omitSymbolsAction = (gameField: Array<Array<ISymbol>>) => ({
+  type: 'OMIT-SYMBOLS',
+  gameField,
+});
+
+const removeSymbolsStage = (flag: boolean) => ({
+  type: 'REMOVE-SYMBOL',
+  flag,
+});
+
+const goodnessOfCharactersStage = (gameField: Array<Array<ISymbol>>) => ({
+  type: 'GOODNESS-OF-CHARACTERS',
+  gameField,
+});
+
 export const setSpinThunk = () => {
   return (dispatch: any) => {
-    dispatch(setIsSpinClickAction(false)); // delete old field
-    dispatch(setSpinIsRunningAction(false)); // default spin state in the start
     GenerateSpinCycle.spinCycle().then((res: Array<Array<ISymbol>>) => {
       dispatch(setSpinAction(res)); // create new field
+    });
+  };
+};
 
+export const checkWinThunk = () => {
+  return (dispatch: any) => {
+    GenerateSpinCycle.checkWinSymbols().then((res: Array<Array<ISymbol>>) => {
+      dispatch(checkWinCombination(res)); // check win combinations
       setTimeout(() => {
-        GenerateSpinCycle.checkWinSymbols().then(
-          (res: Array<Array<ISymbol>>) => {
-            dispatch(checkWinCombination(res)); // check win combinations
-          },
-        );
-      }, 3500);
+        dispatch(removeSymbolsStage(true));
+        setTimeout(() => {
+          GenerateSpinCycle.omitSymbols().then((res: Array<Array<ISymbol>>) => {
+            dispatch(omitSymbolsAction(res));
+
+            setTimeout(() => {
+              GenerateSpinCycle.goodnessOfCharacters().then(
+                (res: Array<Array<ISymbol>>) => {
+                  dispatch(goodnessOfCharactersStage(res));
+                },
+              );
+            }, 1000);
+          });
+        }, 500);
+      }, 1000);
     });
   };
 };

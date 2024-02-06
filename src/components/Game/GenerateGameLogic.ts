@@ -1,10 +1,12 @@
 export interface ISymbol {
   id: number;
   xStart: number;
+  yStart: number;
   yEnd: number;
   isWin: boolean;
   width: number;
   height: number;
+  isAddSymbol: boolean;
 }
 
 enum Axis {
@@ -24,24 +26,34 @@ class GenerateSpinCycle {
   private static symbolsCount: number = 10;
   private static gameField: Array<Array<number>>;
   private static xStart: number = 350;
+  private static yStart: number = 0;
   private static yEnd: number = 550;
   private static rowCounter: number = 0;
   private static columnCounter: number = 0;
   private static resultGameField: Array<Array<ISymbol>> = [];
   private static winCombinationCount: { [id: number]: number } = {};
+  private static columnsInNeedOfSymbols: Array<number> = [];
 
   public static async spinCycle(): Promise<Array<Array<ISymbol>>> {
     this.clearLastResults();
     this.generateGameField();
     this.createSymbolsPosition();
 
-    return this.resultGameField;
+    console.log('spinCycle', this.resultGameField.slice());
+    debugger;
+    return this.resultGameField.slice();
   }
 
   private static clearLastResults(): void {
     this.gameField = [];
     this.resultGameField = [];
     this.winCombinationCount = {};
+    this.columnsInNeedOfSymbols = [];
+    this.xStart = 350;
+    this.yStart = 0;
+    this.yEnd = 550;
+    this.rowCounter = 0;
+    this.columnCounter = 0;
   }
 
   private static async generateGameField(): Promise<void> {
@@ -56,6 +68,8 @@ class GenerateSpinCycle {
       }
     }
 
+    console.log('generateGameField', newGameField.slice());
+    debugger;
     this.gameField = newGameField.slice();
   }
 
@@ -89,10 +103,12 @@ class GenerateSpinCycle {
         const symbolInfo: ISymbol = {
           id: arr[g],
           xStart: xStart,
+          yStart: this.yStart,
           yEnd: yEnd,
           isWin: false,
           width: 100,
           height: 100,
+          isAddSymbol: false,
         };
 
         symbolsPositionArr[i].push(symbolInfo);
@@ -101,7 +117,9 @@ class GenerateSpinCycle {
       this.columnCounter++;
     });
 
-    this.resultGameField = symbolsPositionArr.reverse();
+    console.log('createSymbolsPosition', symbolsPositionArr.slice());
+    debugger;
+    this.resultGameField = symbolsPositionArr.slice();
   }
 
   private static winCombinatinCounter(id: number) {
@@ -128,11 +146,13 @@ class GenerateSpinCycle {
         return this.xStart;
       case 'Y':
         if (axisInfo.columnCounter < this.symbolsInColumn) {
+          this.yStart -= 1000;
           this.yEnd -= 100;
           if (axisInfo.columnCounter === 0) {
             this.yEnd = 550;
           }
         } else {
+          this.yStart = 0;
           this.yEnd = 550;
           this.columnCounter = 0;
         }
@@ -141,10 +161,6 @@ class GenerateSpinCycle {
     }
 
     return this.xStart;
-  }
-
-  private static getGameField(): Array<Array<number>> {
-    return this.gameField.reverse();
   }
 
   public static async checkWinSymbols(): Promise<Array<Array<ISymbol>>> {
@@ -159,18 +175,95 @@ class GenerateSpinCycle {
       })
       .filter(el => el);
 
-    return this.resultGameField.map((arr: Array<ISymbol>) => {
-      return arr.map((symbol: ISymbol) => {
-        if (currentWinSymbols.includes(symbol.id)) {
-          return {
-            ...symbol,
-            isWin: true,
-          };
+    const fieldAfterCheckWin = this.resultGameField.map(
+      (arr: Array<ISymbol>) => {
+        return arr.map((symbol: ISymbol) => {
+          if (currentWinSymbols.includes(symbol.id)) {
+            return {
+              ...symbol,
+              isWin: true,
+            };
+          } else {
+            return symbol;
+          }
+        });
+      },
+    );
+
+    console.log('checkWinSymbols', fieldAfterCheckWin.slice());
+    debugger;
+
+    this.resultGameField = fieldAfterCheckWin.slice();
+
+    return this.resultGameField;
+  }
+
+  public static async omitSymbols(): Promise<Array<Array<ISymbol>> | any> {
+    const currentField = this.resultGameField.slice().reverse(); // reverse for sync symbols position
+    const yOmit = 100;
+
+    for (let i = 0; i < currentField.length - 1; i++) {
+      let yoffset = 0;
+      let shiftCharacterInArray = 0;
+      for (let g = currentField.length - 1; g >= 0; g--) {
+        const currentSymbol = currentField[g][i];
+
+        if (currentSymbol.isWin) {
+          currentSymbol.isAddSymbol = true;
+          yoffset += yOmit;
+          [currentField[g][i], currentField[g + shiftCharacterInArray][i]] = [
+            currentField[g + shiftCharacterInArray][i],
+            currentField[g][i],
+          ];
         } else {
-          return symbol;
+          if (!currentSymbol.isWin && yoffset > 0) {
+            currentSymbol.yEnd += yoffset;
+            shiftCharacterInArray += yoffset / yOmit;
+          }
+          if (!currentSymbol.isWin && yoffset === 0) {
+            currentSymbol.yStart = currentSymbol.yEnd;
+          }
         }
-      });
-    });
+        if (g === 0) {
+          this.columnsInNeedOfSymbols.push(yoffset / yOmit);
+        }
+      }
+    }
+
+    console.log('omitSymbols', currentField.slice());
+    debugger;
+
+    this.resultGameField = currentField.slice().reverse();
+
+    return this.resultGameField;
+  }
+
+  public static async goodnessOfCharacters(): Promise<Array<Array<ISymbol>>> {
+    const currentField = this.resultGameField.slice().reverse();
+    const yOmit = 100;
+    const correctNumForY = 50;
+
+    for (let i = 0; i < currentField.length - 1; i++) {
+      for (let g = currentField.length - 1; g >= 0; g--) {
+        const currentSymbol = currentField[g][i];
+
+        if (currentSymbol.isAddSymbol) {
+          currentSymbol.yEnd =
+            yOmit * this.columnsInNeedOfSymbols[i] - correctNumForY;
+
+          this.columnsInNeedOfSymbols[i] -= 1;
+          currentSymbol.isWin = false;
+          currentSymbol.isAddSymbol = false;
+        }
+      }
+    }
+
+    console.log('goodnessOfCharacters', currentField.slice());
+    debugger;
+
+    this.resultGameField = currentField.slice().reverse();
+
+    return this.resultGameField;
   }
 }
 

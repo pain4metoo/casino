@@ -4,42 +4,27 @@ import * as PIXI from 'pixi.js';
 
 const Symbol = (props: any) => {
   const symbolContainer: any = useRef(null);
+  const app = useApp();
 
-  let startY = -500;
-
-  if (props.symbolData.yEnd > 500) {
-    startY = 0;
-  } else if (props.symbolData.yEnd > 400) {
-    startY = -1000;
-  } else if (props.symbolData.yEnd > 300) {
-    startY = -2000;
-  } else if (props.symbolData.yEnd > 200) {
-    startY = -3000;
-  } else if (props.symbolData.yEnd > 100) {
-    startY = -4000;
-  } else if (props.symbolData.yEnd > 0) {
-    startY = -5000;
-  }
-
-  let [y, setY] = useState(startY);
-
-  // useEffect(() => {
-  //   if (props.symbolData.isWin && !props.isRunning) {
-  //     if (symbolContainer.current) {
-  //       symbolContainer.current.addChild(resultGIFImages[props.symbolData.id]);
-  //     }
-  //   }
-  // });
+  let [y, setY] = useState(props.symbolData.yStart);
 
   useTick(() => {
-    if (y <= props.symbolData.yEnd) {
-      setY(y + 30);
-    }
-    if (y >= props.symbolData.yEnd) {
+    if (props.isRunning) {
+      if (y <= props.symbolData.yEnd) {
+        setY(y + 25);
+      } else {
+        if (props.isLastSymbol && !props.isWin) {
+          app.stop();
+          setTimeout(() => {
+            props.checkWinThunk();
+            app.start();
+          }, 1000);
+        }
+      }
     }
   });
 
-  const image = require(`../../assets/images/symbols/${props.symbolData.id}.png`);
+  let image = require(`../../assets/images/symbols/${props.symbolData.id}.png`);
   let winImage = '';
 
   if (props.symbolData.isWin) {
@@ -48,6 +33,10 @@ const Symbol = (props: any) => {
     const bg = PIXI.Texture.from(winImage);
 
     (bg.baseTexture.resource as any).source.loop = true;
+
+    if (props.isRemoveSymbolsStage) {
+      return null;
+    }
   }
 
   return (
