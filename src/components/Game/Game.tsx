@@ -2,7 +2,6 @@ import styles from './Game.module.scss';
 import { Stage, useApp } from '@pixi/react';
 import { ISymbol } from './GenerateGameLogic';
 import Symbol from './GameSymbol';
-import { useEffect } from 'react';
 
 const Game = (props: any) => {
   const playSpin = () => {
@@ -24,7 +23,7 @@ const Game = (props: any) => {
           checkWinThunk={props.checkWinThunk}
           isRunning={props.isRunning}
           isWin={props.isWin}
-          symbolData={{ ...symbol }}
+          symbolData={symbol}
           key={g}
           isLastSymbol={isLastSymbol}
           isFirstSymbol={isFirstSymbol}

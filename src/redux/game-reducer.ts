@@ -1,4 +1,3 @@
-import { Dispatch } from 'react';
 import GenerateSpinCycle, {
   ISymbol,
 } from '../components/Game/GenerateGameLogic';
@@ -35,7 +34,6 @@ const gameReducer = (state = initiatState, action: any) => {
       };
 
     case 'CHECK-WIN':
-      console.log('CHECK WIN');
       let isWin = false;
 
       for (let i = 0; i < action.gameField.length; i++) {
@@ -61,7 +59,6 @@ const gameReducer = (state = initiatState, action: any) => {
       };
 
     case 'REMOVE-SYMBOL':
-      console.log('REMOVE-SYMBOLS');
       return {
         ...state,
         isRunning: true,
@@ -70,16 +67,16 @@ const gameReducer = (state = initiatState, action: any) => {
       };
 
     case 'OMIT-SYMBOLS':
-      console.log('OMIT-SYMBOLS');
       return {
         ...state,
+        gameField: [...action.gameField],
         isRunning: true,
         isWin: true,
         isOmitSymbols: true,
+        isRemoveSymbolsStage: false,
       };
 
-    case 'GOODNESS-OF-CHARACTERS':
-      console.log('GOODNESS-OF-CHARACTERS');
+    case 'ADDITIONAL-SYMBOLS-STAGE':
       return {
         ...state,
         gameField: [...action.gameField],
@@ -130,15 +127,17 @@ const removeSymbolsStage = (flag: boolean) => ({
   flag,
 });
 
-const goodnessOfCharactersStage = (gameField: Array<Array<ISymbol>>) => ({
-  type: 'GOODNESS-OF-CHARACTERS',
+const generationAdditionalSymbolsStage = (
+  gameField: Array<Array<ISymbol>>,
+) => ({
+  type: 'ADDITIONAL-SYMBOLS-STAGE',
   gameField,
 });
 
 export const setSpinThunk = () => {
   return (dispatch: any) => {
     GenerateSpinCycle.spinCycle().then((res: Array<Array<ISymbol>>) => {
-      dispatch(setSpinAction(res)); // create new field
+      dispatch(setSpinAction(res));
     });
   };
 };
@@ -154,9 +153,9 @@ export const checkWinThunk = () => {
             dispatch(omitSymbolsAction(res));
 
             setTimeout(() => {
-              GenerateSpinCycle.goodnessOfCharacters().then(
+              GenerateSpinCycle.generationAdditionalSymbols().then(
                 (res: Array<Array<ISymbol>>) => {
-                  dispatch(goodnessOfCharactersStage(res));
+                  dispatch(generationAdditionalSymbolsStage(res));
                 },
               );
             }, 1000);

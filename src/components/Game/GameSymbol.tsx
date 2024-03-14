@@ -1,17 +1,16 @@
 import { Container, Sprite, useApp, useTick } from '@pixi/react';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import * as PIXI from 'pixi.js';
 
 const Symbol = (props: any) => {
-  const symbolContainer: any = useRef(null);
   const app = useApp();
 
-  let [y, setY] = useState(props.symbolData.yStart);
+  const [yStart, setYStart] = useState(props.symbolData.yStart);
 
   useTick(() => {
     if (props.isRunning) {
-      if (y <= props.symbolData.yEnd) {
-        setY(y + 25);
+      if (yStart <= props.symbolData.yEnd) {
+        setYStart(yStart + 25);
       } else {
         if (props.isLastSymbol && !props.isWin) {
           app.stop();
@@ -40,7 +39,7 @@ const Symbol = (props: any) => {
   }
 
   return (
-    <Container ref={symbolContainer} position={[props.symbolData.xStart, y]}>
+    <Container position={[props.symbolData.xStart, yStart]}>
       <Sprite
         image={props.symbolData.isWin ? winImage : image}
         width={props.symbolData.width}
