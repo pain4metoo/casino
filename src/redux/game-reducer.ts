@@ -1,169 +1,97 @@
 import GenerateSpinCycle, {
   ISymbol,
+  Stages,
 } from '../components/Game/GenerateGameLogic';
 
-interface IGameField {
+interface IInitialState {
   gameField: Array<Array<ISymbol>>;
-
-  isRunning: boolean;
+  isStartGame: boolean;
   isSpin: boolean;
-  isWin: boolean;
-  isRemoveSymbolsStage: boolean;
-  isOmitSymbols: boolean;
+  isWinStage: boolean;
+  isOmitStage: boolean;
+  isAdditionStage: boolean;
 }
 
-const initiatState: IGameField = {
+const initialState: IInitialState = {
   gameField: [],
-  isRunning: false,
+  isStartGame: false,
   isSpin: false,
-  isWin: false,
-  isRemoveSymbolsStage: false,
-  isOmitSymbols: false,
+  isWinStage: false,
+  isOmitStage: false,
+  isAdditionStage: false,
 };
 
-const gameReducer = (state = initiatState, action: any) => {
+enum reducerTypes {
+  initStage = 'INIT-STAGE',
+  winStage = 'WIN-STAGE',
+  omitStage = 'OMIT-STAGE',
+  additionStage = 'ADDITION-STAGE',
+}
+
+const gameReducer = (state = initialState, action: any) => {
   switch (action.type) {
-    case 'SET-SPIN':
+    case reducerTypes.initStage:
       return {
-        state,
-        gameField: [...action.gameField],
+        ...state,
+        gameField: action.gameField,
         isSpin: true,
-        isRunning: true,
-        isWin: false,
-        isOmitSymbols: false,
       };
-
-    case 'CHECK-WIN':
-      let isWin = false;
-
-      for (let i = 0; i < action.gameField.length; i++) {
-        for (let g = 0; g < action.gameField[i].length; g++) {
-          if (action.gameField[i][g].isWin) {
-            isWin = true;
-            return {
-              ...state,
-              gameField: [...action.gameField],
-              isRunning: true,
-              isWin,
-            };
-          }
-        }
-      }
-
+    case reducerTypes.winStage:
       return {
         ...state,
-        isWin: false,
-        isRunning: false,
-        isOmitSymbols: false,
-        isRemoveSymbolsStage: false,
+        gameField: action.gameField,
+        isWinStage: true,
       };
-
-    case 'REMOVE-SYMBOL':
+    case reducerTypes.omitStage:
       return {
         ...state,
-        isRunning: true,
-        isWin: true,
-        isRemoveSymbolsStage: action.flag,
+        gameField: action.gameField,
+        isOmitStage: true,
       };
-
-    case 'OMIT-SYMBOLS':
+    case reducerTypes.additionStage:
       return {
         ...state,
-        gameField: [...action.gameField],
-        isRunning: true,
-        isWin: true,
-        isOmitSymbols: true,
-        isRemoveSymbolsStage: false,
+        gameField: action.gameField,
+        isAdditionStage: true,
       };
-
-    case 'ADDITIONAL-SYMBOLS-STAGE':
-      return {
-        ...state,
-        gameField: [...action.gameField],
-      };
-    case 'SET-ISSPIN-CLICK':
-      return {
-        ...state,
-        isSpin: action.flag,
-      };
-    case 'SET-RUNNING-SPIN':
-      return {
-        ...state,
-        isRunning: action.flag,
-      };
-
     default:
       return state;
   }
 };
 
-export const setSpinAction = (gameField: Array<Array<ISymbol>>) => ({
-  type: 'SET-SPIN',
-  gameField,
-});
-
-export const checkWinCombination = (gameField: Array<Array<ISymbol>>) => ({
-  type: 'CHECK-WIN',
-  gameField,
-});
-
-export const setIsSpinClickAction = (flag: boolean) => ({
-  type: 'SET-ISSPIN-CLICK',
-  flag,
-});
-
-export const setSpinIsRunningAction = (flag: boolean) => ({
-  type: 'SET-RUNNING-SPIN',
-  flag,
-});
-
-const omitSymbolsAction = (gameField: Array<Array<ISymbol>>) => ({
-  type: 'OMIT-SYMBOLS',
-  gameField,
-});
-
-const removeSymbolsStage = (flag: boolean) => ({
-  type: 'REMOVE-SYMBOL',
-  flag,
-});
-
-const generationAdditionalSymbolsStage = (
-  gameField: Array<Array<ISymbol>>,
-) => ({
-  type: 'ADDITIONAL-SYMBOLS-STAGE',
-  gameField,
-});
-
-export const setSpinThunk = () => {
-  return (dispatch: any) => {
-    GenerateSpinCycle.spinCycle().then((res: Array<Array<ISymbol>>) => {
-      dispatch(setSpinAction(res));
-    });
+export const initStageAction = () => {
+  return {
+    type: reducerTypes.initStage,
+    gameField: GenerateSpinCycle.spinCycle(),
   };
 };
 
-export const checkWinThunk = () => {
-  return (dispatch: any) => {
-    GenerateSpinCycle.checkWinSymbols().then((res: Array<Array<ISymbol>>) => {
-      dispatch(checkWinCombination(res)); // check win combinations
-      setTimeout(() => {
-        dispatch(removeSymbolsStage(true));
-        setTimeout(() => {
-          GenerateSpinCycle.omitSymbols().then((res: Array<Array<ISymbol>>) => {
-            dispatch(omitSymbolsAction(res));
+export const winStageAction = () => {
+  return {
+    type: reducerTypes.winStage,
+    gameField: GenerateSpinCycle.getStage(Stages.WIN),
+  };
+};
 
-            setTimeout(() => {
-              GenerateSpinCycle.generationAdditionalSymbols().then(
-                (res: Array<Array<ISymbol>>) => {
-                  dispatch(generationAdditionalSymbolsStage(res));
-                },
-              );
-            }, 1000);
-          });
-        }, 500);
-      }, 1000);
-    });
+export const omitStageAction = () => {
+  return {
+    type: reducerTypes.omitStage,
+    gameField: GenerateSpinCycle.getStage(Stages.OMIT),
+  };
+};
+
+export const additionalStageAction = () => {
+  return {
+    type: reducerTypes.additionStage,
+    gameField: GenerateSpinCycle.getStage(Stages.ADDITION),
   };
 };
 
 export default gameReducer;
+
+// 1) spinStage
+// 2) showWinSymbolsStage
+// 3) removeWinSymbolsStage
+// 4) omitSymbolsStage
+// 5) additionalSymbolsStage
+// 6) ... repeat from 2 stage ...

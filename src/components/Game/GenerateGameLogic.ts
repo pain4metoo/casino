@@ -13,18 +13,25 @@ enum Axis {
   y = 'Y',
 }
 
+export enum Stages {
+  INIT = 'initStage',
+  WIN = 'winStage',
+  OMIT = 'omitStage',
+  ADDITION = 'additionStage',
+}
+
 interface IAxisInfo {
   axis: Axis;
   rowCounter: number;
   columnCounter: number;
 }
 
-// interface IStagesPlayingField {
-//   initStage: Array<Array<ISymbol>>;
-//   winStage: Array<Array<ISymbol>>;
-//   omitStage: Array<Array<ISymbol>>;
-//   additionStage: Array<Array<ISymbol>>;
-// }
+interface IStagesPlayingField {
+  initStage: Array<Array<ISymbol>>;
+  winStage: Array<Array<ISymbol>>;
+  omitStage: Array<Array<ISymbol>>;
+  additionStage: Array<Array<ISymbol>>;
+}
 
 class GenerateSpinCycle {
   private static symbolsInColumn: number = 6;
@@ -41,29 +48,30 @@ class GenerateSpinCycle {
   private static yStartDefault: number = -550;
   private static yEndDefault: number = 50;
 
-  private static resultGameField: Array<Array<ISymbol>> = [];
   private static winCombinationCount: { [id: number]: number } = {};
   private static columnsInNeedOfSymbols: Array<number> = [];
   private static gameField: Array<Array<number>>;
 
-  // private static stagesPlayingField: IStagesPlayingField = {
-  //   initStage: [],
-  //   winStage: [],
-  //   omitStage: [],
-  //   additionStage: [],
-  // };
+  private static stagesPlayingField: IStagesPlayingField = {
+    initStage: [],
+    winStage: [],
+    omitStage: [],
+    additionStage: [],
+  };
 
-  public static async spinCycle(): Promise<Array<Array<ISymbol>>> {
+  public static getStage(stage: Stages): Array<Array<ISymbol>> {
+    return this.stagesPlayingField[stage];
+  }
+
+  public static spinCycle(): Array<Array<ISymbol>> {
     this.clearLastResults();
     this.generateGameField();
-    this.createSymbolsPosition();
 
-    return this.resultGameField.slice();
+    return this.stagesPlayingField.initStage;
   }
 
   private static clearLastResults(): void {
     this.gameField = [];
-    this.resultGameField = [];
     this.winCombinationCount = {};
     this.columnsInNeedOfSymbols = [];
     this.xStart = this.xStartDefault;
@@ -71,24 +79,40 @@ class GenerateSpinCycle {
     this.yEnd = this.yEndDefault;
     this.rowCounter = 0;
     this.columnCounter = 0;
+    this.stagesPlayingField.initStage = [];
+    this.stagesPlayingField.winStage = [];
+    this.stagesPlayingField.omitStage = [];
+    this.stagesPlayingField.additionStage = [];
   }
 
-  private static async generateGameField(): Promise<void> {
-    const newGameField: Array<Array<number>> = [];
+  private static generateGameField(): void {
+    const newGameField: Array<Array<number>> = [
+      [2, 6, 9, 9, 8, 4],
 
-    for (let i = 0; i < this.maxRowCount; i++) {
-      // generate column
-      newGameField.push([]);
-      for (let g = 0; g < this.symbolsInColumn; g++) {
-        // generate numbers
-        newGameField[i].push(this.generateRandomNumber());
-      }
-    }
+      [2, 9, 5, 7, 8, 8],
+
+      [4, 6, 7, 4, 9, 8],
+
+      [5, 9, 4, 7, 5, 7],
+
+      [4, 5, 7, 10, 6, 4],
+    ];
+
+    // for (let i = 0; i < this.maxRowCount; i++) {
+    //   // generate column
+    //   newGameField.push([]);
+    //   for (let g = 0; g < this.symbolsInColumn; g++) {
+    //     // generate numbers
+    //     newGameField[i].push(this.generateRandomNumber());
+    //   }
+    // }
 
     this.gameField = newGameField;
 
-    console.log('generateGameField', this.gameField);
-    // debuger;
+    console.log('generateGameField', newGameField);
+    // debugger;
+
+    this.createSymbolsPosition();
   }
 
   private static generateRandomNumber(): number {
@@ -97,7 +121,7 @@ class GenerateSpinCycle {
     return randomSymbol;
   }
 
-  private static async createSymbolsPosition(): Promise<void> {
+  private static createSymbolsPosition(): void {
     const symbolsPositionArr: Array<Array<ISymbol>> = [];
 
     this.gameField.forEach((arr: Array<number>, i) => {
@@ -134,11 +158,12 @@ class GenerateSpinCycle {
       this.rowCounter++;
     });
 
-    // this.stagesPlayingField.initStage = symbolsPositionArr;
-    this.resultGameField = symbolsPositionArr;
+    this.stagesPlayingField.initStage = symbolsPositionArr;
 
-    console.log('createSymbolsPosition', this.resultGameField);
-    // debuger;
+    console.log('createSymbolsPosition', this.stagesPlayingField.initStage);
+    // debugger;
+
+    this.checkWinSymbols();
   }
 
   private static winCombinatinCounter(id: number) {
@@ -185,7 +210,7 @@ class GenerateSpinCycle {
     return this.xStart;
   }
 
-  public static async checkWinSymbols(): Promise<Array<Array<ISymbol>>> {
+  public static async checkWinSymbols(): Promise<void> {
     const currentWinSymbols: Array<number | undefined> = Object.entries(
       this.winCombinationCount,
     )
@@ -197,7 +222,7 @@ class GenerateSpinCycle {
       })
       .filter(el => el);
 
-    const fieldAfterCheckWin = this.resultGameField.map(
+    const fieldAfterCheckWin = this.getStage(Stages.INIT).map(
       (arr: Array<ISymbol>) => {
         return arr.map((symbol: ISymbol) => {
           if (currentWinSymbols.includes(symbol.id)) {
@@ -212,44 +237,37 @@ class GenerateSpinCycle {
       },
     );
 
-    // this.stagesPlayingField.winStage = fieldAfterCheckWin;
-    this.resultGameField = fieldAfterCheckWin;
+    this.stagesPlayingField.winStage = fieldAfterCheckWin;
 
-    console.log('checkWinSymbols', this.resultGameField);
-    // debuger;
+    console.log('checkWinSymbols', this.stagesPlayingField.winStage);
+    // debugger;
 
-    return this.resultGameField;
+    this.omitSymbols();
   }
 
-  public static async omitSymbols(): Promise<Array<Array<ISymbol>>> {
-    const copyCurrFieldForCoordinates: Array<Array<ISymbol>> =
-      this.resultGameField.map((arr: Array<ISymbol>) =>
-        arr.map((sym: ISymbol) => ({ ...sym })),
-      );
-
-    const currentField: Array<Array<ISymbol>> = this.resultGameField;
+  public static async omitSymbols(): Promise<void> {
+    const currentField: Array<Array<ISymbol>> = this.createCopyObjects(
+      this.getStage(Stages.WIN),
+    );
 
     const yOmit = 100;
 
     for (let i = 0; i < currentField.length; i++) {
       let yoffset = 0;
-      // let queue: any = [];
 
       for (let g = currentField[i].length - 1; g >= 0; g--) {
         let currentSymbol: any = currentField[i][g];
 
         if (currentSymbol.isWin) {
           yoffset += yOmit;
-
-          // queue.push(currentSymbol);
         } else {
           if (!currentSymbol.isWin && yoffset > 0) {
             const offsetFromEndArr = yoffset / yOmit;
             currentSymbol.yStart =
-              copyCurrFieldForCoordinates[i][g + offsetFromEndArr].yStart;
+              this.stagesPlayingField.winStage[i][g + offsetFromEndArr].yStart;
 
             currentSymbol.yEnd =
-              copyCurrFieldForCoordinates[i][g + offsetFromEndArr].yEnd;
+              this.stagesPlayingField.winStage[i][g + offsetFromEndArr].yEnd;
           }
         }
 
@@ -257,33 +275,21 @@ class GenerateSpinCycle {
           this.columnsInNeedOfSymbols.push(yoffset / yOmit);
         }
       }
-      // currentField[i] = currentField[i].filter((obj: ISymbol) => !obj.isWin);
-      // if (queue.length > 0) {
-      //
-
-      //   for (let d = queue.length - 1; d >= 0; d--) {
-      //     queue[0].yStart = this.yStartDefault + yOmit * (queue.length - 1);
-      //     queue[0].yEnd = this.yEndDefault + yOmit * (queue.length - 1);
-
-      //     currentField[i].unshift(queue.shift());
-      //   }
-      // }
     }
 
-    // this.stagesPlayingField.omitStage = currentField;
-    this.resultGameField = currentField;
+    this.stagesPlayingField.omitStage = currentField.map(
+      (arr: Array<ISymbol>) => arr.filter((sym: ISymbol) => !sym.isWin),
+    ); // delete win symbols
 
-    console.log('omitSymbols', this.resultGameField);
-    // debuger;
+    console.log('omitSymbols', this.stagesPlayingField.omitStage);
+    // debugger;
 
-    return this.resultGameField;
+    this.generationAdditionalSymbols();
   }
 
-  public static async generationAdditionalSymbols(): Promise<
-    Array<Array<ISymbol>>
-  > {
-    const currentField: Array<Array<ISymbol>> = this.resultGameField.map(
-      (arr: Array<ISymbol>) => arr.filter((sym: ISymbol) => !sym.isWin),
+  public static async generationAdditionalSymbols(): Promise<void> {
+    const currentField: Array<Array<ISymbol>> = this.createCopyObjects(
+      this.getStage(Stages.OMIT),
     );
 
     const yOmit = 100;
@@ -315,13 +321,20 @@ class GenerateSpinCycle {
       }
     }
 
-    // this.stagesPlayingField.additionStage = currentField;
-    this.resultGameField = currentField;
+    this.stagesPlayingField.additionStage = currentField;
 
-    console.log('generationAdittionalSymbols', this.resultGameField);
-    // debuger;
+    console.log(
+      'generationAdditionalSymbols',
+      this.stagesPlayingField.additionStage,
+    );
+  }
 
-    return this.resultGameField;
+  private static createCopyObjects(
+    arr: Array<Array<ISymbol>>,
+  ): Array<Array<ISymbol>> {
+    return arr.map((array: Array<ISymbol>) =>
+      array.map((symbol: ISymbol) => ({ ...symbol })),
+    );
   }
 }
 

@@ -1,6 +1,6 @@
 import { Container, Sprite, useApp, useTick } from '@pixi/react';
 import { useState } from 'react';
-import * as PIXI from 'pixi.js';
+import { symbols, symbolsWin } from './Textures';
 
 const Symbol = (props: any) => {
   const app = useApp();
@@ -8,40 +8,43 @@ const Symbol = (props: any) => {
   const [yStart, setYStart] = useState(props.symbolData.yStart);
 
   useTick(() => {
-    if (props.isRunning) {
-      if (yStart <= props.symbolData.yEnd) {
-        setYStart(yStart + 25);
-      } else {
-        if (props.isLastSymbol && !props.isWin) {
-          app.stop();
-          setTimeout(() => {
-            props.checkWinThunk();
-            app.start();
-          }, 1000);
-        }
-      }
+    if (yStart <= props.symbolData.yEnd) {
+      setYStart(yStart + 25);
     }
   });
 
-  let image = require(`../../assets/images/symbols/${props.symbolData.id}.png`);
-  let winImage = '';
+  if (props.isLastSymbol) {
+    if (!props.isWinStage) {
+      setTimeout(() => {
+        props.winStageAction();
+      }, 1000);
+    }
+    // if (props.isOmitStage) {
+    //   setTimeout(() => {
+    //     props.omitStageAction();
+    //   }, 1000);
+    // }
+    // if (!props.isAdditionStage) {
+    //   setTimeout(() => {
+    //     props.additionalStageAction();
+    //   }, 1000);
+    // }
+  }
+
+  let image = symbols[props.symbolData.id - 1];
 
   if (props.symbolData.isWin) {
-    winImage = require(`../../assets/images/symbols-win/${props.symbolData.id}.mp4`);
+    image = symbolsWin[props.symbolData.id - 1];
 
-    const bg = PIXI.Texture.from(winImage);
+    // const bg = PIXI.Texture.from(image);
 
-    (bg.baseTexture.resource as any).source.loop = true;
-
-    if (props.isRemoveSymbolsStage) {
-      return null;
-    }
+    // (bg.baseTexture.resource as any).source.loop = true;
   }
 
   return (
     <Container position={[props.symbolData.xStart, yStart]}>
       <Sprite
-        image={props.symbolData.isWin ? winImage : image}
+        image={image}
         width={props.symbolData.width}
         height={props.symbolData.height}
       />

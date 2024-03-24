@@ -4,10 +4,10 @@ import Game from './Game';
 import { withAuthMeRedirect } from '../../hoc/withAuthMeRedirect';
 import { isAuthMeThunk } from '../../redux/auth-reducer';
 import {
-  checkWinThunk,
-  setIsSpinClickAction,
-  setSpinIsRunningAction,
-  setSpinThunk,
+  additionalStageAction,
+  initStageAction,
+  omitStageAction,
+  winStageAction,
 } from '../../redux/game-reducer';
 
 const GameContainer = (props: any) => {
@@ -19,21 +19,21 @@ const GameContainer = (props: any) => {
 
 const mapStateToProps = (state: any) => {
   return {
-    isWin: state.game.isWin,
-    isRunning: state.game.isRunning,
+    isStartGame: state.game.isStart,
     isSpin: state.game.isSpin,
+    isWinStage: state.game.isWinStage,
+    isOmitStage: state.game.isOmitStage,
+    isAdditionStage: state.game.isAdditionStage,
     gameField: state.game.gameField,
-    isOmitSymbols: state.game.isOmitSymbols,
-    isRemoveSymbolsStage: state.game.isRemoveSymbolsStage,
   };
 };
 export default compose(
   connect(mapStateToProps, {
     isAuthMeThunk,
-    setSpinThunk,
-    setSpinIsRunningAction,
-    setIsSpinClickAction,
-    checkWinThunk,
+    initStageAction,
+    winStageAction,
+    omitStageAction,
+    additionalStageAction,
   }),
   withAuthMeRedirect,
 )(GameContainer);
