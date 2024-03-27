@@ -1,7 +1,8 @@
 import styles from './Game.module.scss';
-import { Stage, useApp } from '@pixi/react';
+import { Stage } from '@pixi/react';
 import { ISymbol } from './GenerateGameLogic';
 import Symbol from './GameSymbol';
+import Loading from './Loading/Loading';
 
 const Game = (props: any) => {
   const symbolsArr = props.gameField.map((arr: Array<ISymbol>, i: number) => {
@@ -15,6 +16,7 @@ const Game = (props: any) => {
           key={g}
           isLastSymbol={isLastSymbol}
           isWinStage={props.isWinStage}
+          isStartGame={props.isStartGame}
           isOmitStage={props.isOmitStage}
           isAdditionStage={props.isAdditionStage}
           winStageAction={props.winStageAction}
@@ -30,15 +32,15 @@ const Game = (props: any) => {
       {props.isStartGame ? (
         <button
           type='button'
-          onClick={() => props.initStageAction()}
+          onClick={props.initStageAction}
           disabled={props.isSpin}>
           SPIN
         </button>
       ) : (
         <button
           type='button'
-          onClick={() => props.initStageAction()}
-          disabled={props.isSpin}>
+          onClick={() => props.startGameAction(true)}
+          disabled={props.isStartGame}>
           START GAME
         </button>
       )}
@@ -50,6 +52,7 @@ const Game = (props: any) => {
           antialias: true,
           resizeTo: window,
         }}>
+        {!props.isStartGame ? <Loading /> : symbolsArr}
         {props.isSpin ? symbolsArr : null}
       </Stage>
     </div>

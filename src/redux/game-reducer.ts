@@ -22,6 +22,7 @@ const initialState: IInitialState = {
 };
 
 enum reducerTypes {
+  startingStage = 'STARTING-STAGE',
   initStage = 'INIT-STAGE',
   winStage = 'WIN-STAGE',
   omitStage = 'OMIT-STAGE',
@@ -30,6 +31,12 @@ enum reducerTypes {
 
 const gameReducer = (state = initialState, action: any) => {
   switch (action.type) {
+    case reducerTypes.startingStage:
+      return {
+        ...state,
+        isStartGame: action.flag,
+        gameField: action.gameField,
+      };
     case reducerTypes.initStage:
       return {
         ...state,
@@ -57,6 +64,14 @@ const gameReducer = (state = initialState, action: any) => {
     default:
       return state;
   }
+};
+
+export const startGameAction = (flag: boolean) => {
+  return {
+    type: reducerTypes.startingStage,
+    gameField: GenerateSpinCycle.generateDefaultField(),
+    flag,
+  };
 };
 
 export const initStageAction = () => {

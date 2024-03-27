@@ -1,4 +1,5 @@
 export interface ISymbol {
+  idForReactKey: number;
   id: number;
   xStart: number;
   yStart: number;
@@ -14,6 +15,7 @@ enum Axis {
 }
 
 export enum Stages {
+  STARTING = 'startingStage',
   INIT = 'initStage',
   WIN = 'winStage',
   OMIT = 'omitStage',
@@ -27,6 +29,7 @@ interface IAxisInfo {
 }
 
 interface IStagesPlayingField {
+  startingStage: Array<Array<ISymbol>>;
   initStage: Array<Array<ISymbol>>;
   winStage: Array<Array<ISymbol>>;
   omitStage: Array<Array<ISymbol>>;
@@ -51,8 +54,20 @@ class GenerateSpinCycle {
   private static winCombinationCount: { [id: number]: number } = {};
   private static columnsInNeedOfSymbols: Array<number> = [];
   private static gameField: Array<Array<number>>;
+  private static defaultField: Array<Array<number>> = [
+    [1, 2, 3, 4, 5, 6],
+
+    [1, 2, 3, 4, 5, 6],
+
+    [1, 2, 3, 4, 5, 6],
+
+    [1, 2, 3, 4, 5, 6],
+
+    [7, 8, 9, 10, 10, 10],
+  ];
 
   private static stagesPlayingField: IStagesPlayingField = {
+    startingStage: [],
     initStage: [],
     winStage: [],
     omitStage: [],
@@ -83,6 +98,12 @@ class GenerateSpinCycle {
     this.stagesPlayingField.winStage = [];
     this.stagesPlayingField.omitStage = [];
     this.stagesPlayingField.additionStage = [];
+  }
+
+  public static generateDefaultField(): Array<Array<ISymbol>> {
+    this.createSymbolsPosition(true);
+
+    return this.stagesPlayingField[Stages.STARTING];
   }
 
   private static generateGameField(): void {
@@ -121,10 +142,12 @@ class GenerateSpinCycle {
     return randomSymbol;
   }
 
-  private static createSymbolsPosition(): void {
+  private static createSymbolsPosition(isStartingField?: boolean): void {
+    const currField = isStartingField ? this.defaultField : this.gameField;
     const symbolsPositionArr: Array<Array<ISymbol>> = [];
+    let idForReactKey = 0;
 
-    this.gameField.forEach((arr: Array<number>, i) => {
+    currField.forEach((arr: Array<number>, i) => {
       symbolsPositionArr.push([]);
 
       const xStart = this.calculateCoordinate({
@@ -134,6 +157,7 @@ class GenerateSpinCycle {
       });
 
       for (let g = 0; g < arr.length; g++) {
+        idForReactKey += 1;
         const yEnd = this.calculateCoordinate({
           axis: Axis.y,
           rowCounter: this.rowCounter,
@@ -143,9 +167,10 @@ class GenerateSpinCycle {
         this.winCombinatinCounter(arr[g]);
 
         const symbolInfo: ISymbol = {
+          idForReactKey,
           id: arr[g],
           xStart: xStart,
-          yStart: this.yStart,
+          yStart: isStartingField ? this.yEnd : this.yStart,
           yEnd: yEnd,
           isWin: false,
           width: 100,
@@ -157,6 +182,12 @@ class GenerateSpinCycle {
       }
       this.rowCounter++;
     });
+
+    if (isStartingField) {
+      this.stagesPlayingField.startingStage = symbolsPositionArr;
+      this.clearLastResults();
+      return;
+    }
 
     this.stagesPlayingField.initStage = symbolsPositionArr;
 
@@ -306,6 +337,7 @@ class GenerateSpinCycle {
           const calcYEnd = yCounter - 50;
 
           const newSymbol: ISymbol = {
+            idForReactKey: 0, // TODO
             id: this.generateRandomNumber(),
             xStart: calcXStart,
             yStart: calcYStart,

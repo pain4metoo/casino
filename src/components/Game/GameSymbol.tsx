@@ -14,7 +14,7 @@ const Symbol = (props: any) => {
   });
 
   if (props.isLastSymbol) {
-    if (!props.isWinStage) {
+    if (!props.isWinStage && !props.isStartGame) {
       setTimeout(() => {
         props.winStageAction();
       }, 1000);
