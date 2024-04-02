@@ -1,10 +1,9 @@
 import { Container, Sprite, useApp, useTick } from '@pixi/react';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import * as PIXI from 'pixi.js';
 import { symbols, symbolsWin } from './Textures';
 
 const Symbol = (props: any) => {
-  const app = useApp();
-
   const [yStart, setYStart] = useState(props.symbolData.yStart);
 
   useTick(() => {
@@ -14,11 +13,11 @@ const Symbol = (props: any) => {
   });
 
   if (props.isLastSymbol) {
-    if (!props.isWinStage && !props.isStartGame) {
-      setTimeout(() => {
-        props.winStageAction();
-      }, 1000);
-    }
+    // if (!props.isWinStage && props.isSpin) {
+    //   setTimeout(() => {
+    //     props.winStageAction();
+    //   }, 1500);
+    // }
     // if (props.isOmitStage) {
     //   setTimeout(() => {
     //     props.omitStageAction();
@@ -31,20 +30,34 @@ const Symbol = (props: any) => {
     // }
   }
 
-  let image = symbols[props.symbolData.id - 1];
+  let defaultSymbol = props.data.symbols[props.symbolData.id - 1];
+  let winSymbol = props.data.symbolsWin[props.symbolData.id - 1];
+
+  // if (props.isLoadData) {
+  //   if (props.isWinSymbols) {
+  //     console.log(1);
+  //     const videoResource = new PIXI.VideoResource(winSymbol, {
+  //       autoPlay: false,
+  //     });
+
+  //     const videoTexture = PIXI.Texture.from(videoResource as any);
+
+  //     winSymbol = videoTexture;
+  //   }
+  // }
 
   if (props.symbolData.isWin) {
-    image = symbolsWin[props.symbolData.id - 1];
+    defaultSymbol = props.data.symbolsWin[props.symbolData.id - 1];
 
-    // const bg = PIXI.Texture.from(image);
+    const bg = PIXI.Texture.from(defaultSymbol);
 
-    // (bg.baseTexture.resource as any).source.loop = true;
+    (bg.baseTexture.resource as any).resource.autoPlay = false;
   }
 
   return (
     <Container position={[props.symbolData.xStart, yStart]}>
       <Sprite
-        image={image}
+        texture={defaultSymbol}
         width={props.symbolData.width}
         height={props.symbolData.height}
       />

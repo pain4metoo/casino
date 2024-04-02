@@ -22,43 +22,44 @@ const initialState: IInitialState = {
 };
 
 enum reducerTypes {
-  startingStage = 'STARTING-STAGE',
   initStage = 'INIT-STAGE',
   winStage = 'WIN-STAGE',
   omitStage = 'OMIT-STAGE',
   additionStage = 'ADDITION-STAGE',
+  setGenerateDefauldField = 'SET-GENERATE-DEFAULT-FIELD',
 }
 
 const gameReducer = (state = initialState, action: any) => {
   switch (action.type) {
-    case reducerTypes.startingStage:
+    case reducerTypes.setGenerateDefauldField:
       return {
         ...state,
-        isStartGame: action.flag,
-        gameField: action.gameField,
+        gameField: GenerateSpinCycle.createCopyObjects(action.gameField),
+        isStartGame: true,
       };
     case reducerTypes.initStage:
       return {
         ...state,
-        gameField: action.gameField,
+        gameField: GenerateSpinCycle.createCopyObjects(action.gameField),
         isSpin: true,
+        isGameOn: true,
       };
     case reducerTypes.winStage:
       return {
         ...state,
-        gameField: action.gameField,
+        gameField: GenerateSpinCycle.createCopyObjects(action.gameField),
         isWinStage: true,
       };
     case reducerTypes.omitStage:
       return {
         ...state,
-        gameField: action.gameField,
+        gameField: GenerateSpinCycle.createCopyObjects(action.gameField),
         isOmitStage: true,
       };
     case reducerTypes.additionStage:
       return {
         ...state,
-        gameField: action.gameField,
+        gameField: GenerateSpinCycle.createCopyObjects(action.gameField),
         isAdditionStage: true,
       };
     default:
@@ -66,11 +67,10 @@ const gameReducer = (state = initialState, action: any) => {
   }
 };
 
-export const startGameAction = (flag: boolean) => {
+export const setGenerateDefauldField = () => {
   return {
-    type: reducerTypes.startingStage,
+    type: reducerTypes.setGenerateDefauldField,
     gameField: GenerateSpinCycle.generateDefaultField(),
-    flag,
   };
 };
 

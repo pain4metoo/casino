@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import Header from './Header';
 import { exitFromProfile } from '../../redux/auth-reducer';
 
-const HeaderContainerApi = (props: any) => {
+const HeaderContainer = (props: any) => {
   return <Header {...props} />;
 };
 
@@ -12,8 +12,6 @@ const mapStateToProps = (state: any) => {
   };
 };
 
-const HeaderContainer = connect(mapStateToProps, {
+export default connect(mapStateToProps, {
   exitFromProfile,
-})(HeaderContainerApi);
-
-export default HeaderContainer;
+})(HeaderContainer);

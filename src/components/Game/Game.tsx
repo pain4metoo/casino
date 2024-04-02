@@ -2,26 +2,25 @@ import styles from './Game.module.scss';
 import { Stage } from '@pixi/react';
 import { ISymbol } from './GenerateGameLogic';
 import Symbol from './GameSymbol';
-import Loading from './Loading/Loading';
+import { Provider } from 'react-redux';
+import store from '../../redux/store';
+import LoadingContainer from './Loading/LoadingContainer';
 
 const Game = (props: any) => {
+  let numberSymbol = 0;
   const symbolsArr = props.gameField.map((arr: Array<ISymbol>, i: number) => {
     return arr.map((symbol: ISymbol, g) => {
+      numberSymbol++;
       const isLastSymbol =
         i === props.gameField.length - 1 && g === arr.length - 1;
 
       return (
         <Symbol
+          key={numberSymbol}
+          numberSymbol={numberSymbol}
           symbolData={symbol}
-          key={g}
           isLastSymbol={isLastSymbol}
-          isWinStage={props.isWinStage}
-          isStartGame={props.isStartGame}
-          isOmitStage={props.isOmitStage}
-          isAdditionStage={props.isAdditionStage}
-          winStageAction={props.winStageAction}
-          omitStageAction={props.omitStageAction}
-          additionalStageAction={props.additionalStageAction}
+          data={props.data}
         />
       );
     });
@@ -29,22 +28,6 @@ const Game = (props: any) => {
 
   return (
     <div className={styles.game}>
-      {props.isStartGame ? (
-        <button
-          type='button'
-          onClick={props.initStageAction}
-          disabled={props.isSpin}>
-          SPIN
-        </button>
-      ) : (
-        <button
-          type='button'
-          onClick={() => props.startGameAction(true)}
-          disabled={props.isStartGame}>
-          START GAME
-        </button>
-      )}
-
       <Stage
         width={1200}
         height={700}
@@ -52,8 +35,13 @@ const Game = (props: any) => {
           antialias: true,
           resizeTo: window,
         }}>
-        {!props.isStartGame ? <Loading /> : symbolsArr}
-        {props.isSpin ? symbolsArr : null}
+        {!props.isStartGame ? (
+          <Provider store={store}>
+            <LoadingContainer />
+          </Provider>
+        ) : (
+          symbolsArr
+        )}
       </Stage>
     </div>
   );
