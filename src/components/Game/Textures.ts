@@ -46,7 +46,7 @@ export const symbolsWin = [
   symbolWin10,
 ];
 
-export function getImgData(): {
+export function getImgData(isLoad: boolean): {
   symbols: Array<any>;
   symbolsWin: Array<any>;
 } {
@@ -55,7 +55,7 @@ export function getImgData(): {
 
   for (let i = 0; i < symbolsWin.length; i++) {
     const videoResource = new PIXI.VideoResource(symbolsWin[i], {
-      autoPlay: false,
+      autoPlay: isLoad,
     });
 
     const videoTexture: any = PIXI.Texture.from(videoResource as any);
@@ -65,6 +65,7 @@ export function getImgData(): {
 
   for (let g = 0; g < symbols.length; g++) {
     const imgResource = PIXI.Texture.from(symbols[g]);
+
     symbolsD.push(imgResource);
   }
 

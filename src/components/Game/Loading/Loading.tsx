@@ -1,29 +1,30 @@
 import { Container, Graphics, useApp, useTick } from '@pixi/react';
 import { Text } from '@pixi/react';
 import * as PIXI from 'pixi.js';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ISymbol } from '../GenerateGameLogic';
 import LoadSymbol from './LoadSymbol';
 
 const Loading = (props: any) => {
-  useEffect(() => {
-    props.setDataAction();
-    props.loadDataAction(true);
-  }, []);
-
   const [progress, setProgress] = useState(0);
 
-  function setNewProgress(value: number): void {
-    const maxProgress = 600;
-    const currentValue = progress + value;
-
-    if (currentValue === maxProgress) {
-      setTimeout(() => {
-        props.setEndLoadData();
-      }, 200);
+  if (!props.isLoadData && !props.isEndLoadData) {
+    props.setDataAction(false);
+    props.loadDataAction(true);
+  } else {
+    if (!props.isEndLoadData) {
+      for (let i = 0; i < props.data.symbols.length; i++) {
+        props.data.symbols[i].baseTexture.on('loaded', () => {
+          setProgress(progress + 30);
+        });
+        props.data.symbolsWin[i].baseTexture.on('loaded', () => {
+          setProgress(progress + 30);
+        });
+        if (progress === 600) {
+          props.setEndLoadData();
+        }
+      }
     }
-
-    setProgress(currentValue);
   }
 
   const drawScreen = (g: any) => {
@@ -47,30 +48,30 @@ const Loading = (props: any) => {
   const drawBtnStart = (g: any) => {
     g.beginFill(0x86ff02, 1);
     g.drawRect(400, 500, 400, 70);
-    g.interactive = true;
+    g.eventMode = 'dynamic';
     g.endFill();
     g.on('pointerdown', () => {
+      props.setDataAction(true);
       props.setGenerateDefauldField();
     });
   };
 
   let numberSymbol = 0;
 
-  const symbolsArr = props.loadField.map((arr: Array<ISymbol>, i: number) => {
-    return arr.map((symbol: ISymbol) => {
-      numberSymbol++;
-      return (
-        <LoadSymbol
-          isLoadData={props.isLoadData}
-          key={numberSymbol}
-          symbolData={symbol}
-          data={props.data}
-          isWinSymbol={i === 0 ? true : false}
-          setNewProgress={setNewProgress}
-        />
-      );
-    });
-  });
+  const loadSymbolsArr = props.loadField.map(
+    (arr: Array<ISymbol>, i: number) => {
+      return arr.map((symbol: ISymbol) => {
+        numberSymbol++;
+        return (
+          <LoadSymbol
+            key={numberSymbol}
+            symbolData={symbol}
+            data={props.data}
+          />
+        );
+      });
+    },
+  );
 
   return (
     <>
@@ -78,7 +79,7 @@ const Loading = (props: any) => {
         <Graphics draw={drawScreen}></Graphics>
         {props.isLoadData ? (
           <>
-            {symbolsArr}
+            {loadSymbolsArr}
             <Graphics draw={drawScreen}></Graphics>
             <Graphics draw={drawLoading}></Graphics>
             <Graphics draw={drawProgress}></Graphics>

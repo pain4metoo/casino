@@ -114,26 +114,28 @@ export class GenerateSpinCycle {
   }
 
   private static generateGameField(): void {
-    const newGameField: Array<Array<number>> = [
-      [1, 2, 3, 4, 5, 6],
+    // const newGameField: Array<Array<number>> = [
+    //   [1, 2, 3, 4, 5, 6],
 
-      [7, 8, 9, 10, 1, 2],
+    //   [7, 8, 9, 10, 1, 2],
 
-      [3, 4, 5, 6, 7, 8],
+    //   [3, 4, 5, 6, 7, 8],
 
-      [9, 10, 1, 2, 3, 4],
+    //   [9, 10, 1, 2, 3, 4],
 
-      [5, 6, 7, 8, 9, 10],
-    ];
+    //   [5, 6, 7, 8, 9, 10],
+    // ];
 
-    // for (let i = 0; i < this.maxRowCount; i++) {
-    //   // generate column
-    //   newGameField.push([]);
-    //   for (let g = 0; g < this.symbolsInColumn; g++) {
-    //     // generate numbers
-    //     newGameField[i].push(this.generateRandomNumber());
-    //   }
-    // }
+    const newGameField: Array<Array<number>> = [];
+
+    for (let i = 0; i < this.maxRowCount; i++) {
+      // generate column
+      newGameField.push([]);
+      for (let g = 0; g < this.symbolsInColumn; g++) {
+        // generate numbers
+        newGameField[i].push(this.generateRandomNumber());
+      }
+    }
 
     this.gameField = newGameField;
 
@@ -187,13 +189,9 @@ export class GenerateSpinCycle {
         const symbolInfo: ISymbol = {
           id: arr[g],
           xStart: xStart,
-          yStart: isStartingField
-            ? this.yEnd
-            : isLoadingField
-            ? this.xStart
-            : this.yStart,
+          yStart: isStartingField ? -100 : this.yStart,
           yEnd: yEnd,
-          isWin: false,
+          isWin: isLoadingField && i === 0 ? true : false,
           width: 100,
           height: 100,
         };

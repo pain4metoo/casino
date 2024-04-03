@@ -21,10 +21,11 @@ const mapStateToProps = (state: any) => {
   return {
     isStartGame: state.game.isStartGame,
     isSpin: state.game.isSpin,
+    isGameOn: state.game.isGameOn,
     isWinStage: state.game.isWinStage,
     isOmitStage: state.game.isOmitStage,
     isAdditionStage: state.game.isAdditionStage,
-    defaultField: state.loading.defaultField,
+    startingField: state.game.startingField,
     gameField: state.game.gameField,
     data: state.loading.data,
   };

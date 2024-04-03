@@ -4,6 +4,7 @@ import GenerateSpinCycle, {
 } from '../components/Game/GenerateGameLogic';
 
 interface IInitialState {
+  startingField: Array<Array<ISymbol>>;
   gameField: Array<Array<ISymbol>>;
   isStartGame: boolean;
   isSpin: boolean;
@@ -13,6 +14,7 @@ interface IInitialState {
 }
 
 const initialState: IInitialState = {
+  startingField: [],
   gameField: [],
   isStartGame: false,
   isSpin: false,
@@ -34,15 +36,22 @@ const gameReducer = (state = initialState, action: any) => {
     case reducerTypes.setGenerateDefauldField:
       return {
         ...state,
-        gameField: GenerateSpinCycle.createCopyObjects(action.gameField),
+        startingField: GenerateSpinCycle.createCopyObjects(
+          action.startingField,
+        ),
         isStartGame: true,
       };
     case reducerTypes.initStage:
+      if (action.flag) {
+        return {
+          ...state,
+          gameField: GenerateSpinCycle.createCopyObjects(action.gameField),
+          isSpin: true,
+        };
+      }
       return {
         ...state,
-        gameField: GenerateSpinCycle.createCopyObjects(action.gameField),
-        isSpin: true,
-        isGameOn: true,
+        isSpin: false,
       };
     case reducerTypes.winStage:
       return {
@@ -70,14 +79,15 @@ const gameReducer = (state = initialState, action: any) => {
 export const setGenerateDefauldField = () => {
   return {
     type: reducerTypes.setGenerateDefauldField,
-    gameField: GenerateSpinCycle.generateDefaultField(),
+    startingField: GenerateSpinCycle.generateDefaultField(),
   };
 };
 
-export const initStageAction = () => {
+export const initStageAction = (flag: boolean) => {
   return {
     type: reducerTypes.initStage,
     gameField: GenerateSpinCycle.spinCycle(),
+    flag,
   };
 };
 

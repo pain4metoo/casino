@@ -10,17 +10,21 @@ type Data = {
 
 interface IinitialState {
   isLoadData: boolean;
+  isEndLoadData: boolean;
   loadField: Array<Array<ISymbol>>;
   data: Data;
+  loadProgress: number;
 }
 
 const initialState: IinitialState = {
   isLoadData: false,
+  isEndLoadData: false,
   loadField: [],
   data: {
     symbols: [],
     symbolsWin: [],
   },
+  loadProgress: 0,
 };
 
 enum loadingReducerEnum {
@@ -33,7 +37,6 @@ const loadingReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case loadingReducerEnum.setDataAction:
       return {
-        ...state,
         data: {
           symbols: action.imgData.symbols,
           symbolsWin: action.imgData.symbolsWin,
@@ -49,6 +52,7 @@ const loadingReducer = (state = initialState, action: any) => {
       return {
         ...state,
         isLoadData: false,
+        isEndLoadData: true,
       };
 
     default:
@@ -64,10 +68,10 @@ export const loadDataAction = (flag: boolean) => {
   };
 };
 
-export const setDataAction = () => {
+export const setDataAction = (flag: boolean) => {
   return {
     type: loadingReducerEnum.setDataAction,
-    imgData: getImgData(),
+    imgData: getImgData(flag),
   };
 };
 
