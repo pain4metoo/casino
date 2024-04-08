@@ -1,3 +1,5 @@
+import * as PIXI from 'pixi.js';
+import emptySquare from '../../assets/images/empty-square.png';
 import symbol1 from '../../assets/images/symbols/1.png';
 import symbol2 from '../../assets/images/symbols/2.png';
 import symbol3 from '../../assets/images/symbols/3.png';
@@ -18,7 +20,6 @@ import symbolWin7 from '../../assets/images/symbols-win/7.mp4';
 import symbolWin8 from '../../assets/images/symbols-win/8.mp4';
 import symbolWin9 from '../../assets/images/symbols-win/9.mp4';
 import symbolWin10 from '../../assets/images/symbols-win/10.mp4';
-import * as PIXI from 'pixi.js';
 
 export const symbols = [
   symbol1,
@@ -46,33 +47,93 @@ export const symbolsWin = [
   symbolWin10,
 ];
 
-export function getImgData(isLoad: boolean): {
-  symbols: Array<any>;
-  symbolsWin: Array<any>;
-} {
-  const symbolsD = [];
-  const symbolsW = [];
+export type GameData = {
+  videos: {
+    symbolsWin: Array<any>;
+    other: { [key: string]: any };
+  };
+  img: {
+    symbolsDef: Array<any>;
+    other: { [key: string]: any };
+  };
+};
 
-  for (let i = 0; i < symbolsWin.length; i++) {
-    const videoResource = new PIXI.VideoResource(symbolsWin[i], {
-      autoPlay: isLoad,
-    });
-
-    const videoTexture: any = PIXI.Texture.from(videoResource as any);
-
-    symbolsW.push(videoTexture);
-  }
-
-  for (let g = 0; g < symbols.length; g++) {
-    const imgResource = PIXI.Texture.from(symbols[g]);
-
-    symbolsD.push(imgResource);
-  }
-
-  const imgData = {
-    symbols: symbolsD,
-    symbolsWin: symbolsW,
+export function createGameItems(): GameData {
+  const gameDataItems: GameData = {
+    videos: {
+      symbolsWin: [],
+      other: {},
+    },
+    img: {
+      symbolsDef: [],
+      other: {
+        emptySquare,
+      },
+    },
   };
 
-  return imgData;
+  recursiveTraversal(gameDataItems);
+
+  function recursiveTraversal(obj: any, typeData?: string) {
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        if (typeof obj[key] === 'object' && !Array.isArray(obj[key])) {
+          recursiveTraversal(obj[key], key);
+        } else {
+          if (Array.isArray(obj[key])) {
+            if (typeData === 'videos') {
+              for (let i = 0; i < symbolsWin.length; i++) {
+                const videoResource = new PIXI.VideoResource(symbolsWin[i], {
+                  autoPlay: false,
+                });
+
+                const videoTexture: any = PIXI.Texture.from(
+                  videoResource as any,
+                );
+
+                obj[key].push(videoTexture);
+              }
+            }
+            if (typeData === 'img') {
+              for (let g = 0; g < symbols.length; g++) {
+                const imgResource = PIXI.Texture.from(symbols[g]);
+                obj[key].push(imgResource);
+              }
+            }
+          } else {
+            const imgResource = PIXI.Texture.from(obj[key]);
+
+            obj[key] = imgResource;
+          }
+        }
+      }
+    }
+  }
+
+  return gameDataItems;
 }
+
+// for (const key in imgData) {
+//   if (imgData.hasOwnProperty(key)) {
+//     if (Array.isArray(imgData[key]) && key === 'videos') {
+//       for (let i = 0; i < symbolsWin.length; i++) {
+//         const videoResource = new PIXI.VideoResource(symbolsWin[i], {
+//           autoPlay: false,
+//         });
+
+//         const videoTexture: any = PIXI.Texture.from(videoResource as any);
+
+//         imgData[key].symbolsWin.push(videoTexture);
+//       }
+//     } else {
+//       if (Array.isArray(imgData[key])) {
+//         for (let g = 0; g < symbols.length; g++) {
+//           const imgResource = PIXI.Texture.from(symbols[g]);
+
+//           symbolsD.push(imgResource);
+//         }
+//       } else {
+//       }
+//     }
+//   }
+// }

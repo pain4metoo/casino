@@ -1,8 +1,8 @@
 import { Container, Sprite } from '@pixi/react';
 
 const LoadSymbol = (props: any) => {
-  let defaultSymbol = props.data.symbols[props.symbolData.id - 1];
-  let winSymbol = props.data.symbolsWin[props.symbolData.id - 1];
+  let defaultSymbol = props.gameData.img.symbolsDef[props.symbolData.id - 1];
+  let winSymbol = props.gameData.videos.symbolsWin[props.symbolData.id - 1];
 
   return (
     <Container position={[350, 350]}>

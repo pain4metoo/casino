@@ -8,24 +8,50 @@ import LoadSymbol from './LoadSymbol';
 const Loading = (props: any) => {
   const [progress, setProgress] = useState(0);
 
-  if (!props.isLoadData && !props.isEndLoadData) {
-    props.setDataAction(false);
-    props.loadDataAction(true);
-  } else {
-    if (!props.isEndLoadData) {
-      for (let i = 0; i < props.data.symbols.length; i++) {
-        props.data.symbols[i].baseTexture.on('loaded', () => {
-          setProgress(progress + 30);
-        });
-        props.data.symbolsWin[i].baseTexture.on('loaded', () => {
-          setProgress(progress + 30);
-        });
-        if (progress === 600) {
-          props.setEndLoadData();
+  useEffect(() => {
+    const setProgressEvent = () => {
+      setProgress(progress + 30);
+    };
+
+    if (!props.isLoadData && !props.isEndLoadData) {
+      props.setDataAction();
+      props.loadDataAction(true);
+    } else {
+      if (Object.keys(props.gameData).length > 0) {
+        if (!props.isEndLoadData) {
+          for (let i = 0; i < props.gameData.img.symbolsDef.length; i++) {
+            props.gameData.videos.symbolsWin[i].baseTexture.on(
+              'loaded',
+              setProgressEvent,
+            );
+            props.gameData.img.symbolsDef[i].baseTexture.on(
+              'loaded',
+              setProgressEvent,
+            );
+
+            if (progress === 600) {
+              props.setEndLoadData();
+            }
+          }
         }
       }
     }
-  }
+
+    return () => {
+      if (Object.keys(props.gameData).length > 0) {
+        for (let i = 0; i < props.gameData.img.symbolsDef.length; i++) {
+          props.gameData.img.symbolsDef[i].baseTexture.off(
+            'loaded',
+            setProgressEvent,
+          );
+          props.gameData.videos.symbolsWin[i].baseTexture.off(
+            'loaded',
+            setProgressEvent,
+          );
+        }
+      }
+    };
+  });
 
   const drawScreen = (g: any) => {
     g.beginFill(0x0033cc, 1);
@@ -51,7 +77,7 @@ const Loading = (props: any) => {
     g.eventMode = 'dynamic';
     g.endFill();
     g.on('pointerdown', () => {
-      props.setDataAction(true);
+      props.setVideoSettings();
       props.setGenerateDefauldField();
     });
   };
@@ -66,7 +92,7 @@ const Loading = (props: any) => {
           <LoadSymbol
             key={numberSymbol}
             symbolData={symbol}
-            data={props.data}
+            gameData={props.gameData}
           />
         );
       });

@@ -4,6 +4,7 @@ import {
   loadDataAction,
   setDataAction,
   setEndLoadData,
+  setVideoSettings,
 } from '../../../redux/loading-reducer';
 import { setGenerateDefauldField } from '../../../redux/game-reducer';
 
@@ -12,13 +13,13 @@ const mapStateToProps = (state: any) => {
     isLoadData: state.loading.isLoadData,
     isEndLoadData: state.loading.isEndLoadData,
     loadField: state.loading.loadField,
-    data: state.loading.data,
+    gameData: state.loading.gameData,
   };
 };
-
 export default connect(mapStateToProps, {
   setDataAction,
   loadDataAction,
+  setVideoSettings,
   setGenerateDefauldField,
   setEndLoadData,
 })(Loading);

@@ -7,6 +7,8 @@ import {
   additionalStageAction,
   initStageAction,
   omitStageAction,
+  removeSymbolsStage,
+  spinCycleThunk,
   winStageAction,
 } from '../../redux/game-reducer';
 
@@ -23,19 +25,21 @@ const mapStateToProps = (state: any) => {
     isSpin: state.game.isSpin,
     isGameOn: state.game.isGameOn,
     isWinStage: state.game.isWinStage,
+    isRemoveSymbolsStage: state.game.isRemoveSymbolsStage,
     isOmitStage: state.game.isOmitStage,
     isAdditionStage: state.game.isAdditionStage,
     startingField: state.game.startingField,
     gameField: state.game.gameField,
-    data: state.loading.data,
+    gameData: state.loading.gameData,
   };
 };
-
 export default compose(
   connect(mapStateToProps, {
     isAuthMeThunk,
+    spinCycleThunk,
     initStageAction,
     winStageAction,
+    removeSymbolsStage,
     omitStageAction,
     additionalStageAction,
   }),

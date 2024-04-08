@@ -1,16 +1,14 @@
 import styles from './Game.module.scss';
 import { Stage, Container, Sprite } from '@pixi/react';
-import GenerateSpinCycle, { ISymbol } from './GenerateGameLogic';
+import { ISymbol } from './GenerateGameLogic';
 import Symbol from './GameSymbol';
 import { Provider } from 'react-redux';
 import store from '../../redux/store';
 import LoadingContainer from './Loading/LoadingContainer';
 import spinImg from '../../assets/images/spin.png';
-import { useEffect, useRef } from 'react';
 
 const Game = (props: any) => {
   let numberSymbol = 0;
-
   function createSymbols(arr: Array<Array<ISymbol>>) {
     return arr.map((arr: Array<ISymbol>, i: number) => {
       return arr.map((symbol: ISymbol, g) => {
@@ -23,10 +21,15 @@ const Game = (props: any) => {
             key={numberSymbol}
             numberSymbol={numberSymbol}
             winStageAction={props.winStageAction}
+            isWinStage={props.isWinStage}
+            isRemoveSymbolsStage={props.isRemoveSymbolsStage}
+            removeSymbolsStage={props.removeSymbolsStage}
             symbolData={symbol}
             isSpin={props.isSpin}
             isLastSymbol={isLastSymbol}
-            data={props.data}
+            gameData={props.gameData}
+            omitStageAction={props.omitStageAction}
+            additionalStageAction={props.additionalStageAction}
           />
         );
       });
@@ -40,7 +43,7 @@ const Game = (props: any) => {
     props.initStageAction(false);
 
     setTimeout(() => {
-      props.initStageAction(true);
+      props.spinCycleThunk(true);
     }, 0);
   };
 
@@ -60,7 +63,9 @@ const Game = (props: any) => {
         ) : (
           <>
             {!props.isSpin ? startingField : null}
-            {props.isSpin ? gameField : null}
+            {props.isSpin && !props.isAdditionStage ? gameField : null}
+            {props.isAdditionStage ? gameField : null}
+
             <Container position={[1000, 575]}>
               <Sprite
                 width={100}

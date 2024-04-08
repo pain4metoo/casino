@@ -1,46 +1,45 @@
 import GenerateSpinCycle, {
   ISymbol,
 } from '../components/Game/GenerateGameLogic';
-import { getImgData } from '../components/Game/Textures';
-
-type Data = {
-  symbols: Array<string>;
-  symbolsWin: Array<string>;
-};
+import { GameData, createGameItems } from '../components/Game/Textures';
 
 interface IinitialState {
   isLoadData: boolean;
   isEndLoadData: boolean;
   loadField: Array<Array<ISymbol>>;
-  data: Data;
   loadProgress: number;
+  gameData: GameData;
 }
 
 const initialState: IinitialState = {
   isLoadData: false,
   isEndLoadData: false,
   loadField: [],
-  data: {
-    symbols: [],
-    symbolsWin: [],
-  },
   loadProgress: 0,
+  gameData: {} as GameData,
 };
 
 enum loadingReducerEnum {
   setDataAction = 'SET-DATA-ACTION',
+  setVideoSettings = 'SET-VIDEO-SETTINGS',
   loadDataAction = 'LOAD-DATA-ACTION',
   setEndLoadData = 'SET-END-LOAD-DATA',
 }
 
 const loadingReducer = (state = initialState, action: any) => {
   switch (action.type) {
+    case loadingReducerEnum.setVideoSettings:
+      state.gameData.videos.symbolsWin.forEach((pixiVideo: any) => {
+        pixiVideo.baseTexture.resource.source.loop = true;
+      });
+      return {
+        ...state,
+        gameData: { ...state.gameData },
+      };
     case loadingReducerEnum.setDataAction:
       return {
-        data: {
-          symbols: action.imgData.symbols,
-          symbolsWin: action.imgData.symbolsWin,
-        },
+        ...state,
+        gameData: action.gameData,
       };
     case loadingReducerEnum.loadDataAction:
       return {
@@ -60,6 +59,12 @@ const loadingReducer = (state = initialState, action: any) => {
   }
 };
 
+export const setVideoSettings = () => {
+  return {
+    type: loadingReducerEnum.setVideoSettings,
+  };
+};
+
 export const loadDataAction = (flag: boolean) => {
   return {
     type: loadingReducerEnum.loadDataAction,
@@ -68,10 +73,10 @@ export const loadDataAction = (flag: boolean) => {
   };
 };
 
-export const setDataAction = (flag: boolean) => {
+export const setDataAction = () => {
   return {
     type: loadingReducerEnum.setDataAction,
-    imgData: getImgData(flag),
+    gameData: createGameItems(),
   };
 };
 

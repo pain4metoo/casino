@@ -43,6 +43,7 @@ export class GenerateSpinCycle {
   private static symbolsCount: number = 10;
   private static rowCounter: number = 0;
   private static columnCounter: number = 0;
+  private static isWinSpin: boolean = false;
 
   private static xStart: number = 350;
   private static yStart: number = -550;
@@ -52,9 +53,8 @@ export class GenerateSpinCycle {
   private static yStartDefault: number = -550;
   private static yEndDefault: number = 50;
 
-  private static winCombinationCount: { [id: number]: number } = {};
   private static columnsInNeedOfSymbols: Array<number> = [];
-  private static gameField: Array<Array<number>>;
+  private static gameField: Array<Array<number>> = [];
   private static defaultField: Array<Array<number>> = [
     [1, 2, 3, 4, 5, 6],
 
@@ -85,6 +85,10 @@ export class GenerateSpinCycle {
     return this.stagesPlayingField[stage];
   }
 
+  public static getIsWinSpin(): boolean {
+    return this.isWinSpin;
+  }
+
   public static spinCycle(): Array<Array<ISymbol>> {
     this.clearLastResults();
     this.generateGameField();
@@ -94,13 +98,19 @@ export class GenerateSpinCycle {
 
   private static clearLastResults(): void {
     this.gameField = [];
-    this.winCombinationCount = {};
     this.columnsInNeedOfSymbols = [];
+
     this.xStart = this.xStartDefault;
     this.yStart = this.yStartDefault;
     this.yEnd = this.yEndDefault;
+
+    this.symbolsInColumn = 6;
+    this.maxRowCount = 5;
+    this.symbolsCount = 10;
     this.rowCounter = 0;
     this.columnCounter = 0;
+    this.isWinSpin = false;
+
     this.stagesPlayingField.initStage = [];
     this.stagesPlayingField.winStage = [];
     this.stagesPlayingField.omitStage = [];
@@ -114,18 +124,6 @@ export class GenerateSpinCycle {
   }
 
   private static generateGameField(): void {
-    // const newGameField: Array<Array<number>> = [
-    //   [1, 2, 3, 4, 5, 6],
-
-    //   [7, 8, 9, 10, 1, 2],
-
-    //   [3, 4, 5, 6, 7, 8],
-
-    //   [9, 10, 1, 2, 3, 4],
-
-    //   [5, 6, 7, 8, 9, 10],
-    // ];
-
     const newGameField: Array<Array<number>> = [];
 
     for (let i = 0; i < this.maxRowCount; i++) {
@@ -184,8 +182,6 @@ export class GenerateSpinCycle {
           columnCounter: this.columnCounter,
         });
 
-        this.winCombinatinCounter(arr[g]);
-
         const symbolInfo: ISymbol = {
           id: arr[g],
           xStart: xStart,
@@ -219,15 +215,7 @@ export class GenerateSpinCycle {
     console.log('createSymbolsPosition', this.stagesPlayingField.initStage);
     // debugger;
 
-    this.checkWinSymbols();
-  }
-
-  private static winCombinatinCounter(id: number) {
-    if (!this.winCombinationCount[id]) {
-      this.winCombinationCount[id] = 1;
-    } else {
-      this.winCombinationCount[id] += 1;
-    }
+    this.checkWinSymbols(this.stagesPlayingField.initStage);
   }
 
   private static calculateCoordinate(axisInfo: IAxisInfo): number {
@@ -266,32 +254,55 @@ export class GenerateSpinCycle {
     return this.xStart;
   }
 
-  public static async checkWinSymbols(): Promise<void> {
-    const currentWinSymbols: Array<number | undefined> = Object.entries(
-      this.winCombinationCount,
-    )
+  public static checkWinSymbols(gameField: Array<Array<ISymbol>>): boolean {
+    const winSymbolsCount: { [id: string]: number } = {};
+
+    for (let i = 0; i < gameField.length; i++) {
+      for (let g = 0; g < gameField[i].length; g++) {
+        if (!winSymbolsCount[gameField[i][g].id]) {
+          winSymbolsCount[gameField[i][g].id] = 1;
+        } else {
+          winSymbolsCount[gameField[i][g].id] += 1;
+        }
+      }
+    }
+
+    const currentWinSymbols = Object.entries(winSymbolsCount)
       .map(el => {
         if (el[1] >= 5) {
           // Check the number of characters
           return +el[0]; // return the number id
         }
       })
-      .filter(el => el);
+      .filter(el => el) as Array<number>;
 
-    const fieldAfterCheckWin = this.getStage(Stages.INIT).map(
-      (arr: Array<ISymbol>) => {
-        return arr.map((symbol: ISymbol) => {
-          if (currentWinSymbols.includes(symbol.id)) {
-            return {
-              ...symbol,
-              isWin: true,
-            };
-          } else {
-            return { ...symbol, isWin: false };
-          }
-        });
-      },
-    );
+    if (currentWinSymbols.length > 0) {
+      this.isWinSpin = true;
+      this.winSymbols(gameField, currentWinSymbols);
+
+      return true;
+    }
+
+    this.isWinSpin = false;
+    return false;
+  }
+
+  public static async winSymbols(
+    gameField: Array<Array<ISymbol>>,
+    winSymbols: Array<number>,
+  ): Promise<void> {
+    const fieldAfterCheckWin = gameField.map((arr: Array<ISymbol>) => {
+      return arr.map((symbol: ISymbol) => {
+        if (winSymbols.includes(symbol.id)) {
+          return {
+            ...symbol,
+            isWin: true,
+          };
+        } else {
+          return { ...symbol, isWin: false };
+        }
+      });
+    });
 
     this.stagesPlayingField.winStage = fieldAfterCheckWin;
 
@@ -302,6 +313,7 @@ export class GenerateSpinCycle {
   }
 
   public static async omitSymbols(): Promise<void> {
+    this.columnsInNeedOfSymbols = [];
     const currentField: Array<Array<ISymbol>> = this.createCopyObjects(
       this.getStage(Stages.WIN),
     );
@@ -317,14 +329,13 @@ export class GenerateSpinCycle {
         if (currentSymbol.isWin) {
           yoffset += yOmit;
         } else {
-          if (!currentSymbol.isWin && yoffset > 0) {
+          if (yoffset > 0) {
             const offsetFromEndArr = yoffset / yOmit;
-            currentSymbol.yStart =
-              this.stagesPlayingField.winStage[i][g + offsetFromEndArr].yStart;
 
             currentSymbol.yEnd =
               this.stagesPlayingField.winStage[i][g + offsetFromEndArr].yEnd;
           }
+          currentSymbol.yStart = currentSymbol.yEnd;
         }
 
         if (g === 0) {
@@ -333,9 +344,11 @@ export class GenerateSpinCycle {
       }
     }
 
-    this.stagesPlayingField.omitStage = currentField.map(
-      (arr: Array<ISymbol>) => arr.filter((sym: ISymbol) => !sym.isWin),
-    ); // delete win symbols
+    this.stagesPlayingField.omitStage = currentField;
+
+    // .map(
+    //   (arr: Array<ISymbol>) => arr.filter((sym: ISymbol) => !sym.isWin),
+    // ); // delete win symbols
 
     console.log('omitSymbols', this.stagesPlayingField.omitStage);
     // debugger;
@@ -346,7 +359,7 @@ export class GenerateSpinCycle {
   public static async generationAdditionalSymbols(): Promise<void> {
     const currentField: Array<Array<ISymbol>> = this.createCopyObjects(
       this.getStage(Stages.OMIT),
-    );
+    ).map((arr: Array<ISymbol>) => arr.filter((sym: ISymbol) => !sym.isWin));
 
     const yOmit = 100;
 
@@ -356,8 +369,8 @@ export class GenerateSpinCycle {
         for (let g = 0; g < this.columnsInNeedOfSymbols[i]; g++) {
           const calcXStart =
             i === 0 ? this.xStartDefault : this.xStartDefault + 100 * i;
-          const calcYStart =
-            i === 0 ? this.yStartDefault : this.yStartDefault - 100 * i;
+
+          const calcYStart = this.yStartDefault - yOmit * g - i * yOmit;
 
           const calcYEnd = yCounter - 50;
 
@@ -383,6 +396,10 @@ export class GenerateSpinCycle {
       'generationAdditionalSymbols',
       this.stagesPlayingField.additionStage,
     );
+  }
+
+  public static checkWinAfterAdditionStage(): boolean {
+    return this.checkWinSymbols(this.stagesPlayingField.additionStage);
   }
 
   public static createCopyObjects(
