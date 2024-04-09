@@ -7,7 +7,7 @@ interface IInitialState {
   startingField: Array<Array<ISymbol>>;
   gameField: Array<Array<ISymbol>>;
   isStartGame: boolean;
-  isSpin: boolean;
+  isInitStage: boolean;
   isWinStage: boolean;
   isRemoveSymbolsStage: boolean;
   isOmitStage: boolean;
@@ -18,7 +18,7 @@ const initialState: IInitialState = {
   startingField: [],
   gameField: [],
   isStartGame: false,
-  isSpin: false,
+  isInitStage: false,
   isWinStage: false,
   isRemoveSymbolsStage: false,
   isOmitStage: false,
@@ -32,6 +32,7 @@ enum reducerTypes {
   omitStage = 'OMIT-STAGE',
   additionStage = 'ADDITION-STAGE',
   setGenerateDefauldField = 'SET-GENERATE-DEFAULT-FIELD',
+  clearLastResults = 'CLEAR-LAST-RESULTS',
 }
 
 const gameReducer = (state = initialState, action: any) => {
@@ -45,39 +46,31 @@ const gameReducer = (state = initialState, action: any) => {
         isStartGame: true,
       };
     case reducerTypes.initStage:
-      if (action.flag) {
-        return {
-          ...state,
-          gameField: GenerateSpinCycle.createCopyObjects(action.gameField),
-          isSpin: true,
-        };
-      }
-
       return {
         ...state,
-        isSpin: false,
-        isWinStage: false,
-        isOmitStage: false,
-        isRemoveSymbolsStage: false,
+        gameField: GenerateSpinCycle.createCopyObjects(action.gameField),
+        isInitStage: true,
         isAdditionStage: false,
+        isRemoveSymbolsStage: false,
       };
+
     case reducerTypes.winStage:
       return {
         ...state,
         gameField: GenerateSpinCycle.createCopyObjects(action.gameField),
         isWinStage: true,
+        isAdditionStage: false,
+        isRemoveSymbolsStage: false,
       };
     case reducerTypes.removeSymbolsStage:
       return {
         ...state,
         isRemoveSymbolsStage: true,
-        isWinStage: false,
       };
     case reducerTypes.omitStage:
       return {
         ...state,
         gameField: GenerateSpinCycle.createCopyObjects(action.gameField),
-
         isOmitStage: true,
       };
     case reducerTypes.additionStage:
@@ -86,6 +79,15 @@ const gameReducer = (state = initialState, action: any) => {
         gameField: GenerateSpinCycle.createCopyObjects(action.gameField),
         isAdditionStage: true,
       };
+
+    case reducerTypes.clearLastResults:
+      return {
+        ...state,
+        isInitStage: true,
+        isAdditionStage: false,
+        isRemoveSymbolsStage: false,
+      };
+
     default:
       return state;
   }
@@ -98,36 +100,49 @@ export const setGenerateDefauldField = () => {
   };
 };
 
-export const spinCycleThunk = (flag: boolean) => {
+export const spinCycleThunk = (isInitStage: boolean) => {
   return (dispatch: any) => {
-    dispatch(initStageAction(flag));
-    if (GenerateSpinCycle.getIsWinSpin()) {
-      setTimeout(() => {
-        dispatch(winStageAction());
+    if (isInitStage) {
+      dispatch(initStageAction());
+    } else {
+      if (GenerateSpinCycle.getIsWinSpin()) {
         setTimeout(() => {
-          dispatch(removeSymbolsStage());
+          dispatch(winStageAction());
+          // debugger;
           setTimeout(() => {
-            dispatch(omitStageAction());
+            dispatch(removeSymbolsStage());
+            // debugger;
             setTimeout(() => {
-              dispatch(additionalStageAction());
-              // setTimeout(() => {
-              //   if (GenerateSpinCycle.checkWinAfterAdditionStage()) {
-              //     dispatch(winStageAction());
-              //   }
-              // }, 1500);
-            }, 1000);
-          }, 500);
-        }, 1000);
-      }, 1500);
+              dispatch(omitStageAction());
+              // debugger;
+              setTimeout(() => {
+                dispatch(additionalStageAction());
+                // debugger;
+                setTimeout(() => {
+                  if (GenerateSpinCycle.checkWinAfterAdditionStage()) {
+                    dispatch(spinCycleThunk(false));
+                    // debugger;
+                  }
+                }, 1000);
+              }, 1000);
+            }, 500);
+          }, 1000);
+        }, 700);
+      }
     }
   };
 };
 
-export const initStageAction = (flag: boolean) => {
+export const clearLastResults = () => {
+  return {
+    type: reducerTypes.clearLastResults,
+  };
+};
+
+export const initStageAction = () => {
   return {
     type: reducerTypes.initStage,
     gameField: GenerateSpinCycle.spinCycle(),
-    flag,
   };
 };
 

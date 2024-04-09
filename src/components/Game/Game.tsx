@@ -9,27 +9,20 @@ import spinImg from '../../assets/images/spin.png';
 
 const Game = (props: any) => {
   let numberSymbol = 0;
+
   function createSymbols(arr: Array<Array<ISymbol>>) {
     return arr.map((arr: Array<ISymbol>, i: number) => {
       return arr.map((symbol: ISymbol, g) => {
-        numberSymbol++;
-        const isLastSymbol =
-          i === props.gameField.length - 1 && g === arr.length - 1;
+        numberSymbol += 1;
 
         return (
           <Symbol
             key={numberSymbol}
-            numberSymbol={numberSymbol}
-            winStageAction={props.winStageAction}
-            isWinStage={props.isWinStage}
             isRemoveSymbolsStage={props.isRemoveSymbolsStage}
-            removeSymbolsStage={props.removeSymbolsStage}
+            isOmitStage={props.isOmitStage}
             symbolData={symbol}
-            isSpin={props.isSpin}
-            isLastSymbol={isLastSymbol}
             gameData={props.gameData}
-            omitStageAction={props.omitStageAction}
-            additionalStageAction={props.additionalStageAction}
+            isAdditionStage={props.isAdditionStage}
           />
         );
       });
@@ -40,11 +33,11 @@ const Game = (props: any) => {
   const gameField = createSymbols(props.gameField);
 
   const spin = () => {
-    props.initStageAction(false);
+    props.spinCycleThunk(true);
 
     setTimeout(() => {
-      props.spinCycleThunk(true);
-    }, 0);
+      props.spinCycleThunk(false);
+    }, 500);
   };
 
   return (
@@ -62,8 +55,9 @@ const Game = (props: any) => {
           </Provider>
         ) : (
           <>
-            {!props.isSpin ? startingField : null}
-            {props.isSpin && !props.isAdditionStage ? gameField : null}
+            {!props.isInitStage ? startingField : null}
+            {props.isInitStage && !props.isAdditionStage ? gameField : null}
+
             {props.isAdditionStage ? gameField : null}
 
             <Container position={[1000, 575]}>

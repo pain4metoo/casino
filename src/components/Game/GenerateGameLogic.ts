@@ -45,13 +45,14 @@ export class GenerateSpinCycle {
   private static columnCounter: number = 0;
   private static isWinSpin: boolean = false;
 
-  private static xStart: number = 350;
-  private static yStart: number = -550;
-  private static yEnd: number = 50;
-
   private static xStartDefault: number = 350;
   private static yStartDefault: number = -550;
   private static yEndDefault: number = 50;
+  private static defaultOffSet: number = 100;
+
+  private static xStart: number = this.xStartDefault;
+  private static yStart: number = this.yStartDefault;
+  private static yEnd: number = this.yEndDefault;
 
   private static columnsInNeedOfSymbols: Array<number> = [];
   private static gameField: Array<Array<number>> = [];
@@ -222,28 +223,28 @@ export class GenerateSpinCycle {
     switch (axisInfo.axis) {
       case 'X':
         if (axisInfo.rowCounter < this.maxRowCount) {
-          this.xStart += 100;
-          this.yStart -= 100;
+          this.xStart += this.defaultOffSet;
+          this.yStart -= this.defaultOffSet;
           if (axisInfo.rowCounter === 0) {
-            this.xStart = 350;
-            this.yStart += 100;
+            this.xStart = this.xStartDefault;
+            this.yStart += this.defaultOffSet;
           }
         } else {
           this.rowCounter = 0;
-          this.xStart = 350;
+          this.xStart = this.xStartDefault;
         }
 
         return this.xStart;
       case 'Y':
         if (axisInfo.columnCounter < this.symbolsInColumn) {
-          this.yEnd += 100;
-          this.yStart += 100;
+          this.yEnd += this.defaultOffSet;
+          this.yStart += this.defaultOffSet;
           if (axisInfo.columnCounter === 0) {
-            this.yEnd = 50;
-            this.yStart -= 100;
+            this.yEnd = this.yEndDefault;
+            this.yStart -= this.defaultOffSet;
           }
         } else {
-          this.yEnd = 50;
+          this.yEnd = this.yEndDefault;
           this.columnCounter = 0;
           this.yStart = this.yStart + this.yStartDefault;
         }
@@ -318,8 +319,6 @@ export class GenerateSpinCycle {
       this.getStage(Stages.WIN),
     );
 
-    const yOmit = 100;
-
     for (let i = 0; i < currentField.length; i++) {
       let yoffset = 0;
 
@@ -327,10 +326,10 @@ export class GenerateSpinCycle {
         let currentSymbol: any = currentField[i][g];
 
         if (currentSymbol.isWin) {
-          yoffset += yOmit;
+          yoffset += this.defaultOffSet;
         } else {
           if (yoffset > 0) {
-            const offsetFromEndArr = yoffset / yOmit;
+            const offsetFromEndArr = yoffset / this.defaultOffSet;
 
             currentSymbol.yEnd =
               this.stagesPlayingField.winStage[i][g + offsetFromEndArr].yEnd;
@@ -339,7 +338,7 @@ export class GenerateSpinCycle {
         }
 
         if (g === 0) {
-          this.columnsInNeedOfSymbols.push(yoffset / yOmit);
+          this.columnsInNeedOfSymbols.push(yoffset / this.defaultOffSet);
         }
       }
     }
@@ -357,20 +356,27 @@ export class GenerateSpinCycle {
   }
 
   public static async generationAdditionalSymbols(): Promise<void> {
-    const currentField: Array<Array<ISymbol>> = this.createCopyObjects(
+    let currentField: Array<Array<ISymbol>> = this.createCopyObjects(
       this.getStage(Stages.OMIT),
-    ).map((arr: Array<ISymbol>) => arr.filter((sym: ISymbol) => !sym.isWin));
+    );
 
-    const yOmit = 100;
+    currentField = currentField.map((arr: Array<ISymbol>) =>
+      arr.filter((sym: ISymbol) => !sym.isWin),
+    );
 
     for (let i = 0; i < this.columnsInNeedOfSymbols.length; i++) {
-      let yCounter = this.columnsInNeedOfSymbols[i] * yOmit;
+      let yCounter = this.columnsInNeedOfSymbols[i] * this.defaultOffSet;
       if (this.columnsInNeedOfSymbols[i] > 0) {
         for (let g = 0; g < this.columnsInNeedOfSymbols[i]; g++) {
           const calcXStart =
-            i === 0 ? this.xStartDefault : this.xStartDefault + 100 * i;
+            i === 0
+              ? this.xStartDefault
+              : this.xStartDefault + this.defaultOffSet * i;
 
-          const calcYStart = this.yStartDefault - yOmit * g - i * yOmit;
+          const calcYStart =
+            this.yStartDefault -
+            this.defaultOffSet * g -
+            i * this.defaultOffSet;
 
           const calcYEnd = yCounter - 50;
 
@@ -385,7 +391,7 @@ export class GenerateSpinCycle {
           };
 
           currentField[i].unshift(newSymbol);
-          yCounter -= 100;
+          yCounter -= this.defaultOffSet;
         }
       }
     }
@@ -399,7 +405,17 @@ export class GenerateSpinCycle {
   }
 
   public static checkWinAfterAdditionStage(): boolean {
-    return this.checkWinSymbols(this.stagesPlayingField.additionStage);
+    const currentField = this.createCopyObjects(
+      this.stagesPlayingField.additionStage,
+    );
+
+    currentField.forEach((arr: Array<ISymbol>) => {
+      arr.forEach((symbols: ISymbol) => {
+        symbols.yStart = symbols.yEnd;
+      });
+    });
+
+    return this.checkWinSymbols(currentField);
   }
 
   public static createCopyObjects(

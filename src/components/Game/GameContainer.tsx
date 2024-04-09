@@ -22,7 +22,7 @@ const GameContainer = (props: any) => {
 const mapStateToProps = (state: any) => {
   return {
     isStartGame: state.game.isStartGame,
-    isSpin: state.game.isSpin,
+    isInitStage: state.game.isInitStage,
     isGameOn: state.game.isGameOn,
     isWinStage: state.game.isWinStage,
     isRemoveSymbolsStage: state.game.isRemoveSymbolsStage,
@@ -33,6 +33,7 @@ const mapStateToProps = (state: any) => {
     gameData: state.loading.gameData,
   };
 };
+
 export default compose(
   connect(mapStateToProps, {
     isAuthMeThunk,
