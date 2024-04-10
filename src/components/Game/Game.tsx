@@ -9,6 +9,8 @@ import spinImg from '../../assets/images/spin.png';
 
 const Game = (props: any) => {
   let numberSymbol = 0;
+  const startingField = createSymbols(props.startingField);
+  const gameField = createSymbols(props.gameField);
 
   function createSymbols(arr: Array<Array<ISymbol>>) {
     return arr.map((arr: Array<ISymbol>, i: number) => {
@@ -19,7 +21,6 @@ const Game = (props: any) => {
           <Symbol
             key={numberSymbol}
             isRemoveSymbolsStage={props.isRemoveSymbolsStage}
-            isOmitStage={props.isOmitStage}
             symbolData={symbol}
             gameData={props.gameData}
             isAdditionStage={props.isAdditionStage}
@@ -29,15 +30,12 @@ const Game = (props: any) => {
     });
   }
 
-  const startingField = createSymbols(props.startingField);
-  const gameField = createSymbols(props.gameField);
-
   const spin = () => {
     props.spinCycleThunk(true);
 
     setTimeout(() => {
       props.spinCycleThunk(false);
-    }, 500);
+    }, 0);
   };
 
   return (
@@ -54,22 +52,24 @@ const Game = (props: any) => {
             <LoadingContainer />
           </Provider>
         ) : (
-          <>
+          <Container>
             {!props.isInitStage ? startingField : null}
             {props.isInitStage && !props.isAdditionStage ? gameField : null}
 
             {props.isAdditionStage ? gameField : null}
 
-            <Container position={[1000, 575]}>
-              <Sprite
-                width={100}
-                height={100}
-                image={spinImg}
-                pointerdown={spin}
-                eventMode={'dynamic'}
-              />
-            </Container>
-          </>
+            {!props.isGameOn && (
+              <Container position={[1000, 575]}>
+                <Sprite
+                  width={100}
+                  height={100}
+                  image={spinImg}
+                  pointerdown={spin}
+                  eventMode={'dynamic'}
+                />
+              </Container>
+            )}
+          </Container>
         )}
       </Stage>
     </div>

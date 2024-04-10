@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import emptySquare from '../../assets/images/empty-square.png';
+import bgSlot from '../../assets/images/bg-slot.jpeg';
 import symbol1 from '../../assets/images/symbols/1.png';
 import symbol2 from '../../assets/images/symbols/2.png';
 import symbol3 from '../../assets/images/symbols/3.png';
@@ -67,7 +67,7 @@ export function createGameItems(): GameData {
     img: {
       symbolsDef: [],
       other: {
-        emptySquare,
+        bgSlot,
       },
     },
   };

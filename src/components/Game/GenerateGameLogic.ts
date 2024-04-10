@@ -270,7 +270,7 @@ export class GenerateSpinCycle {
 
     const currentWinSymbols = Object.entries(winSymbolsCount)
       .map(el => {
-        if (el[1] >= 5) {
+        if (el[1] >= 7) {
           // Check the number of characters
           return +el[0]; // return the number id
         }

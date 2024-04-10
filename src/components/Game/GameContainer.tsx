@@ -8,6 +8,7 @@ import {
   initStageAction,
   omitStageAction,
   removeSymbolsStage,
+  setGameOnAction,
   spinCycleThunk,
   winStageAction,
 } from '../../redux/game-reducer';
@@ -33,11 +34,11 @@ const mapStateToProps = (state: any) => {
     gameData: state.loading.gameData,
   };
 };
-
 export default compose(
   connect(mapStateToProps, {
     isAuthMeThunk,
     spinCycleThunk,
+    setGameOnAction,
     initStageAction,
     winStageAction,
     removeSymbolsStage,
