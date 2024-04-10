@@ -6,6 +6,7 @@ import GenerateSpinCycle, {
 interface IInitialState {
   startingField: Array<Array<ISymbol>>;
   gameField: Array<Array<ISymbol>>;
+  isPlayAnim: boolean;
   isGameOn: boolean;
   isStartGame: boolean;
   isInitStage: boolean;
@@ -18,6 +19,7 @@ interface IInitialState {
 const initialState: IInitialState = {
   startingField: [],
   gameField: [],
+  isPlayAnim: false,
   isGameOn: false,
   isStartGame: false,
   isInitStage: false,
@@ -28,6 +30,7 @@ const initialState: IInitialState = {
 };
 
 enum reducerTypes {
+  setIsPlayAnimAction = 'SET-IS-PLAY-ANIM',
   initStage = 'INIT-STAGE',
   winStage = 'WIN-STAGE',
   removeSymbolsStage = 'REMOVE-SYMBOLS-STAGE',
@@ -39,6 +42,11 @@ enum reducerTypes {
 
 const gameReducer = (state = initialState, action: any) => {
   switch (action.type) {
+    case reducerTypes.setIsPlayAnimAction:
+      return {
+        ...state,
+        isPlayAnim: action.flag,
+      };
     case reducerTypes.setGenerateDefauldField:
       return {
         ...state,
@@ -135,6 +143,13 @@ export const spinCycleThunk = (isInitStage: boolean) => {
         }, 1000);
       }
     }
+  };
+};
+
+export const setIsPlayAnimAction = (flag: boolean) => {
+  return {
+    type: reducerTypes.setIsPlayAnimAction,
+    flag,
   };
 };
 

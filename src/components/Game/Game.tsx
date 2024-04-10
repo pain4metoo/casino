@@ -1,13 +1,22 @@
 import styles from './Game.module.scss';
-import { Stage, Container, Sprite } from '@pixi/react';
+import { Stage, Container, Sprite, useApp } from '@pixi/react';
 import { ISymbol } from './GenerateGameLogic';
 import Symbol from './GameSymbol';
 import { Provider } from 'react-redux';
 import store from '../../redux/store';
 import LoadingContainer from './Loading/LoadingContainer';
 import spinImg from '../../assets/images/spin.png';
+import { useEffect } from 'react';
 
 const Game = (props: any) => {
+  useEffect(() => {
+    props.setIsPlayAnimAction(true);
+
+    setTimeout(() => {
+      props.setIsPlayAnimAction(false);
+    }, 3000);
+  }, []);
+
   let numberSymbol = 0;
   const startingField = createSymbols(props.startingField);
   const gameField = createSymbols(props.gameField);
@@ -53,21 +62,36 @@ const Game = (props: any) => {
           </Provider>
         ) : (
           <Container>
-            {!props.isInitStage ? startingField : null}
-            {props.isInitStage && !props.isAdditionStage ? gameField : null}
-
-            {props.isAdditionStage ? gameField : null}
-
-            {!props.isGameOn && (
-              <Container position={[1000, 575]}>
+            {props.isPlayAnim ? (
+              <Sprite
+                texture={props.gameData.videos.otherVideos.anubisLoad}
+                width={1200}
+                height={700}
+              />
+            ) : (
+              <>
                 <Sprite
-                  width={100}
-                  height={100}
-                  image={spinImg}
-                  pointerdown={spin}
-                  eventMode={'dynamic'}
+                  texture={props.gameData.img.otherImg.bgSlot}
+                  width={1200}
+                  height={700}
                 />
-              </Container>
+                {!props.isInitStage ? startingField : null}
+                {props.isInitStage && !props.isAdditionStage ? gameField : null}
+
+                {props.isAdditionStage ? gameField : null}
+
+                {!props.isGameOn && (
+                  <Container position={[1000, 575]}>
+                    <Sprite
+                      width={100}
+                      height={100}
+                      image={spinImg}
+                      pointerdown={spin}
+                      eventMode={'dynamic'}
+                    />
+                  </Container>
+                )}
+              </>
             )}
           </Container>
         )}

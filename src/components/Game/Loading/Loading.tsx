@@ -1,9 +1,10 @@
-import { Container, Graphics, useApp, useTick } from '@pixi/react';
+import { Container, Graphics, Sprite, useApp, useTick } from '@pixi/react';
 import { Text } from '@pixi/react';
 import * as PIXI from 'pixi.js';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ISymbol } from '../GenerateGameLogic';
 import LoadSymbol from './LoadSymbol';
+import bgLoading from '../../../assets/images/bg-loading-slot.jpg';
 
 const Loading = (props: any) => {
   const [progress, setProgress] = useState(0);
@@ -29,7 +30,7 @@ const Loading = (props: any) => {
               setProgressEvent,
             );
 
-            if (progress === 600) {
+            if (progress >= 600) {
               props.setEndLoadData();
             }
           }
@@ -52,12 +53,6 @@ const Loading = (props: any) => {
       }
     };
   });
-
-  const drawScreen = (g: any) => {
-    g.beginFill(0x0033cc, 1);
-    g.drawRect(0, 0, 1200, 700);
-    g.endFill();
-  };
 
   const drawLoading = (g: any) => {
     g.beginFill(0x927ab1, 1);
@@ -84,29 +79,27 @@ const Loading = (props: any) => {
 
   let numberSymbol = 0;
 
-  const loadSymbolsArr = props.loadField.map(
-    (arr: Array<ISymbol>, i: number) => {
-      return arr.map((symbol: ISymbol) => {
-        numberSymbol++;
-        return (
-          <LoadSymbol
-            key={numberSymbol}
-            symbolData={symbol}
-            gameData={props.gameData}
-          />
-        );
-      });
-    },
-  );
+  const loadSymbolsArr = props.loadField.map((arr: Array<ISymbol>) => {
+    return arr.map((symbol: ISymbol) => {
+      numberSymbol++;
+      return (
+        <LoadSymbol
+          key={numberSymbol}
+          symbolData={symbol}
+          gameData={props.gameData}
+        />
+      );
+    });
+  });
 
   return (
     <>
       <Container>
-        <Graphics draw={drawScreen}></Graphics>
+        <Sprite image={bgLoading} width={1200} height={700} />
         {props.isLoadData ? (
           <>
             {loadSymbolsArr}
-            <Graphics draw={drawScreen}></Graphics>
+            <Sprite image={bgLoading} width={1200} height={700} />
             <Graphics draw={drawLoading}></Graphics>
             <Graphics draw={drawProgress}></Graphics>
           </>

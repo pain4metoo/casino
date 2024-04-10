@@ -32,6 +32,9 @@ const loadingReducer = (state = initialState, action: any) => {
       state.gameData.videos.symbolsWin.forEach((pixiVideo: any) => {
         pixiVideo.baseTexture.resource.source.loop = true;
       });
+      state.gameData.videos.otherVideos.anubisLoad.baseTexture.resource.source.loop =
+        true;
+      state.gameData.videos.otherVideos.anubisLoad.baseTexture.resource.source.play();
       return {
         ...state,
         gameData: { ...state.gameData },

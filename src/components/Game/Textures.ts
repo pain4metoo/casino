@@ -1,5 +1,6 @@
 import * as PIXI from 'pixi.js';
-import bgSlot from '../../assets/images/bg-slot.jpeg';
+import anubisLoad from '../../assets/images/anubis-after-load.mp4';
+import bgSlot from '../../assets/images/bg-slot.jpg';
 import symbol1 from '../../assets/images/symbols/1.png';
 import symbol2 from '../../assets/images/symbols/2.png';
 import symbol3 from '../../assets/images/symbols/3.png';
@@ -50,11 +51,11 @@ export const symbolsWin = [
 export type GameData = {
   videos: {
     symbolsWin: Array<any>;
-    other: { [key: string]: any };
+    otherVideos: { [key: string]: any };
   };
   img: {
     symbolsDef: Array<any>;
-    other: { [key: string]: any };
+    otherImg: { [key: string]: any };
   };
 };
 
@@ -62,11 +63,13 @@ export function createGameItems(): GameData {
   const gameDataItems: GameData = {
     videos: {
       symbolsWin: [],
-      other: {},
+      otherVideos: {
+        anubisLoad,
+      },
     },
     img: {
       symbolsDef: [],
-      other: {
+      otherImg: {
         bgSlot,
       },
     },
@@ -101,9 +104,19 @@ export function createGameItems(): GameData {
               }
             }
           } else {
-            const imgResource = PIXI.Texture.from(obj[key]);
+            if (typeData === 'otherVideos') {
+              const videoResource = new PIXI.VideoResource(obj[key], {
+                autoPlay: false,
+              });
 
-            obj[key] = imgResource;
+              const videoTexture: any = PIXI.Texture.from(videoResource as any);
+
+              obj[key] = videoTexture;
+            } else {
+              const imgResource = PIXI.Texture.from(obj[key]);
+
+              obj[key] = imgResource;
+            }
           }
         }
       }

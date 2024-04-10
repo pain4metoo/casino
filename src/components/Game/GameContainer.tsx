@@ -9,6 +9,7 @@ import {
   omitStageAction,
   removeSymbolsStage,
   setGameOnAction,
+  setIsPlayAnimAction,
   spinCycleThunk,
   winStageAction,
 } from '../../redux/game-reducer';
@@ -22,6 +23,7 @@ const GameContainer = (props: any) => {
 
 const mapStateToProps = (state: any) => {
   return {
+    isPlayAnim: state.game.isPlayAnim,
     isStartGame: state.game.isStartGame,
     isInitStage: state.game.isInitStage,
     isGameOn: state.game.isGameOn,
@@ -37,6 +39,7 @@ const mapStateToProps = (state: any) => {
 export default compose(
   connect(mapStateToProps, {
     isAuthMeThunk,
+    setIsPlayAnimAction,
     spinCycleThunk,
     setGameOnAction,
     initStageAction,
