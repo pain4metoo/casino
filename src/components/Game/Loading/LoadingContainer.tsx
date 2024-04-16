@@ -8,6 +8,10 @@ import {
 } from '../../../redux/loading-reducer';
 import { setGenerateDefauldField } from '../../../redux/game-reducer';
 
+const LoadingContainer = (props: any) => {
+  return <Loading {...props} />;
+};
+
 const mapStateToProps = (state: any) => {
   return {
     isLoadData: state.loading.isLoadData,
@@ -22,4 +26,4 @@ export default connect(mapStateToProps, {
   setVideoSettings,
   setGenerateDefauldField,
   setEndLoadData,
-})(Loading);
+})(LoadingContainer);
