@@ -10,9 +10,9 @@ interface IInitialState {
   isGameOn: boolean;
   isStartGame: boolean;
   isInitStage: boolean;
-  isWinStage: boolean;
+
   isRemoveSymbolsStage: boolean;
-  isOmitStage: boolean;
+
   isAdditionStage: boolean;
 }
 
@@ -23,9 +23,8 @@ const initialState: IInitialState = {
   isGameOn: false,
   isStartGame: false,
   isInitStage: false,
-  isWinStage: false,
   isRemoveSymbolsStage: false,
-  isOmitStage: false,
+
   isAdditionStage: false,
 };
 
@@ -203,10 +202,3 @@ export const additionalStageAction = () => {
 };
 
 export default gameReducer;
-
-// 1) spinStage
-// 2) showWinSymbolsStage
-// 3) removeWinSymbolsStage
-// 4) omitSymbolsStage
-// 5) additionalSymbolsStage
-// 6) ... repeat from 2 stage ...

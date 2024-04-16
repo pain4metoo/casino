@@ -13,12 +13,29 @@ import {
   spinCycleThunk,
   winStageAction,
 } from '../../redux/game-reducer';
+import { useEffect } from 'react';
 
 const GameContainer = (props: any) => {
+  useEffect(() => {
+    props.setIsPlayAnimAction(true);
+
+    setTimeout(() => {
+      props.setIsPlayAnimAction(false);
+    }, 3000);
+  }, []);
+
+  const handleClickSpin = () => {
+    props.spinCycleThunk(true);
+
+    setTimeout(() => {
+      props.spinCycleThunk(false);
+    }, 0);
+  };
+
   if (!props.isAuth) {
     props.isAuthMeThunk();
   }
-  return <Game {...props} />;
+  return <Game {...props} handleClickSpin={handleClickSpin} />;
 };
 
 const mapStateToProps = (state: any) => {
@@ -27,9 +44,7 @@ const mapStateToProps = (state: any) => {
     isStartGame: state.game.isStartGame,
     isInitStage: state.game.isInitStage,
     isGameOn: state.game.isGameOn,
-    isWinStage: state.game.isWinStage,
     isRemoveSymbolsStage: state.game.isRemoveSymbolsStage,
-    isOmitStage: state.game.isOmitStage,
     isAdditionStage: state.game.isAdditionStage,
     startingField: state.game.startingField,
     gameField: state.game.gameField,

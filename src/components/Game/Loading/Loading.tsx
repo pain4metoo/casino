@@ -98,7 +98,6 @@ const Loading = (props: any) => {
         <Sprite image={bgLoading} width={1200} height={700} />
         {props.isLoadData ? (
           <>
-            {loadSymbolsArr}
             <Sprite image={bgLoading} width={1200} height={700} />
             <Graphics draw={drawLoading}></Graphics>
             <Graphics draw={drawProgress}></Graphics>

@@ -6,22 +6,14 @@ import { Provider } from 'react-redux';
 import store from '../../redux/store';
 import LoadingContainer from './Loading/LoadingContainer';
 import spinImg from '../../assets/images/spin.png';
-import { useEffect } from 'react';
 
 const Game = (props: any) => {
-  useEffect(() => {
-    props.setIsPlayAnimAction(true);
-
-    setTimeout(() => {
-      props.setIsPlayAnimAction(false);
-    }, 3000);
-  }, []);
-
-  let numberSymbol = 0;
   const startingField = createSymbols(props.startingField);
   const gameField = createSymbols(props.gameField);
 
   function createSymbols(arr: Array<Array<ISymbol>>) {
+    let numberSymbol = 0;
+
     return arr.map((arr: Array<ISymbol>, i: number) => {
       return arr.map((symbol: ISymbol, g) => {
         numberSymbol += 1;
@@ -32,20 +24,11 @@ const Game = (props: any) => {
             isRemoveSymbolsStage={props.isRemoveSymbolsStage}
             symbolData={symbol}
             gameData={props.gameData}
-            isAdditionStage={props.isAdditionStage}
           />
         );
       });
     });
   }
-
-  const spin = () => {
-    props.spinCycleThunk(true);
-
-    setTimeout(() => {
-      props.spinCycleThunk(false);
-    }, 0);
-  };
 
   return (
     <div className={styles.game}>
@@ -86,7 +69,7 @@ const Game = (props: any) => {
                       width={100}
                       height={100}
                       image={spinImg}
-                      pointerdown={spin}
+                      pointerdown={props.handleClickSpin}
                       eventMode={'dynamic'}
                     />
                   </Container>
