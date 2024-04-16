@@ -3,16 +3,7 @@ import { compose } from 'redux';
 import Game from './Game';
 import { withAuthMeRedirect } from '../../hoc/withAuthMeRedirect';
 import { isAuthMeThunk } from '../../redux/auth-reducer';
-import {
-  additionalStageAction,
-  initStageAction,
-  omitStageAction,
-  removeSymbolsStage,
-  setGameOnAction,
-  setIsPlayAnimAction,
-  spinCycleThunk,
-  winStageAction,
-} from '../../redux/game-reducer';
+import { setIsPlayAnimAction, spinCycleThunk } from '../../redux/game-reducer';
 import { useEffect } from 'react';
 
 const GameContainer = (props: any) => {
@@ -56,12 +47,6 @@ export default compose(
     isAuthMeThunk,
     setIsPlayAnimAction,
     spinCycleThunk,
-    setGameOnAction,
-    initStageAction,
-    winStageAction,
-    removeSymbolsStage,
-    omitStageAction,
-    additionalStageAction,
   }),
   withAuthMeRedirect,
 )(GameContainer);
