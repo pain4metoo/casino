@@ -86,40 +86,39 @@ export function createGameItems(): GameData {
           if (Array.isArray(obj[key])) {
             if (typeData === 'videos') {
               for (let i = 0; i < symbolsWin.length; i++) {
-                const videoResource = new PIXI.VideoResource(symbolsWin[i], {
-                  autoPlay: false,
-                });
-
-                const videoTexture: any = PIXI.Texture.from(
-                  videoResource as any,
-                );
-
-                obj[key].push(videoTexture);
+                obj[key].push(createPixiVideo(symbolsWin[i]));
               }
             }
             if (typeData === 'img') {
               for (let g = 0; g < symbols.length; g++) {
-                const imgResource = PIXI.Texture.from(symbols[g]);
-                obj[key].push(imgResource);
+                obj[key].push(createPixiImage(symbols[g]));
               }
             }
           } else {
             if (typeData === 'otherVideos') {
-              const videoResource = new PIXI.VideoResource(obj[key], {
-                autoPlay: false,
-              });
-
-              const videoTexture: any = PIXI.Texture.from(videoResource as any);
-
-              obj[key] = videoTexture;
+              obj[key] = createPixiVideo(obj[key]);
             } else {
-              const imgResource = PIXI.Texture.from(obj[key]);
-
-              obj[key] = imgResource;
+              obj[key] = createPixiImage(obj[key]);
             }
           }
         }
       }
+    }
+
+    function createPixiVideo(video: any) {
+      const videoResource = new PIXI.VideoResource(video, {
+        autoPlay: false,
+      });
+
+      const videoTexture: any = PIXI.Texture.from(videoResource as any);
+
+      return videoTexture;
+    }
+
+    function createPixiImage(image: any) {
+      const imgResource = PIXI.Texture.from(image);
+
+      return imgResource;
     }
   }
 
