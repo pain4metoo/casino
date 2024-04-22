@@ -1,10 +1,10 @@
 import { connect } from 'react-redux';
 import Loading from './Loading';
 import {
-  loadDataAction,
-  setDataAction,
-  setEndLoadData,
   setVideoSettings,
+  createGameData,
+  setLoadData,
+  setEndLoadData,
 } from '../../../redux/loading-reducer';
 import { setGenerateDefauldField } from '../../../redux/game-reducer';
 
@@ -21,9 +21,9 @@ const mapStateToProps = (state: any) => {
   };
 };
 export default connect(mapStateToProps, {
-  setDataAction,
-  loadDataAction,
   setVideoSettings,
-  setGenerateDefauldField,
+  createGameData,
+  setLoadData,
   setEndLoadData,
+  setGenerateDefauldField,
 })(LoadingContainer);

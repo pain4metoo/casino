@@ -2,9 +2,10 @@ import { Container, Graphics, Sprite, useApp, useTick } from '@pixi/react';
 import { Text } from '@pixi/react';
 import * as PIXI from 'pixi.js';
 import { useEffect, useState } from 'react';
-import { ISymbol } from '../GenerateGameLogic';
+import GenerateSpinCycle, { ISymbol } from '../GenerateGameLogic';
 import LoadSymbol from './LoadSymbol';
 import bgLoading from '../../../assets/images/bg-loading-slot.jpg';
+import { createGameItems } from '../Textures';
 
 const Loading = (props: any) => {
   const [progress, setProgress] = useState(0);
@@ -15,8 +16,11 @@ const Loading = (props: any) => {
     };
 
     if (!props.isLoadData && !props.isEndLoadData) {
-      props.setDataAction();
-      props.loadDataAction(true);
+      props.createGameData(createGameItems());
+      props.setLoadData({
+        flag: true,
+        loadField: GenerateSpinCycle.generateFieldForLoading(),
+      });
     } else {
       if (Object.keys(props.gameData).length > 0) {
         if (!props.isEndLoadData) {

@@ -1,7 +1,6 @@
-import GenerateSpinCycle, {
-  ISymbol,
-} from '../components/Game/GenerateGameLogic';
-import { GameData, createGameItems } from '../components/Game/Textures';
+import { createSlice } from '@reduxjs/toolkit';
+import { ISymbol } from '../components/Game/GenerateGameLogic';
+import { GameData } from '../components/Game/Textures';
 
 interface IinitialState {
   isLoadData: boolean;
@@ -19,74 +18,103 @@ const initialState: IinitialState = {
   gameData: {} as GameData,
 };
 
-enum loadingReducerEnum {
-  setDataAction = 'SET-DATA-ACTION',
-  setVideoSettings = 'SET-VIDEO-SETTINGS',
-  loadDataAction = 'LOAD-DATA-ACTION',
-  setEndLoadData = 'SET-END-LOAD-DATA',
-}
+// enum loadingReducerEnum {
+//   setDataAction = 'SET-DATA-ACTION',
+//   setVideoSettings = 'SET-VIDEO-SETTINGS',
+//   loadDataAction = 'LOAD-DATA-ACTION',
+//   setEndLoadData = 'SET-END-LOAD-DATA',
+// }
 
-const loadingReducer = (state = initialState, action: any) => {
-  switch (action.type) {
-    case loadingReducerEnum.setVideoSettings:
+const loadingSlice = createSlice({
+  name: 'loading',
+  initialState,
+  reducers: {
+    setVideoSettings(state) {
       state.gameData.videos.symbolsWin.forEach((pixiVideo: any) => {
         pixiVideo.baseTexture.resource.source.loop = true;
       });
       state.gameData.videos.otherVideos.anubisLoad.baseTexture.resource.source.loop =
         true;
       state.gameData.videos.otherVideos.anubisLoad.baseTexture.resource.source.play();
-      return {
-        ...state,
-        gameData: { ...state.gameData },
-      };
-    case loadingReducerEnum.setDataAction:
-      return {
-        ...state,
-        gameData: action.gameData,
-      };
-    case loadingReducerEnum.loadDataAction:
-      return {
-        ...state,
-        loadField: GenerateSpinCycle.createCopyObjects(action.loadField),
-        isLoadData: true,
-      };
-    case loadingReducerEnum.setEndLoadData:
-      return {
-        ...state,
-        isLoadData: false,
-        isEndLoadData: true,
-      };
+    },
+    createGameData(state, action) {
+      state.gameData = action.payload;
+    },
+    setLoadData(state, action) {
+      state.loadField = action.payload.loadField;
+      state.isLoadData = true;
+    },
+    setEndLoadData(state) {
+      state.isLoadData = false;
+      state.isEndLoadData = true;
+    },
+  },
+});
 
-    default:
-      return state;
-  }
-};
+// const todosloading = (state = initialState, action: any) => {
+//   switch (action.type) {
+//     case loadingReducerEnum.setVideoSettings:
+//       state.gameData.videos.symbolsWin.forEach((pixiVideo: any) => {
+//         pixiVideo.baseTexture.resource.source.loop = true;
+//       });
+//       state.gameData.videos.otherVideos.anubisLoad.baseTexture.resource.source.loop =
+//         true;
+//       state.gameData.videos.otherVideos.anubisLoad.baseTexture.resource.source.play();
+//       return {
+//         ...state,
+//         gameData: { ...state.gameData },
+//       };
+//     case loadingReducerEnum.setDataAction:
+//       return {
+//         ...state,
+//         gameData: action.gameData,
+//       };
+//     case loadingReducerEnum.loadDataAction:
+//       return {
+//         ...state,
+//         loadField: GenerateSpinCycle.createCopyObjects(action.loadField),
+//         isLoadData: true,
+//       };
+//     case loadingReducerEnum.setEndLoadData:
+//       return {
+//         ...state,
+//         isLoadData: false,
+//         isEndLoadData: true,
+//       };
 
-export const setVideoSettings = () => {
-  return {
-    type: loadingReducerEnum.setVideoSettings,
-  };
-};
+//     default:
+//       return state;
+//   }
+// };
 
-export const loadDataAction = (flag: boolean) => {
-  return {
-    type: loadingReducerEnum.loadDataAction,
-    loadField: GenerateSpinCycle.generateFieldForLoading(),
-    flag,
-  };
-};
+// export const setVideoSettings = () => {
+//   return {
+//     type: loadingReducerEnum.setVideoSettings,
+//   };
+// };
 
-export const setDataAction = () => {
-  return {
-    type: loadingReducerEnum.setDataAction,
-    gameData: createGameItems(),
-  };
-};
+// export const createGameData = (flag: boolean) => {
+//   return {
+//     type: loadingReducerEnum.loadDataAction,
+//     loadField: GenerateSpinCycle.generateFieldForLoading(),
+//     flag,
+//   };
+// };
 
-export const setEndLoadData = () => {
-  return {
-    type: loadingReducerEnum.setEndLoadData,
-  };
-};
+// export const setLoadData = () => {
+//   return {
+//     type: loadingReducerEnum.setDataAction,
+//     gameData: createGameItems(),
+//   };
+// };
 
-export default loadingReducer;
+// export const setEndLoadData = () => {
+//   return {
+//     type: loadingReducerEnum.setEndLoadData,
+//   };
+// };
+
+export const { setVideoSettings, createGameData, setLoadData, setEndLoadData } =
+  loadingSlice.actions;
+
+export default loadingSlice.reducer;
