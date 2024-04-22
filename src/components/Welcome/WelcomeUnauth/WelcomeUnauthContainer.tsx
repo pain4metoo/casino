@@ -2,9 +2,9 @@ import { compose } from 'redux';
 import WelcomeUnauth from './WelcomeUnauth';
 import { connect } from 'react-redux';
 import {
-  changeEmailAction,
-  changeLoginAction,
-  changePasswordAction,
+  changeEmail,
+  changeLogin,
+  changePassword,
 } from '../../../redux/welcome-reducer';
 import { registerUserThunk } from '../../../redux/auth-reducer';
 
@@ -23,9 +23,9 @@ const mapStateToProps = (state: any) => {
 
 export default compose(
   connect(mapStateToProps, {
-    changeLoginAction,
-    changeEmailAction,
-    changePasswordAction,
+    changeLogin,
+    changeEmail,
+    changePassword,
     registerUserThunk,
   })(WelcomeUnauthContainer),
 );

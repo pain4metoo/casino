@@ -2,20 +2,32 @@ import styles from './WelcomeUnauth.module.scss';
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import ModalError from '../../Modals/ModalError';
 
 const WelcomeUnauth = (props: any) => {
-  const newEmail: any = React.createRef();
-  const newPassword: any = React.createRef();
-  const newNickname: any = React.createRef();
+  function handleInputEmail(e: React.FormEvent<HTMLInputElement>): void {
+    const target = e.currentTarget;
+
+    props.changeEmail({ email: target.value });
+  }
+
+  function handleInputLogin(e: React.FormEvent<HTMLInputElement>): void {
+    const target = e.currentTarget;
+
+    props.changeLogin({ login: target.value });
+  }
+
+  function handleInputPassword(e: React.FormEvent<HTMLInputElement>): void {
+    const target = e.currentTarget;
+
+    props.changePassword({ password: target.value });
+  }
 
   return (
     <Form className={styles.form}>
       <Form.Group className='mb-3 fs-1'>
         <Form.Label>Email address</Form.Label>
         <Form.Control
-          ref={newEmail}
-          onInput={() => props.changeEmailAction(newEmail.current.value)}
+          onInput={handleInputEmail}
           value={props.email}
           className='fs-3'
           type='email'
@@ -26,8 +38,7 @@ const WelcomeUnauth = (props: any) => {
       <Form.Group className='mb-3 fs-1'>
         <Form.Label>Nickname</Form.Label>
         <Form.Control
-          ref={newNickname}
-          onInput={() => props.changeLoginAction(newNickname.current.value)}
+          onInput={handleInputLogin}
           value={props.login}
           className='fs-3'
           placeholder='Enter nickname'
@@ -37,9 +48,8 @@ const WelcomeUnauth = (props: any) => {
       <Form.Group className='mb-3 fs-1' controlId='formBasicPassword'>
         <Form.Label>Password</Form.Label>
         <Form.Control
-          ref={newPassword}
           value={props.password}
-          onInput={() => props.changePasswordAction(newPassword.current.value)}
+          onInput={handleInputPassword}
           className='fs-3'
           type='password'
           placeholder='Password'

@@ -5,8 +5,17 @@ import Form from 'react-bootstrap/Form';
 import ModalErrorContainer from '../Modals/ModalErrorContainer';
 
 const Login = (props: any) => {
-  const changeEmail: any = React.createRef();
-  const changePassword: any = React.createRef();
+  function handleInputEmail(e: React.FormEvent<HTMLInputElement>): void {
+    const target = e.currentTarget;
+
+    props.loginPageEmail({ email: target.value });
+  }
+
+  function handleInputPassword(e: React.FormEvent<HTMLInputElement>): void {
+    const target = e.currentTarget;
+
+    props.loginPagePassword({ password: target.value });
+  }
 
   return (
     <div className={styles.login_page}>
@@ -16,10 +25,7 @@ const Login = (props: any) => {
         <Form.Group className='mb-3 fs-1' controlId='formBasicEmail'>
           <Form.Label>Email address</Form.Label>
           <Form.Control
-            ref={changeEmail}
-            onInput={() =>
-              props.loginPageEmail({ email: changeEmail.current.value })
-            }
+            onInput={handleInputEmail}
             className='fs-3'
             value={props.email}
             type='email'
@@ -30,12 +36,7 @@ const Login = (props: any) => {
         <Form.Group className='mb-3 fs-1' controlId='formBasicPassword'>
           <Form.Label>Password</Form.Label>
           <Form.Control
-            ref={changePassword}
-            onInput={() =>
-              props.loginPagePassword({
-                password: changePassword.current.value,
-              })
-            }
+            onInput={handleInputPassword}
             value={props.password}
             className='fs-3'
             type='password'
@@ -43,12 +44,7 @@ const Login = (props: any) => {
           />
         </Form.Group>
         <Button
-          onClick={() =>
-            props.loginUserThunk(
-              changeEmail.current.value,
-              changePassword.current.value,
-            )
-          }
+          onClick={() => props.loginUserThunk(props.email, props.password)}
           className='fs-3'
           size='lg'
           variant='primary'
