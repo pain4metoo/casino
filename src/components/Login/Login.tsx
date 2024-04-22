@@ -18,7 +18,7 @@ const Login = (props: any) => {
           <Form.Control
             ref={changeEmail}
             onInput={() =>
-              props.loginPageEmailAction(changeEmail.current.value)
+              props.loginPageEmail({ email: changeEmail.current.value })
             }
             className='fs-3'
             value={props.email}
@@ -32,7 +32,9 @@ const Login = (props: any) => {
           <Form.Control
             ref={changePassword}
             onInput={() =>
-              props.loginPagePasswordAction(changePassword.current.value)
+              props.loginPagePassword({
+                password: changePassword.current.value,
+              })
             }
             value={props.password}
             className='fs-3'

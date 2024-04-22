@@ -1,9 +1,6 @@
 import { connect } from 'react-redux';
 import Login from './Login';
-import {
-  loginPageEmailAction,
-  loginPagePasswordAction,
-} from '../../redux/login-reducer';
+import { loginPageEmail, loginPagePassword } from '../../redux/login-reducer';
 import { isAuthMeThunk, loginUserThunk } from '../../redux/auth-reducer';
 import { Navigate } from 'react-router-dom';
 
@@ -25,8 +22,8 @@ const mapStateToProps = (state: any) => {
   };
 };
 export default connect(mapStateToProps, {
-  loginPageEmailAction,
-  loginPagePasswordAction,
+  loginPageEmail,
+  loginPagePassword,
   loginUserThunk,
   isAuthMeThunk,
 })(LoginContainer);

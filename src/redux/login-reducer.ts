@@ -1,3 +1,5 @@
+import { createSlice } from '@reduxjs/toolkit';
+
 export interface ILoginState {
   email: string;
   password: string;
@@ -8,32 +10,19 @@ const initialState: ILoginState = {
   password: '',
 };
 
-const LoginReducer = (state = initialState, action: any) => {
-  switch (action.type) {
-    case 'SET-AUTH-EMAIL':
-      return {
-        ...state,
-        email: action.email,
-      };
-
-    case 'SET-AUTH-PASSWORD':
-      return {
-        ...state,
-        password: action.password,
-      };
-    default:
-      return state;
-  }
-};
-
-export const loginPageEmailAction = (email: string) => ({
-  type: 'SET-AUTH-EMAIL',
-  email,
+const loginSlice = createSlice({
+  name: 'name',
+  initialState,
+  reducers: {
+    loginPageEmail(state, action) {
+      state.email = action.payload.email;
+    },
+    loginPagePassword(state, action) {
+      state.password = action.payload.password;
+    },
+  },
 });
 
-export const loginPagePasswordAction = (password: string) => ({
-  type: 'SET-AUTH-PASSWORD',
-  password,
-});
+export const { loginPageEmail, loginPagePassword } = loginSlice.actions;
 
-export default LoginReducer;
+export default loginSlice.reducer;
