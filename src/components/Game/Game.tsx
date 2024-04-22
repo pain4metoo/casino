@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import store from '../../redux/store';
 import LoadingContainer from './Loading/LoadingContainer';
 import spinImg from '../../assets/images/spin.png';
+import { gameData } from './Textures';
 
 const Game = (props: any) => {
   const startingField = createSymbols(props.startingField);
@@ -23,7 +24,6 @@ const Game = (props: any) => {
             key={numberSymbol}
             isRemoveSymbolsStage={props.isRemoveSymbolsStage}
             symbolData={symbol}
-            gameData={props.gameData}
           />
         );
       });
@@ -47,14 +47,14 @@ const Game = (props: any) => {
           <Container>
             {props.isPlayAnim ? (
               <Sprite
-                texture={props.gameData.videos.otherVideos.anubisLoad}
+                texture={gameData.videos.otherVideos.anubisLoad}
                 width={1200}
                 height={700}
               />
             ) : (
               <>
                 <Sprite
-                  texture={props.gameData.img.otherImg.bgSlot}
+                  texture={gameData.img.otherImg.bgSlot}
                   width={1200}
                   height={700}
                 />

@@ -59,7 +59,9 @@ export type GameData = {
   };
 };
 
-export function createGameItems(): GameData {
+export const gameData = {} as GameData;
+
+export function createGameItems(): void {
   const gameDataItems: GameData = {
     videos: {
       symbolsWin: [],
@@ -121,8 +123,17 @@ export function createGameItems(): GameData {
       return imgResource;
     }
   }
+  gameData.videos = gameDataItems.videos;
+  gameData.img = gameDataItems.img;
+}
 
-  return gameDataItems;
+export function setVideoSettings() {
+  gameData.videos.symbolsWin.forEach((pixiVideo: any) => {
+    pixiVideo.baseTexture.resource.source.loop = true;
+  });
+  gameData.videos.otherVideos.anubisLoad.baseTexture.resource.source.loop =
+    true;
+  gameData.videos.otherVideos.anubisLoad.baseTexture.resource.source.play();
 }
 
 // for (const key in imgData) {

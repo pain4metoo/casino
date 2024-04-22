@@ -3,15 +3,15 @@ import { compose } from 'redux';
 import Game from './Game';
 import { withAuthMeRedirect } from '../../hoc/withAuthMeRedirect';
 import { isAuthMeThunk } from '../../redux/auth-reducer';
-import { setIsPlayAnimAction, spinCycleThunk } from '../../redux/game-reducer';
+import { setIsPlayAnim, spinCycleThunk } from '../../redux/game-reducer';
 import { useEffect } from 'react';
 
 const GameContainer = (props: any) => {
   useEffect(() => {
-    props.setIsPlayAnimAction(true);
+    props.setIsPlayAnim({ flag: true });
 
     setTimeout(() => {
-      props.setIsPlayAnimAction(false);
+      props.setIsPlayAnim({ flag: false });
     }, 3000);
   }, []);
 
@@ -45,7 +45,7 @@ const mapStateToProps = (state: any) => {
 export default compose(
   connect(mapStateToProps, {
     isAuthMeThunk,
-    setIsPlayAnimAction,
+    setIsPlayAnim,
     spinCycleThunk,
   }),
   withAuthMeRedirect,

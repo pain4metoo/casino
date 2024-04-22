@@ -1,8 +1,9 @@
 import { Container, Sprite } from '@pixi/react';
+import { gameData } from '../Textures';
 
 const LoadSymbol = (props: any) => {
-  let defaultSymbol = props.gameData.img.symbolsDef[props.symbolData.id - 1];
-  let winSymbol = props.gameData.videos.symbolsWin[props.symbolData.id - 1];
+  let defaultSymbol = gameData.img.symbolsDef[props.symbolData.id - 1];
+  let winSymbol = gameData.videos.symbolsWin[props.symbolData.id - 1];
 
   return (
     <Container position={[350, 350]}>

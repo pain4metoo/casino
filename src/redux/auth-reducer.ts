@@ -16,11 +16,6 @@ const initialState: UserData = {
   id: null,
 };
 
-interface Action {
-  type: string;
-  value: UserData;
-}
-
 const authReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case 'REGISTER-USER':

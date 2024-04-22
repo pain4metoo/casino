@@ -1,3 +1,4 @@
+import { createSlice } from '@reduxjs/toolkit';
 import GenerateSpinCycle, {
   ISymbol,
   Stages,
@@ -10,9 +11,7 @@ interface IInitialState {
   isGameOn: boolean;
   isStartGame: boolean;
   isInitStage: boolean;
-
   isRemoveSymbolsStage: boolean;
-
   isAdditionStage: boolean;
 }
 
@@ -24,112 +23,96 @@ const initialState: IInitialState = {
   isStartGame: false,
   isInitStage: false,
   isRemoveSymbolsStage: false,
-
   isAdditionStage: false,
 };
 
-enum reducerTypes {
-  setIsPlayAnimAction = 'SET-IS-PLAY-ANIM',
-  initStage = 'INIT-STAGE',
-  winStage = 'WIN-STAGE',
-  removeSymbolsStage = 'REMOVE-SYMBOLS-STAGE',
-  omitStage = 'OMIT-STAGE',
-  additionStage = 'ADDITION-STAGE',
-  setGenerateDefauldField = 'SET-GENERATE-DEFAULT-FIELD',
-  setGameOnState = 'SET-GAME-ON-STATE',
-}
-
-const gameReducer = (state = initialState, action: any) => {
-  switch (action.type) {
-    case reducerTypes.setIsPlayAnimAction:
-      return {
-        ...state,
-        isPlayAnim: action.flag,
-      };
-    case reducerTypes.setGenerateDefauldField:
-      return {
-        ...state,
-        startingField: GenerateSpinCycle.createCopyObjects(
-          action.startingField,
-        ),
-        isStartGame: true,
-      };
-    case reducerTypes.initStage:
-      if (action.flag) {
-        return {
-          ...state,
-          gameField: [],
-          isAdditionStage: false,
-          isRemoveSymbolsStage: false,
-        };
+const gameSlice = createSlice({
+  name: 'game',
+  initialState,
+  reducers: {
+    setIsPlayAnim(state, action) {
+      state.isPlayAnim = action.payload.flag;
+    },
+    setGenerateDefauldField(state, action) {
+      state.startingField = action.payload.startingField;
+      state.isStartGame = true;
+    },
+    initStage(state, action) {
+      if (action.payload.flag) {
+        state.gameField = [];
+        state.isAdditionStage = false;
+        state.isRemoveSymbolsStage = false;
+      } else {
+        state.gameField = action.payload.gameField;
+        state.isInitStage = true;
       }
-      return {
-        ...state,
-        gameField: GenerateSpinCycle.createCopyObjects(action.gameField),
-        isInitStage: true,
-      };
-
-    case reducerTypes.winStage:
-      return {
-        ...state,
-        gameField: GenerateSpinCycle.createCopyObjects(action.gameField),
-        isAdditionStage: false,
-        isRemoveSymbolsStage: false,
-      };
-    case reducerTypes.removeSymbolsStage:
-      return {
-        ...state,
-        isRemoveSymbolsStage: true,
-      };
-    case reducerTypes.omitStage:
-      return {
-        ...state,
-        gameField: GenerateSpinCycle.createCopyObjects(action.gameField),
-      };
-    case reducerTypes.additionStage:
-      return {
-        ...state,
-        gameField: GenerateSpinCycle.createCopyObjects(action.gameField),
-        isAdditionStage: true,
-      };
-    case reducerTypes.setGameOnState:
-      return {
-        ...state,
-        isGameOn: action.flag,
-      };
-    default:
-      return state;
-  }
-};
+    },
+    winStage(state, action) {
+      state.gameField = action.payload.gameField;
+      state.isAdditionStage = false;
+      state.isRemoveSymbolsStage = false;
+    },
+    removeSymbolsStage(state) {
+      state.isRemoveSymbolsStage = true;
+    },
+    omitStage(state, action) {
+      state.gameField = action.payload.gameField;
+    },
+    additionStage(state, action) {
+      state.gameField = action.payload.gameField;
+      state.isAdditionStage = true;
+    },
+    setGameOnState(state, action) {
+      state.isGameOn = action.payload.flag;
+    },
+  },
+});
 
 export const spinCycleThunk = (isInitStage: boolean) => {
   return (dispatch: any) => {
-    dispatch(setGameOnAction(true));
+    dispatch(setGameOnState({ flag: true }));
     if (isInitStage) {
-      dispatch(initStageAction(true));
+      dispatch(initStage({ flag: true }));
 
       setTimeout(() => {
-        dispatch(initStageAction(false));
+        dispatch(
+          initStage({
+            gameField: GenerateSpinCycle.spinCycle(),
+            flag: false,
+          }),
+        );
       }, 0);
     } else {
       if (GenerateSpinCycle.getIsWinSpin()) {
         setTimeout(() => {
-          dispatch(winStageAction());
+          dispatch(
+            winStage({
+              gameField: GenerateSpinCycle.getStage(Stages.WIN),
+            }),
+          );
 
           setTimeout(() => {
             dispatch(removeSymbolsStage());
 
             setTimeout(() => {
-              dispatch(omitStageAction());
+              dispatch(
+                omitStage({
+                  gameField: GenerateSpinCycle.getStage(Stages.OMIT),
+                }),
+              );
 
               setTimeout(() => {
-                dispatch(additionalStageAction());
+                dispatch(
+                  additionStage({
+                    gameField: GenerateSpinCycle.getStage(Stages.ADDITION),
+                  }),
+                );
 
                 setTimeout(() => {
                   if (GenerateSpinCycle.checkWinAfterAdditionStage()) {
                     dispatch(spinCycleThunk(false));
                   } else {
-                    dispatch(setGameOnAction(false));
+                    dispatch(setGameOnState({ flag: false }));
                   }
                 }, 1000);
               }, 1000);
@@ -138,67 +121,22 @@ export const spinCycleThunk = (isInitStage: boolean) => {
         }, 1000);
       } else {
         setTimeout(() => {
-          dispatch(setGameOnAction(false));
+          dispatch(setGameOnState({ flag: false }));
         }, 1000);
       }
     }
   };
 };
 
-export const setIsPlayAnimAction = (flag: boolean) => {
-  return {
-    type: reducerTypes.setIsPlayAnimAction,
-    flag,
-  };
-};
+export const {
+  setIsPlayAnim,
+  setGenerateDefauldField,
+  initStage,
+  winStage,
+  removeSymbolsStage,
+  omitStage,
+  additionStage,
+  setGameOnState,
+} = gameSlice.actions;
 
-export const setGameOnAction = (flag: boolean) => {
-  return {
-    type: reducerTypes.setGameOnState,
-    flag,
-  };
-};
-
-export const setGenerateDefauldField = () => {
-  return {
-    type: reducerTypes.setGenerateDefauldField,
-    startingField: GenerateSpinCycle.generateDefaultField(),
-  };
-};
-
-export const initStageAction = (flag: boolean) => {
-  return {
-    type: reducerTypes.initStage,
-    gameField: GenerateSpinCycle.spinCycle(),
-    flag,
-  };
-};
-
-export const winStageAction = () => {
-  return {
-    type: reducerTypes.winStage,
-    gameField: GenerateSpinCycle.getStage(Stages.WIN),
-  };
-};
-
-export const removeSymbolsStage = () => {
-  return {
-    type: reducerTypes.removeSymbolsStage,
-  };
-};
-
-export const omitStageAction = () => {
-  return {
-    type: reducerTypes.omitStage,
-    gameField: GenerateSpinCycle.getStage(Stages.OMIT),
-  };
-};
-
-export const additionalStageAction = () => {
-  return {
-    type: reducerTypes.additionStage,
-    gameField: GenerateSpinCycle.getStage(Stages.ADDITION),
-  };
-};
-
-export default gameReducer;
+export default gameSlice.reducer;
