@@ -4,7 +4,7 @@ import { Navigate } from 'react-router-dom';
 const mapStateToPropsForRedirect = (state: any) => ({
   id: localStorage.getItem('id'),
   token: localStorage.getItem('token'),
-  isAuth: state.auth.isAuth,
+  isAuth: state.auth.user.isAuth,
 });
 
 export const withAuthMeRedirect = (Component: any) => {

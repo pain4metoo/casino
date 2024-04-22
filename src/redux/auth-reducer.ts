@@ -1,120 +1,78 @@
+import { AuthData } from './../api/auth/auth-types';
 import { Dispatch } from 'redux';
 import AuthController from '../api/auth/auth-controller';
-import { UserData } from '../api/auth/auth-types';
-import { AxiosResponse } from 'axios';
+import { createSlice } from '@reduxjs/toolkit';
 
-const initialState: UserData = {
-  email: '',
-  password: '',
-  login: '',
-  avatar: null,
-  coins: 0,
-  achievements: [],
-  exp: 0,
-  level: 1,
-  isAuth: false,
-  id: null,
+const initialState: AuthData = {
+  user: {
+    email: '',
+    password: '',
+    login: '',
+    avatar: null,
+    coins: 0,
+    achievements: [],
+    exp: 0,
+    level: 1,
+    isAuth: false,
+    id: null,
+  },
+  authWarnings: {
+    errorTextLogin: '',
+    errorTextRegister: '',
+    isShowModalError: false,
+  },
 };
 
-const authReducer = (state = initialState, action: any) => {
-  switch (action.type) {
-    case 'REGISTER-USER':
-      return {
-        ...state,
-        ...action.value,
-        isAuth: true,
-      };
-    case 'LOGIN-USER':
-      return {
-        ...state,
-        ...action.value.user,
-        isAuth: true,
-      };
-
-    case 'SET-TOKEN':
-      if (action.value) {
-        localStorage.setItem('token', action.value.accessToken);
-        localStorage.setItem('id', action.value.user.id);
+const authSlice = createSlice({
+  name: 'auth',
+  initialState,
+  reducers: {
+    registerUser(state, action) {
+      state.user = action.payload.user;
+      state.user.isAuth = true;
+    },
+    loginUser(state, action) {
+      state.user = action.payload.user;
+      state.user.isAuth = true;
+    },
+    setToken(state, action) {
+      if (action.payload.data) {
+        localStorage.setItem('token', action.payload.data.accessToken);
+        localStorage.setItem('id', action.payload.data.user.id);
       }
-
-      return {
-        state,
-      };
-
-    case 'SET-AUTH-ME':
-      return {
-        ...state,
-        ...action.value,
-        isAuth: true,
-      };
-
-    case 'SET-AUTH-ERROR-LOGIN':
-      return {
-        ...state,
-        errorTextLogin: action.text,
-      };
-
-    case 'SET-AUTH-ERROR-REGISTER':
-      return {
-        ...state,
-        errorTextRegister: action.text,
-      };
-
-    case 'EXIT-FROM-PROFILE':
+    },
+    setAuthMe(state, action) {
+      state.user = action.payload.user;
+      state.user.isAuth = true;
+    },
+    setAuthErrorRegister(state, action) {
+      state.authWarnings.errorTextRegister = action.payload.errorTextRegister;
+    },
+    setAuthErrorLogin(state, action) {
+      state.authWarnings.errorTextLogin = action.payload.errorTextLogin;
+    },
+    setShowModalAuthError(state, action) {
+      state.authWarnings.isShowModalError = action.payload.flag;
+    },
+    exitFromProfile(state) {
       localStorage.clear();
-      return {
-        ...state,
-        isAuth: false,
-      };
-
-    case 'SHOW-MODAL-AUTH-ERROR':
-      return {
-        ...state,
-        isShowModalError: action.flag,
-      };
-    default:
-      return state;
-  }
-};
-
-const registerUserAction = (response: AxiosResponse<any, any> | undefined) => ({
-  type: 'REGISTER-USER',
-  value: response,
+      state.user.isAuth = false;
+    },
+  },
 });
 
-const loginUserAction = (response: AxiosResponse<any, any> | undefined) => ({
-  type: 'LOGIN-USER',
-  value: response,
-});
+export const {
+  registerUser,
+  loginUser,
+  setToken,
+  setAuthMe,
+  setAuthErrorRegister,
+  setAuthErrorLogin,
+  setShowModalAuthError,
+  exitFromProfile,
+} = authSlice.actions;
 
-const setTokenAction = (response: string) => ({
-  type: 'SET-TOKEN',
-  value: response,
-});
-
-const setAuthMe = (response: any) => ({
-  type: 'SET-AUTH-ME',
-  value: response,
-});
-
-const setAuthErrorRegister = (error: string) => ({
-  type: 'SET-AUTH-ERROR-REGISTER',
-  text: error,
-});
-
-const setAuthErrorLogin = (error: string) => ({
-  type: 'SET-AUTH-ERROR-LOGIN',
-  text: error,
-});
-
-export const setShowModalAuthError = (flag: boolean) => ({
-  type: 'SHOW-MODAL-AUTH-ERROR',
-  flag,
-});
-
-export const exitFromProfile = () => ({
-  type: 'EXIT-FROM-PROFILE',
-});
+export default authSlice.reducer;
 
 export const registerUserThunk = (
   email: string,
@@ -125,10 +83,10 @@ export const registerUserThunk = (
     AuthController.createNewUser(email, password, login).then(
       (response: any) => {
         if (response.user) {
-          dispatch(setTokenAction(response));
-          dispatch(registerUserAction(response.user));
+          dispatch(setToken({ data: response }));
+          dispatch(registerUser({ user: response.user }));
         } else {
-          dispatch(setAuthErrorRegister(response));
+          dispatch(setAuthErrorRegister({ errorTextRegister: response }));
         }
       },
     );
@@ -139,10 +97,10 @@ export const loginUserThunk = (email: string, password: string) => {
   return (dispatch: Dispatch) => {
     AuthController.isAuthUser(email, password).then((response: any) => {
       if (response.user) {
-        dispatch(setTokenAction(response));
-        dispatch(loginUserAction(response));
+        dispatch(setToken({ data: response }));
+        dispatch(loginUser({ user: response.user }));
       } else {
-        dispatch(setAuthErrorLogin(response));
+        dispatch(setAuthErrorLogin({ errorTextLogin: response }));
       }
     });
   };
@@ -153,14 +111,12 @@ export const isAuthMeThunk = () => {
     if (AuthController.isAuthMeCheckData()) {
       AuthController.isAuthMe().then(response => {
         if (response) {
-          dispatch(setAuthMe(response));
+          dispatch(setAuthMe({ user: response }));
         } else {
           dispatch(exitFromProfile());
-          dispatch(setShowModalAuthError(true));
+          dispatch(setShowModalAuthError({ flag: true }));
         }
       });
     }
   };
 };
-
-export default authReducer;

@@ -14,7 +14,7 @@ const WelcomeUnauthContainer = (props: any) => {
 
 const mapStateToProps = (state: any) => {
   return {
-    errorTextRegister: state.auth.errorTextRegister,
+    errorTextRegister: state.auth.authWarnings.errorTextRegister,
     email: state.welcomePage.email,
     login: state.welcomePage.login,
     password: state.welcomePage.password,

@@ -17,11 +17,11 @@ const LoginContainer = (props: any) => {
 
 const mapStateToProps = (state: any) => {
   return {
-    isShowModalError: state.auth.isShowModalError,
-    isAuth: state.auth.isAuth,
+    isShowModalError: state.auth.authWarnings.isShowModalError,
+    isAuth: state.auth.user.isAuth,
     email: state.loginPage.email,
     password: state.loginPage.password,
-    errorTextLogin: state.auth.errorTextLogin,
+    errorTextLogin: state.auth.authWarnings.errorTextLogin,
   };
 };
 export default connect(mapStateToProps, {

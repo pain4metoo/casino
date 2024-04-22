@@ -11,9 +11,9 @@ const WelcomeContainer = (props: any) => {
 
 const mapStateToProps = (state: any) => {
   return {
-    isShowModalError: state.auth.isShowModalError,
-    isAuth: state.auth.isAuth,
-    login: state.auth.login,
+    isShowModalError: state.auth.authWarnings.isShowModalError,
+    isAuth: state.auth.user.isAuth,
+    login: state.auth.user.login,
   };
 };
 

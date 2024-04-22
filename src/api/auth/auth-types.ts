@@ -11,6 +11,17 @@ export interface UserData {
   id: null | string;
 }
 
+type AuthWarnings = {
+  errorTextLogin: string;
+  errorTextRegister: string;
+  isShowModalError: boolean;
+};
+
+export type AuthData = {
+  user: UserData;
+  authWarnings: AuthWarnings;
+};
+
 export interface UserResponse {
   accessToken: string;
   user: UserData;
