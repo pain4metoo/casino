@@ -14,7 +14,6 @@ enum Axis {
 }
 
 export enum Stages {
-  LOADING = 'loadingStage',
   STARTING = 'startingStage',
   INIT = 'initStage',
   WIN = 'winStage',
@@ -29,7 +28,6 @@ interface IAxisInfo {
 }
 
 interface IStagesPlayingField {
-  loadingStage: Array<Array<ISymbol>>;
   startingStage: Array<Array<ISymbol>>;
   initStage: Array<Array<ISymbol>>;
   winStage: Array<Array<ISymbol>>;
@@ -68,13 +66,7 @@ export class GenerateSpinCycle {
     [10, 10, 6, 7, 5, 4],
   ];
 
-  private static fieldForLoadingRes: Array<Array<number>> = [
-    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-  ];
-
   private static stagesPlayingField: IStagesPlayingField = {
-    loadingStage: [],
     startingStage: [],
     initStage: [],
     winStage: [],
@@ -144,27 +136,14 @@ export class GenerateSpinCycle {
     this.createSymbolsPosition();
   }
 
-  public static generateFieldForLoading(): Array<Array<ISymbol>> {
-    this.createSymbolsPosition(false, true);
-
-    return this.stagesPlayingField.loadingStage;
-  }
-
   private static generateRandomNumber(): number {
     const randomSymbol = Math.ceil(Math.random() * this.symbolsCount);
 
     return randomSymbol;
   }
 
-  private static createSymbolsPosition(
-    isStartingField?: boolean,
-    isLoadingField?: boolean,
-  ): void {
-    const currField = isStartingField
-      ? this.defaultField
-      : isLoadingField
-      ? this.fieldForLoadingRes
-      : this.gameField;
+  private static createSymbolsPosition(isStartingField?: boolean): void {
+    const currField = isStartingField ? this.defaultField : this.gameField;
     const symbolsPositionArr: Array<Array<ISymbol>> = [];
 
     currField.forEach((arr: Array<number>, i) => {
@@ -188,7 +167,7 @@ export class GenerateSpinCycle {
           xStart: xStart,
           yStart: isStartingField ? -100 : this.yStart,
           yEnd: yEnd,
-          isWin: isLoadingField && i === 0 ? true : false,
+          isWin: false,
           width: 100,
           height: 100,
         };
@@ -201,12 +180,6 @@ export class GenerateSpinCycle {
 
     if (isStartingField) {
       this.stagesPlayingField.startingStage = symbolsPositionArr;
-      this.clearLastResults();
-      return;
-    }
-
-    if (isLoadingField) {
-      this.stagesPlayingField.loadingStage = symbolsPositionArr;
       this.clearLastResults();
       return;
     }

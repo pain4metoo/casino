@@ -39,7 +39,6 @@ const mapStateToProps = (state: any) => {
     isAdditionStage: state.game.isAdditionStage,
     startingField: state.game.startingField,
     gameField: state.game.gameField,
-    gameData: state.loading.gameData,
   };
 };
 export default compose(

@@ -19,41 +19,30 @@ const Loading = (props: any) => {
       createGameItems();
       props.setLoadData({
         flag: true,
-        loadField: GenerateSpinCycle.generateFieldForLoading(),
       });
     } else {
-      if (Object.keys(gameData).length > 0) {
-        if (!props.isEndLoadData) {
-          for (let i = 0; i < gameData.img.symbolsDef.length; i++) {
-            gameData.videos.symbolsWin[i].baseTexture.on(
-              'loaded',
-              setProgressEvent,
-            );
-            gameData.img.symbolsDef[i].baseTexture.on(
-              'loaded',
-              setProgressEvent,
-            );
+      if (!props.isEndLoadData) {
+        for (let i = 0; i < gameData.img.symbolsDef.length; i++) {
+          gameData.videos.symbolsWin[i].baseTexture.on(
+            'loaded',
+            setProgressEvent,
+          );
+          gameData.img.symbolsDef[i].baseTexture.on('loaded', setProgressEvent);
 
-            if (progress >= 600) {
-              props.setEndLoadData();
-            }
+          if (progress >= 600) {
+            props.setEndLoadData();
           }
         }
       }
     }
 
     return () => {
-      if (Object.keys(gameData).length > 0) {
-        for (let i = 0; i < gameData.img.symbolsDef.length; i++) {
-          gameData.img.symbolsDef[i].baseTexture.off(
-            'loaded',
-            setProgressEvent,
-          );
-          gameData.videos.symbolsWin[i].baseTexture.off(
-            'loaded',
-            setProgressEvent,
-          );
-        }
+      for (let i = 0; i < gameData.img.symbolsDef.length; i++) {
+        gameData.img.symbolsDef[i].baseTexture.off('loaded', setProgressEvent);
+        gameData.videos.symbolsWin[i].baseTexture.off(
+          'loaded',
+          setProgressEvent,
+        );
       }
     };
   });
@@ -82,15 +71,6 @@ const Loading = (props: any) => {
       });
     });
   };
-
-  let numberSymbol = 0;
-
-  const loadSymbolsArr = props.loadField.map((arr: Array<ISymbol>) => {
-    return arr.map((symbol: ISymbol) => {
-      numberSymbol++;
-      return <LoadSymbol key={numberSymbol} symbolData={symbol} />;
-    });
-  });
 
   return (
     <>

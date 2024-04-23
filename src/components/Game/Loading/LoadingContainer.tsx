@@ -11,8 +11,6 @@ const mapStateToProps = (state: any) => {
   return {
     isLoadData: state.loading.isLoadData,
     isEndLoadData: state.loading.isEndLoadData,
-    loadField: state.loading.loadField,
-    gameData: state.loading.gameData,
   };
 };
 export default connect(mapStateToProps, {
