@@ -1,51 +1,12 @@
-import { Container, Graphics, Sprite, useApp, useTick } from '@pixi/react';
+import { Container, Graphics, Sprite } from '@pixi/react';
 import { Text } from '@pixi/react';
 import * as PIXI from 'pixi.js';
-import { useEffect, useState } from 'react';
-import GenerateSpinCycle, { ISymbol } from '../GenerateGameLogic';
-import LoadSymbol from './LoadSymbol';
+import GenerateSpinCycle from '../GenerateGameLogic';
 import bgLoading from '../../../assets/images/bg-loading-slot.jpg';
-import { createGameItems, gameData, setVideoSettings } from '../Textures';
+import preloader from '../../../assets/images/preloader-test.svg';
 
 const Loading = (props: any) => {
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    const setProgressEvent = () => {
-      setProgress(progress + 30);
-    };
-
-    if (!props.isLoadData && !props.isEndLoadData) {
-      createGameItems();
-      props.setLoadData({
-        flag: true,
-      });
-    } else {
-      if (!props.isEndLoadData) {
-        for (let i = 0; i < gameData.img.symbolsDef.length; i++) {
-          gameData.videos.symbolsWin[i].baseTexture.on(
-            'loaded',
-            setProgressEvent,
-          );
-          gameData.img.symbolsDef[i].baseTexture.on('loaded', setProgressEvent);
-
-          if (progress >= 600) {
-            props.setEndLoadData();
-          }
-        }
-      }
-    }
-
-    return () => {
-      for (let i = 0; i < gameData.img.symbolsDef.length; i++) {
-        gameData.img.symbolsDef[i].baseTexture.off('loaded', setProgressEvent);
-        gameData.videos.symbolsWin[i].baseTexture.off(
-          'loaded',
-          setProgressEvent,
-        );
-      }
-    };
-  });
+  const maxProgress = 600;
 
   const drawLoading = (g: any) => {
     g.beginFill(0x927ab1, 1);
@@ -55,7 +16,7 @@ const Loading = (props: any) => {
 
   const drawProgress = (g: any) => {
     g.beginFill(0xff003e, 1);
-    g.drawRect(300, 550, progress, 50);
+    g.drawRect(300, 550, props.loadProgress * maxProgress, 50);
     g.endFill();
   };
 
@@ -65,8 +26,8 @@ const Loading = (props: any) => {
     g.eventMode = 'dynamic';
     g.endFill();
     g.on('pointerdown', () => {
-      setVideoSettings();
       props.setGenerateDefauldField({
+        isStartGame: true,
         startingField: GenerateSpinCycle.generateDefaultField(),
       });
     });
@@ -75,14 +36,20 @@ const Loading = (props: any) => {
   return (
     <>
       <Container>
-        <Sprite image={bgLoading} width={1200} height={700} />
-        {props.isLoadData ? (
+        {props.isShowPreloader ? (
+          <Sprite image={preloader} width={400} height={400} x={400} y={100} />
+        ) : (
+          <Sprite image={bgLoading} x={0} y={0} width={1200} height={700} />
+        )}
+
+        {props.isShowLoadProgress && (
           <>
-            <Sprite image={bgLoading} width={1200} height={700} />
             <Graphics draw={drawLoading}></Graphics>
             <Graphics draw={drawProgress}></Graphics>
           </>
-        ) : (
+        )}
+
+        {props.isEndLoadData && (
           <>
             <Graphics draw={drawBtnStart}></Graphics>
             <Text

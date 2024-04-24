@@ -5,8 +5,8 @@ import Symbol from './GameSymbol';
 import { Provider } from 'react-redux';
 import store from '../../redux/store';
 import LoadingContainer from './Loading/LoadingContainer';
-import spinImg from '../../assets/images/spin.png';
 import { gameData } from './Textures';
+import { pixiData } from '../../redux/loading-reducer';
 
 const Game = (props: any) => {
   const startingField = createSymbols(props.startingField);
@@ -24,6 +24,7 @@ const Game = (props: any) => {
             key={numberSymbol}
             isRemoveSymbolsStage={props.isRemoveSymbolsStage}
             symbolData={symbol}
+            isLoadData={props.isLoadData}
           />
         );
       });
@@ -45,36 +46,22 @@ const Game = (props: any) => {
           </Provider>
         ) : (
           <Container>
-            {props.isPlayAnim ? (
-              <Sprite
-                texture={gameData.videos.otherVideos.anubisLoad}
-                width={1200}
-                height={700}
-              />
-            ) : (
-              <>
+            <Sprite texture={pixiData.bgSlotGame} width={1200} height={700} />
+            {!props.isInitStage ? startingField : null}
+            {props.isInitStage && !props.isAdditionStage ? gameField : null}
+
+            {props.isAdditionStage ? gameField : null}
+
+            {!props.isGameOn && (
+              <Container position={[1000, 575]}>
                 <Sprite
-                  texture={gameData.img.otherImg.bgSlot}
-                  width={1200}
-                  height={700}
+                  width={100}
+                  height={100}
+                  texture={pixiData.spinBtn}
+                  pointerdown={props.handleClickSpin}
+                  eventMode={'dynamic'}
                 />
-                {!props.isInitStage ? startingField : null}
-                {props.isInitStage && !props.isAdditionStage ? gameField : null}
-
-                {props.isAdditionStage ? gameField : null}
-
-                {!props.isGameOn && (
-                  <Container position={[1000, 575]}>
-                    <Sprite
-                      width={100}
-                      height={100}
-                      image={spinImg}
-                      pointerdown={props.handleClickSpin}
-                      eventMode={'dynamic'}
-                    />
-                  </Container>
-                )}
-              </>
+              </Container>
             )}
           </Container>
         )}

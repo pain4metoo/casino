@@ -1,6 +1,3 @@
-import * as PIXI from 'pixi.js';
-import anubisLoad from '../../assets/images/anubis-after-load.mp4';
-import bgSlot from '../../assets/images/bg-slot.jpg';
 import symbol1 from '../../assets/images/symbols/1.png';
 import symbol2 from '../../assets/images/symbols/2.png';
 import symbol3 from '../../assets/images/symbols/3.png';
@@ -11,16 +8,21 @@ import symbol7 from '../../assets/images/symbols/7.png';
 import symbol8 from '../../assets/images/symbols/8.png';
 import symbol9 from '../../assets/images/symbols/9.png';
 import symbol10 from '../../assets/images/symbols/10.png';
-import symbolWin1 from '../../assets/images/symbols-win/1.mp4';
-import symbolWin2 from '../../assets/images/symbols-win/2.mp4';
-import symbolWin3 from '../../assets/images/symbols-win/3.mp4';
-import symbolWin4 from '../../assets/images/symbols-win/4.mp4';
-import symbolWin5 from '../../assets/images/symbols-win/5.mp4';
-import symbolWin6 from '../../assets/images/symbols-win/6.mp4';
-import symbolWin7 from '../../assets/images/symbols-win/7.mp4';
-import symbolWin8 from '../../assets/images/symbols-win/8.mp4';
-import symbolWin9 from '../../assets/images/symbols-win/9.mp4';
-import symbolWin10 from '../../assets/images/symbols-win/10.mp4';
+import symbolWin1 from '../../assets/images/symbols-win/1.gif';
+import symbolWin2 from '../../assets/images/symbols-win/2.gif';
+import symbolWin3 from '../../assets/images/symbols-win/3.gif';
+import symbolWin4 from '../../assets/images/symbols-win/4.gif';
+import symbolWin5 from '../../assets/images/symbols-win/5.gif';
+import symbolWin6 from '../../assets/images/symbols-win/6.gif';
+import symbolWin7 from '../../assets/images/symbols-win/7.gif';
+import symbolWin8 from '../../assets/images/symbols-win/8.gif';
+import symbolWin9 from '../../assets/images/symbols-win/9.gif';
+import symbolWin10 from '../../assets/images/symbols-win/10.gif';
+
+import anubisPreview from '../../assets/images/anubis-after-load.mp4';
+import bgSlotGame from '../../assets/images/bg-slot.jpg';
+import spinBtn from '../../assets/images/spin.png';
+import bgLoadingAnubis from '../../assets/images/bg-loading-slot.jpg';
 
 export const symbols = [
   symbol1,
@@ -48,115 +50,10 @@ export const symbolsWin = [
   symbolWin10,
 ];
 
-export type GameData = {
-  videos: {
-    symbolsWin: Array<any>;
-    otherVideos: { [key: string]: any };
-  };
-  img: {
-    symbolsDef: Array<any>;
-    otherImg: { [key: string]: any };
-  };
+export const gameData = {
+  symbolsWin: [...symbolsWin],
+  symbolsDef: [...symbols],
+  bgSlotGame,
+  bgLoadingAnubis,
+  spinBtn,
 };
-
-export const gameData = {} as GameData;
-
-export function createGameItems(): void {
-  const gameDataItems: GameData = {
-    videos: {
-      symbolsWin: [],
-      otherVideos: {
-        anubisLoad,
-      },
-    },
-    img: {
-      symbolsDef: [],
-      otherImg: {
-        bgSlot,
-      },
-    },
-  };
-
-  recursiveTraversal(gameDataItems);
-
-  function recursiveTraversal(obj: any, typeData?: string) {
-    for (const key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        if (typeof obj[key] === 'object' && !Array.isArray(obj[key])) {
-          recursiveTraversal(obj[key], key);
-        } else {
-          if (Array.isArray(obj[key])) {
-            if (typeData === 'videos') {
-              for (let i = 0; i < symbolsWin.length; i++) {
-                obj[key].push(createPixiVideo(symbolsWin[i]));
-              }
-            }
-            if (typeData === 'img') {
-              for (let g = 0; g < symbols.length; g++) {
-                obj[key].push(createPixiImage(symbols[g]));
-              }
-            }
-          } else {
-            if (typeData === 'otherVideos') {
-              obj[key] = createPixiVideo(obj[key]);
-            } else {
-              obj[key] = createPixiImage(obj[key]);
-            }
-          }
-        }
-      }
-    }
-
-    function createPixiVideo(video: any) {
-      const videoResource = new PIXI.VideoResource(video, {
-        autoPlay: false,
-      });
-
-      const videoTexture: any = PIXI.Texture.from(videoResource as any);
-
-      return videoTexture;
-    }
-
-    function createPixiImage(image: any) {
-      const imgResource = PIXI.Texture.from(image);
-
-      return imgResource;
-    }
-  }
-  gameData.videos = gameDataItems.videos;
-  gameData.img = gameDataItems.img;
-}
-
-export function setVideoSettings() {
-  gameData.videos.symbolsWin.forEach((pixiVideo: any) => {
-    pixiVideo.baseTexture.resource.source.loop = true;
-  });
-  gameData.videos.otherVideos.anubisLoad.baseTexture.resource.source.loop =
-    true;
-  gameData.videos.otherVideos.anubisLoad.baseTexture.resource.source.play();
-}
-
-// for (const key in imgData) {
-//   if (imgData.hasOwnProperty(key)) {
-//     if (Array.isArray(imgData[key]) && key === 'videos') {
-//       for (let i = 0; i < symbolsWin.length; i++) {
-//         const videoResource = new PIXI.VideoResource(symbolsWin[i], {
-//           autoPlay: false,
-//         });
-
-//         const videoTexture: any = PIXI.Texture.from(videoResource as any);
-
-//         imgData[key].symbolsWin.push(videoTexture);
-//       }
-//     } else {
-//       if (Array.isArray(imgData[key])) {
-//         for (let g = 0; g < symbols.length; g++) {
-//           const imgResource = PIXI.Texture.from(symbols[g]);
-
-//           symbolsD.push(imgResource);
-//         }
-//       } else {
-//       }
-//     }
-//   }
-// }

@@ -130,9 +130,6 @@ export class GenerateSpinCycle {
 
     this.gameField = newGameField;
 
-    console.log('generateGameField', newGameField);
-    // debugger;
-
     this.createSymbolsPosition();
   }
 
@@ -185,9 +182,6 @@ export class GenerateSpinCycle {
     }
 
     this.stagesPlayingField.initStage = symbolsPositionArr;
-
-    console.log('createSymbolsPosition', this.stagesPlayingField.initStage);
-    // debugger;
 
     this.checkWinSymbols(this.stagesPlayingField.initStage);
   }
@@ -280,9 +274,6 @@ export class GenerateSpinCycle {
 
     this.stagesPlayingField.winStage = fieldAfterCheckWin;
 
-    console.log('checkWinSymbols', this.stagesPlayingField.winStage);
-    // debugger;
-
     this.omitSymbols();
   }
 
@@ -317,13 +308,6 @@ export class GenerateSpinCycle {
     }
 
     this.stagesPlayingField.omitStage = currentField;
-
-    // .map(
-    //   (arr: Array<ISymbol>) => arr.filter((sym: ISymbol) => !sym.isWin),
-    // ); // delete win symbols
-
-    console.log('omitSymbols', this.stagesPlayingField.omitStage);
-    // debugger;
 
     this.generationAdditionalSymbols();
   }
@@ -370,11 +354,6 @@ export class GenerateSpinCycle {
     }
 
     this.stagesPlayingField.additionStage = currentField;
-
-    console.log(
-      'generationAdditionalSymbols',
-      this.stagesPlayingField.additionStage,
-    );
   }
 
   public static checkWinAfterAdditionStage(): boolean {

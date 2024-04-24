@@ -34,8 +34,13 @@ const gameSlice = createSlice({
       state.isPlayAnim = action.payload.flag;
     },
     setGenerateDefauldField(state, action) {
+      if (action.payload.isStartGame) {
+        state.isStartGame = true;
+      } else {
+        state.isStartGame = false;
+      }
+
       state.startingField = action.payload.startingField;
-      state.isStartGame = true;
     },
     initStage(state, action) {
       if (action.payload.flag) {

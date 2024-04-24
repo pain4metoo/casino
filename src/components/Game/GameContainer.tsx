@@ -7,13 +7,13 @@ import { setIsPlayAnim, spinCycleThunk } from '../../redux/game-reducer';
 import { useEffect } from 'react';
 
 const GameContainer = (props: any) => {
-  useEffect(() => {
-    props.setIsPlayAnim({ flag: true });
+  // useEffect(() => {
+  //   props.setIsPlayAnim({ flag: true });
 
-    setTimeout(() => {
-      props.setIsPlayAnim({ flag: false });
-    }, 3000);
-  }, []);
+  //   setTimeout(() => {
+  //     props.setIsPlayAnim({ flag: false });
+  //   }, 3000);
+  // }, []);
 
   const handleClickSpin = () => {
     props.spinCycleThunk(true);
@@ -39,6 +39,7 @@ const mapStateToProps = (state: any) => {
     isAdditionStage: state.game.isAdditionStage,
     startingField: state.game.startingField,
     gameField: state.game.gameField,
+    isLoadData: state.loading.isLoadData,
   };
 };
 export default compose(
