@@ -1,6 +1,6 @@
 import { AnimatedSprite, Container, Sprite, useTick } from '@pixi/react';
 import { useState } from 'react';
-import { gameDataDef } from './textures';
+import { gameData } from './textures';
 import { readyGameDataSymbolsWin } from './textures-create';
 
 const Symbol = (props: any) => {
@@ -8,7 +8,7 @@ const Symbol = (props: any) => {
 
   let winSymbol: any = readyGameDataSymbolsWin[props.symbolData.id - 1];
 
-  const defaultSymbol: any = gameDataDef.symbolsDef[props.symbolData.id - 1];
+  const defaultSymbol: any = gameData.symbolsDef[props.symbolData.id - 1];
 
   useTick((delta, ticker) => {
     if (yStart < props.symbolData.yEnd) {

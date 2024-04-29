@@ -1,6 +1,5 @@
-import { AnimatedSprite, Container, Graphics, Sprite, Text } from '@pixi/react';
-
 import * as PIXI from 'pixi.js';
+import { AnimatedSprite, Container, Graphics, Sprite, Text } from '@pixi/react';
 import GenerateSpinCycle from '../GenerateGameLogic';
 import bgLoading from '../../../assets/images/bg-loading-slot.jpg';
 import { readyGameDataPreloader } from '../textures-create';

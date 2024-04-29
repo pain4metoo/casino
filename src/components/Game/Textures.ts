@@ -291,13 +291,12 @@ const symbolsDef = [
   symbol10,
 ];
 
-export const gameDataDef = {
+export const gameData = {
   symbolsDef,
+  symbolsWin: [...symbolsWin.flat()],
   bgSlotGame,
   bgLoadingAnubis,
   spinBtn,
 };
 
-export const gameDataGif: any = {
-  symbolsWin,
-};
+export const gameDataGif: any = {};

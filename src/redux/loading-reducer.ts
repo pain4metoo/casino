@@ -4,7 +4,7 @@ import {
   createGameDataSymbolsWin,
   loadCriticalData,
 } from '../components/Game/textures-create';
-import { gameDataDef, symbolsWin } from '../components/Game/textures';
+import { gameData } from '../components/Game/textures';
 
 interface IinitialState {
   isShowPreloader: boolean;
@@ -45,59 +45,34 @@ export const loadingThunk = () => {
 
     dispatch(togglePreloader({ flag: true }));
 
-    await PIXI.Assets.load(gameDataDef.bgLoadingAnubis);
+    await PIXI.Assets.load(gameData.bgLoadingAnubis);
 
     dispatch(togglePreloader({ flag: false }));
     dispatch(setLoadData({ flag: true }));
 
-    const itemsKeyForSymbolsDef: Array<string> = [];
-    const itemsKeyForSymbolsWin: Array<string> = [];
-    const itemsKeyForDefImg: Array<string> = [];
-    const itemsKeyForGifImg: Array<string> = [];
+    const itemsKeyForLoading: Array<string> = [];
 
-    // load default image and symbols default
-    for (const key in gameDataDef) {
-      const el = key as keyof typeof gameDataDef;
-      if (Array.isArray(gameDataDef[el])) {
-        for (let i = 0; i < gameDataDef[el].length; i++) {
-          PIXI.Assets.add({ alias: `${key}${i}`, src: gameDataDef[el][i] });
+    for (const key in gameData) {
+      const el = key as keyof typeof gameData;
+      if (Array.isArray(gameData[el])) {
+        for (let i = 0; i < gameData[el].length; i++) {
+          PIXI.Assets.add({ alias: `${key}${i}`, src: gameData[el][i] });
 
-          itemsKeyForSymbolsDef.push(key + i);
+          itemsKeyForLoading.push(key + i);
         }
       } else {
-        PIXI.Assets.add({ alias: key, src: gameDataDef[el] });
-        itemsKeyForDefImg.push(key);
+        PIXI.Assets.add({ alias: key, src: gameData[el] });
+        itemsKeyForLoading.push(key);
       }
     }
 
-    // load win symbols (gif)
+    await PIXI.Assets.load(itemsKeyForLoading, progress => {
+      dispatch(updateProgress({ value: progress }));
 
-    for (let i = 0; i < symbolsWin.length; i++) {
-      for (let g = 0; g < symbolsWin[i].length; g++) {
-        PIXI.Assets.add({
-          alias: `symbolsWin${i}${g}`,
-          src: symbolsWin[i][g],
-        });
-
-        itemsKeyForSymbolsWin.push('symbolsWin' + i + g);
+      if (progress === 1) {
+        dispatch(setLoadData({ flag: false }));
       }
-    }
-
-    const texturesPromise = await PIXI.Assets.load(
-      [
-        ...itemsKeyForSymbolsDef,
-        ...itemsKeyForSymbolsWin,
-        ...itemsKeyForDefImg,
-        ...itemsKeyForGifImg,
-      ],
-      progress => {
-        dispatch(updateProgress({ value: progress }));
-
-        if (progress === 1) {
-          dispatch(setLoadData({ flag: false }));
-        }
-      },
-    );
+    });
 
     await createGameDataSymbolsWin();
 
