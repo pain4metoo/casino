@@ -30,9 +30,6 @@ const gameSlice = createSlice({
   name: 'game',
   initialState,
   reducers: {
-    setIsPlayAnim(state, action) {
-      state.isPlayAnim = action.payload.flag;
-    },
     setGenerateDefauldField(state, action) {
       if (action.payload.isStartGame) {
         state.isStartGame = true;
@@ -134,7 +131,6 @@ export const spinCycleThunk = (isInitStage: boolean) => {
 };
 
 export const {
-  setIsPlayAnim,
   setGenerateDefauldField,
   initStage,
   winStage,

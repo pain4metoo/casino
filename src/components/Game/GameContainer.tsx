@@ -3,18 +3,9 @@ import { compose } from 'redux';
 import Game from './Game';
 import { withAuthMeRedirect } from '../../hoc/withAuthMeRedirect';
 import { isAuthMeThunk } from '../../redux/auth-reducer';
-import { setIsPlayAnim, spinCycleThunk } from '../../redux/game-reducer';
-import { useEffect } from 'react';
+import { spinCycleThunk } from '../../redux/game-reducer';
 
 const GameContainer = (props: any) => {
-  // useEffect(() => {
-  //   props.setIsPlayAnim({ flag: true });
-
-  //   setTimeout(() => {
-  //     props.setIsPlayAnim({ flag: false });
-  //   }, 3000);
-  // }, []);
-
   const handleClickSpin = () => {
     props.spinCycleThunk(true);
 
@@ -31,7 +22,6 @@ const GameContainer = (props: any) => {
 
 const mapStateToProps = (state: any) => {
   return {
-    isPlayAnim: state.game.isPlayAnim,
     isStartGame: state.game.isStartGame,
     isInitStage: state.game.isInitStage,
     isGameOn: state.game.isGameOn,
@@ -45,7 +35,6 @@ const mapStateToProps = (state: any) => {
 export default compose(
   connect(mapStateToProps, {
     isAuthMeThunk,
-    setIsPlayAnim,
     spinCycleThunk,
   }),
   withAuthMeRedirect,
