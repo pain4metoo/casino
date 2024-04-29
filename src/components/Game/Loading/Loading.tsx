@@ -1,9 +1,9 @@
-import { Container, Graphics, Sprite } from '@pixi/react';
-import { Text } from '@pixi/react';
+import { AnimatedSprite, Container, Graphics, Sprite, Text } from '@pixi/react';
+
 import * as PIXI from 'pixi.js';
 import GenerateSpinCycle from '../GenerateGameLogic';
 import bgLoading from '../../../assets/images/bg-loading-slot.jpg';
-import preloader from '../../../assets/images/preloader-test.svg';
+import { readyGameDataPreloader } from '../Textures';
 
 const Loading = (props: any) => {
   const maxProgress = 600;
@@ -37,7 +37,12 @@ const Loading = (props: any) => {
     <>
       <Container>
         {props.isShowPreloader ? (
-          <Sprite image={preloader} width={400} height={400} x={400} y={100} />
+          <AnimatedSprite
+            x={390}
+            y={80}
+            isPlaying={true}
+            textures={readyGameDataPreloader}
+          />
         ) : (
           <Sprite image={bgLoading} x={0} y={0} width={1200} height={700} />
         )}

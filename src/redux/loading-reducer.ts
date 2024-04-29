@@ -1,7 +1,12 @@
 import * as PIXI from 'pixi.js';
 import '@pixi/gif';
 import { Dispatch, createSlice } from '@reduxjs/toolkit';
-import { gameData } from '../components/Game/Textures';
+import {
+  createGameDataSymbolsWin,
+  gameDataDef,
+  gameDataGif,
+  loadCriticalData,
+} from '../components/Game/Textures';
 
 interface IinitialState {
   isShowPreloader: boolean;
@@ -36,66 +41,78 @@ const loadingSlice = createSlice({
   },
 });
 
-export let pixiData: any = {
-  symbolsWin: [],
-  symbolsDef: [],
-};
-
 export const loadingThunk = () => {
-  return (dispatch: Dispatch) => {
+  return async (dispatch: Dispatch) => {
+    await loadCriticalData();
+
     dispatch(togglePreloader({ flag: true }));
-    PIXI.Assets.load(gameData.bgLoadingAnubis).then(() => {
-      dispatch(togglePreloader({ flag: false }));
-      dispatch(setLoadData({ flag: true }));
 
-      const itemsKey: Array<string> = [];
+    await PIXI.Assets.load(gameDataDef.bgLoadingAnubis);
 
-      for (const key in gameData) {
-        const el = key as keyof typeof gameData;
-        if (Array.isArray(gameData[el])) {
-          for (let i = 0; i < gameData[el].length; i++) {
-            PIXI.Assets.add({ alias: `${key}${i}`, src: gameData[el][i] });
+    dispatch(togglePreloader({ flag: false }));
+    dispatch(setLoadData({ flag: true }));
 
-            itemsKey.push(key + i);
-          }
-        } else {
-          PIXI.Assets.add({ alias: key, src: gameData[el] });
-          itemsKey.push(key);
+    const itemsKeyForSymbolsDef: Array<string> = [];
+    const itemsKeyForSymbolsWin: Array<string> = [];
+    const itemsKeyForDefImg: Array<string> = [];
+    const itemsKeyForGifImg: Array<string> = [];
+
+    // load default image and symbols default
+    for (const key in gameDataDef) {
+      const el = key as keyof typeof gameDataDef;
+      if (Array.isArray(gameDataDef[el])) {
+        for (let i = 0; i < gameDataDef[el].length; i++) {
+          PIXI.Assets.add({ alias: `${key}${i}`, src: gameDataDef[el][i] });
+
+          itemsKeyForSymbolsDef.push(key + i);
         }
+      } else {
+        PIXI.Assets.add({ alias: key, src: gameDataDef[el] });
+        itemsKeyForDefImg.push(key);
       }
+    }
 
-      const texturesPromise = PIXI.Assets.load(itemsKey, progress => {
+    // load win symbols (gif)
+    for (const key in gameDataGif) {
+      const el: any = key as keyof typeof gameDataGif;
+      if (Array.isArray(gameDataGif[el])) {
+        if (el.includes('symbolsWin')) {
+          for (let i = 0; i < gameDataGif[el].length; i++) {
+            for (let g = 0; g < gameDataGif[el][i].length; g++) {
+              PIXI.Assets.add({
+                alias: `${key}${i}${g}`,
+                src: gameDataGif[el][i][g],
+              });
+
+              itemsKeyForSymbolsWin.push(key + i + g);
+            }
+          }
+        }
+      } else {
+        PIXI.Assets.add({ alias: key, src: gameDataGif[el] });
+        itemsKeyForGifImg.push(key);
+      }
+    }
+
+    const texturesPromise = await PIXI.Assets.load(
+      [
+        ...itemsKeyForSymbolsDef,
+        ...itemsKeyForSymbolsWin,
+        ...itemsKeyForDefImg,
+        ...itemsKeyForGifImg,
+      ],
+      progress => {
         dispatch(updateProgress({ value: progress }));
 
         if (progress === 1) {
           dispatch(setLoadData({ flag: false }));
         }
-      });
+      },
+    );
 
-      texturesPromise.then(textures => {
-        const newPixiData: any = {
-          symbolsWin: [],
-          symbolsDef: [],
-        };
+    createGameDataSymbolsWin(texturesPromise);
 
-        for (const key in textures) {
-          const el = key as keyof typeof textures;
-          if (el.includes('symbolsDef')) {
-            newPixiData.symbolsDef.push(textures[el]);
-            continue;
-          }
-          if (el.includes('symbolsWin')) {
-            newPixiData.symbolsWin.push(textures[el]);
-            continue;
-          }
-          newPixiData[el] = textures[el];
-        }
-
-        pixiData = newPixiData;
-
-        dispatch(setEndLoadData({ flag: true }));
-      });
-    });
+    dispatch(setEndLoadData({ flag: true }));
   };
 };
 

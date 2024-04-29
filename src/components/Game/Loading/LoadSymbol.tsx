@@ -1,5 +1,4 @@
 import { Container, Sprite } from '@pixi/react';
-import { gameData } from '../Textures';
 
 const LoadSymbol = (props: any) => {
   // let defaultSymbol = gameData.img.symbolsDef[props.symbolData.id - 1];
