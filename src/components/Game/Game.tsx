@@ -5,7 +5,7 @@ import Symbol from './GameSymbol';
 import { Provider } from 'react-redux';
 import store from '../../redux/store';
 import LoadingContainer from './Loading/LoadingContainer';
-import { gameDataDef } from './Textures';
+import { gameDataDef } from './textures';
 
 const Game = (props: any) => {
   const startingField = createSymbols(props.startingField);

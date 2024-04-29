@@ -3,7 +3,7 @@ import { AnimatedSprite, Container, Graphics, Sprite, Text } from '@pixi/react';
 import * as PIXI from 'pixi.js';
 import GenerateSpinCycle from '../GenerateGameLogic';
 import bgLoading from '../../../assets/images/bg-loading-slot.jpg';
-import { readyGameDataPreloader } from '../Textures';
+import { readyGameDataPreloader } from '../textures-create';
 
 const Loading = (props: any) => {
   const maxProgress = 600;

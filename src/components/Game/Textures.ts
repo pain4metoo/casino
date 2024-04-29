@@ -1,6 +1,3 @@
-import * as PIXI from 'pixi.js';
-import '@pixi/gif';
-
 import symbol1 from '../../assets/images/symbols/1.png';
 import symbol2 from '../../assets/images/symbols/2.png';
 import symbol3 from '../../assets/images/symbols/3.png';
@@ -141,7 +138,7 @@ import symbolsWin10Frame8 from '../../assets/images/symbols_win_10/frame_07.png'
 import symbolsWin10Frame9 from '../../assets/images/symbols_win_10/frame_08.png';
 import symbolsWin10Frame10 from '../../assets/images/symbols_win_10/frame_09.png';
 
-const preloaderGifTexture = [
+export const preloaderGifTexture = [
   prelTexture1,
   prelTexture2,
   prelTexture3,
@@ -304,61 +301,3 @@ export const gameDataDef = {
 export const gameDataGif: any = {
   symbolsWin,
 };
-
-export let readyGameDataSymbolsWin: any = [];
-
-export let readyGameDataPreloader: any = [];
-
-export async function loadCriticalData(): Promise<void> {
-  readyGameDataPreloader = [];
-
-  const itemsKeyForPreloaderGif: Array<string> = [];
-
-  preloaderGifTexture.forEach((el: any, i: number) => {
-    PIXI.Assets.add({ alias: `preloader${i}`, src: el });
-
-    itemsKeyForPreloaderGif.push('preloder' + i);
-  });
-
-  await PIXI.Assets.load(itemsKeyForPreloaderGif, progress => {
-    if (progress === 1) {
-      for (let i = 0; i < itemsKeyForPreloaderGif.length; i++) {
-        readyGameDataPreloader.push(PIXI.Texture.from(preloaderGifTexture[i]));
-      }
-    }
-  });
-}
-
-export async function createGameDataSymbolsWin(pixiData: any) {
-  readyGameDataSymbolsWin = [];
-  // const getSymbolsWin: any = Object.entries(pixiData).filter(
-  //   (arr: Array<any>) => {
-  //     return arr[0].includes('symbolsWin');
-  //   },
-  // );
-
-  // let counter = 0;
-  // let arrayCounter = 0;
-  // const maxPixiObjectsInOneArray = 10;
-  // for (let i = 0; i < getSymbolsWin.length; i++) {
-  //   if (counter === 0) {
-  //     readyGameDataSymbolsWin.push([]);
-  //   }
-  //   if (counter < maxPixiObjectsInOneArray) {
-  //     readyGameDataSymbolsWin[arrayCounter].push(getSymbolsWin[i][1]);
-  //     counter++;
-  //   }
-  //   if (counter === 10) {
-  //     counter = 0;
-  //     arrayCounter++;
-  //   }
-  // }
-
-  for (let i = 0; i < symbolsWin.length; i++) {
-    readyGameDataSymbolsWin.push([]);
-    for (let g = 0; g < symbolsWin[i].length; g++) {
-      const newPixiTexture = PIXI.Texture.from(symbolsWin[i][g]);
-      readyGameDataSymbolsWin[i].push(newPixiTexture);
-    }
-  }
-}

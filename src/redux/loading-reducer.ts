@@ -3,11 +3,9 @@ import '@pixi/gif';
 import { Dispatch, createSlice } from '@reduxjs/toolkit';
 import {
   createGameDataSymbolsWin,
-  gameDataDef,
-  gameDataGif,
   loadCriticalData,
-} from '../components/Game/Textures';
-import { symbolsWin } from '../components/Game/Textures';
+} from '../components/Game/textures-create';
+import { gameDataDef, symbolsWin } from '../components/Game/textures';
 
 interface IinitialState {
   isShowPreloader: boolean;
@@ -102,7 +100,7 @@ export const loadingThunk = () => {
       },
     );
 
-    await createGameDataSymbolsWin(texturesPromise);
+    await createGameDataSymbolsWin();
 
     dispatch(setEndLoadData({ flag: true }));
   };

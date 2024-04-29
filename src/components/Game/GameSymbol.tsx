@@ -1,6 +1,7 @@
 import { AnimatedSprite, Container, Sprite, useTick } from '@pixi/react';
 import { useState } from 'react';
-import { gameDataDef, readyGameDataSymbolsWin } from './Textures';
+import { gameDataDef } from './textures';
+import { readyGameDataSymbolsWin } from './textures-create';
 
 const Symbol = (props: any) => {
   const [yStart, setYStart] = useState(props.symbolData.yStart);
