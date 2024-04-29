@@ -1,5 +1,4 @@
 import * as PIXI from 'pixi.js';
-import '@pixi/gif';
 import { Dispatch, createSlice } from '@reduxjs/toolkit';
 import {
   createGameDataSymbolsWin,
