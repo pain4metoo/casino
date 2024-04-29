@@ -7,6 +7,7 @@ import {
   gameDataGif,
   loadCriticalData,
 } from '../components/Game/Textures';
+import { symbolsWin } from '../components/Game/Textures';
 
 interface IinitialState {
   isShowPreloader: boolean;
@@ -73,24 +74,15 @@ export const loadingThunk = () => {
     }
 
     // load win symbols (gif)
-    for (const key in gameDataGif) {
-      const el: any = key as keyof typeof gameDataGif;
-      if (Array.isArray(gameDataGif[el])) {
-        if (el.includes('symbolsWin')) {
-          for (let i = 0; i < gameDataGif[el].length; i++) {
-            for (let g = 0; g < gameDataGif[el][i].length; g++) {
-              PIXI.Assets.add({
-                alias: `${key}${i}${g}`,
-                src: gameDataGif[el][i][g],
-              });
 
-              itemsKeyForSymbolsWin.push(key + i + g);
-            }
-          }
-        }
-      } else {
-        PIXI.Assets.add({ alias: key, src: gameDataGif[el] });
-        itemsKeyForGifImg.push(key);
+    for (let i = 0; i < symbolsWin.length; i++) {
+      for (let g = 0; g < symbolsWin[i].length; g++) {
+        PIXI.Assets.add({
+          alias: `symbolsWin${i}${g}`,
+          src: symbolsWin[i][g],
+        });
+
+        itemsKeyForSymbolsWin.push('symbolsWin' + i + g);
       }
     }
 
@@ -110,7 +102,7 @@ export const loadingThunk = () => {
       },
     );
 
-    createGameDataSymbolsWin(texturesPromise);
+    await createGameDataSymbolsWin(texturesPromise);
 
     dispatch(setEndLoadData({ flag: true }));
   };

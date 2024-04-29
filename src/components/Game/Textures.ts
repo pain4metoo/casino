@@ -16,130 +16,130 @@ import bgSlotGame from '../../assets/images/bg-slot.jpg';
 import spinBtn from '../../assets/images/spin.png';
 import bgLoadingAnubis from '../../assets/images/bg-loading-slot.jpg';
 
-import prelTexture1 from '../../assets/images/preloader-textures/frame-01.gif';
-import prelTexture2 from '../../assets/images/preloader-textures/frame-02.gif';
-import prelTexture3 from '../../assets/images/preloader-textures/frame-03.gif';
-import prelTexture4 from '../../assets/images/preloader-textures/frame-04.gif';
-import prelTexture5 from '../../assets/images/preloader-textures/frame-05.gif';
-import prelTexture6 from '../../assets/images/preloader-textures/frame-06.gif';
-import prelTexture7 from '../../assets/images/preloader-textures/frame-07.gif';
-import prelTexture8 from '../../assets/images/preloader-textures/frame-08.gif';
-import prelTexture9 from '../../assets/images/preloader-textures/frame-09.gif';
-import prelTexture10 from '../../assets/images/preloader-textures/frame-10.gif';
-import prelTexture11 from '../../assets/images/preloader-textures/frame-11.gif';
-import prelTexture12 from '../../assets/images/preloader-textures/frame-12.gif';
-import prelTexture13 from '../../assets/images/preloader-textures/frame-13.gif';
-import prelTexture14 from '../../assets/images/preloader-textures/frame-14.gif';
+import prelTexture1 from '../../assets/images/preloader-textures/frame-01.png';
+import prelTexture2 from '../../assets/images/preloader-textures/frame-02.png';
+import prelTexture3 from '../../assets/images/preloader-textures/frame-03.png';
+import prelTexture4 from '../../assets/images/preloader-textures/frame-04.png';
+import prelTexture5 from '../../assets/images/preloader-textures/frame-05.png';
+import prelTexture6 from '../../assets/images/preloader-textures/frame-06.png';
+import prelTexture7 from '../../assets/images/preloader-textures/frame-07.png';
+import prelTexture8 from '../../assets/images/preloader-textures/frame-08.png';
+import prelTexture9 from '../../assets/images/preloader-textures/frame-09.png';
+import prelTexture10 from '../../assets/images/preloader-textures/frame-10.png';
+import prelTexture11 from '../../assets/images/preloader-textures/frame-11.png';
+import prelTexture12 from '../../assets/images/preloader-textures/frame-12.png';
+import prelTexture13 from '../../assets/images/preloader-textures/frame-13.png';
+import prelTexture14 from '../../assets/images/preloader-textures/frame-14.png';
 
-import symbolsWin1Frame1 from '../../assets/images/symbols_win_1/frame-01.gif';
-import symbolsWin1Frame2 from '../../assets/images/symbols_win_1/frame-02.gif';
-import symbolsWin1Frame3 from '../../assets/images/symbols_win_1/frame-03.gif';
-import symbolsWin1Frame4 from '../../assets/images/symbols_win_1/frame-04.gif';
-import symbolsWin1Frame5 from '../../assets/images/symbols_win_1/frame-05.gif';
-import symbolsWin1Frame6 from '../../assets/images/symbols_win_1/frame-06.gif';
-import symbolsWin1Frame7 from '../../assets/images/symbols_win_1/frame-07.gif';
-import symbolsWin1Frame8 from '../../assets/images/symbols_win_1/frame-08.gif';
-import symbolsWin1Frame9 from '../../assets/images/symbols_win_1/frame-09.gif';
-import symbolsWin1Frame10 from '../../assets/images/symbols_win_1/frame-10.gif';
+import symbolsWin1Frame1 from '../../assets/images/symbols_win_1/frame_00.png';
+import symbolsWin1Frame2 from '../../assets/images/symbols_win_1/frame_01.png';
+import symbolsWin1Frame3 from '../../assets/images/symbols_win_1/frame_02.png';
+import symbolsWin1Frame4 from '../../assets/images/symbols_win_1/frame_03.png';
+import symbolsWin1Frame5 from '../../assets/images/symbols_win_1/frame_04.png';
+import symbolsWin1Frame6 from '../../assets/images/symbols_win_1/frame_05.png';
+import symbolsWin1Frame7 from '../../assets/images/symbols_win_1/frame_06.png';
+import symbolsWin1Frame8 from '../../assets/images/symbols_win_1/frame_07.png';
+import symbolsWin1Frame9 from '../../assets/images/symbols_win_1/frame_08.png';
+import symbolsWin1Frame10 from '../../assets/images/symbols_win_1/frame_09.png';
 
-import symbolsWin2Frame1 from '../../assets/images/symbols_win_2/frame-01.gif';
-import symbolsWin2Frame2 from '../../assets/images/symbols_win_2/frame-02.gif';
-import symbolsWin2Frame3 from '../../assets/images/symbols_win_2/frame-03.gif';
-import symbolsWin2Frame4 from '../../assets/images/symbols_win_2/frame-04.gif';
-import symbolsWin2Frame5 from '../../assets/images/symbols_win_2/frame-05.gif';
-import symbolsWin2Frame6 from '../../assets/images/symbols_win_2/frame-06.gif';
-import symbolsWin2Frame7 from '../../assets/images/symbols_win_2/frame-07.gif';
-import symbolsWin2Frame8 from '../../assets/images/symbols_win_2/frame-08.gif';
-import symbolsWin2Frame9 from '../../assets/images/symbols_win_2/frame-09.gif';
-import symbolsWin2Frame10 from '../../assets/images/symbols_win_2/frame-10.gif';
+import symbolsWin2Frame1 from '../../assets/images/symbols_win_2/frame_00.png';
+import symbolsWin2Frame2 from '../../assets/images/symbols_win_2/frame_01.png';
+import symbolsWin2Frame3 from '../../assets/images/symbols_win_2/frame_02.png';
+import symbolsWin2Frame4 from '../../assets/images/symbols_win_2/frame_03.png';
+import symbolsWin2Frame5 from '../../assets/images/symbols_win_2/frame_04.png';
+import symbolsWin2Frame6 from '../../assets/images/symbols_win_2/frame_05.png';
+import symbolsWin2Frame7 from '../../assets/images/symbols_win_2/frame_06.png';
+import symbolsWin2Frame8 from '../../assets/images/symbols_win_2/frame_07.png';
+import symbolsWin2Frame9 from '../../assets/images/symbols_win_2/frame_08.png';
+import symbolsWin2Frame10 from '../../assets/images/symbols_win_2/frame_09.png';
 
-import symbolsWin3Frame1 from '../../assets/images/symbols_win_3/frame-01.gif';
-import symbolsWin3Frame2 from '../../assets/images/symbols_win_3/frame-02.gif';
-import symbolsWin3Frame3 from '../../assets/images/symbols_win_3/frame-03.gif';
-import symbolsWin3Frame4 from '../../assets/images/symbols_win_3/frame-04.gif';
-import symbolsWin3Frame5 from '../../assets/images/symbols_win_3/frame-05.gif';
-import symbolsWin3Frame6 from '../../assets/images/symbols_win_3/frame-06.gif';
-import symbolsWin3Frame7 from '../../assets/images/symbols_win_3/frame-07.gif';
-import symbolsWin3Frame8 from '../../assets/images/symbols_win_3/frame-08.gif';
-import symbolsWin3Frame9 from '../../assets/images/symbols_win_3/frame-09.gif';
-import symbolsWin3Frame10 from '../../assets/images/symbols_win_3/frame-10.gif';
+import symbolsWin3Frame1 from '../../assets/images/symbols_win_3/frame_00.png';
+import symbolsWin3Frame2 from '../../assets/images/symbols_win_3/frame_01.png';
+import symbolsWin3Frame3 from '../../assets/images/symbols_win_3/frame_02.png';
+import symbolsWin3Frame4 from '../../assets/images/symbols_win_3/frame_03.png';
+import symbolsWin3Frame5 from '../../assets/images/symbols_win_3/frame_04.png';
+import symbolsWin3Frame6 from '../../assets/images/symbols_win_3/frame_05.png';
+import symbolsWin3Frame7 from '../../assets/images/symbols_win_3/frame_06.png';
+import symbolsWin3Frame8 from '../../assets/images/symbols_win_3/frame_07.png';
+import symbolsWin3Frame9 from '../../assets/images/symbols_win_3/frame_08.png';
+import symbolsWin3Frame10 from '../../assets/images/symbols_win_3/frame_09.png';
 
-import symbolsWin4Frame1 from '../../assets/images/symbols_win_4/frame-01.gif';
-import symbolsWin4Frame2 from '../../assets/images/symbols_win_4/frame-02.gif';
-import symbolsWin4Frame3 from '../../assets/images/symbols_win_4/frame-03.gif';
-import symbolsWin4Frame4 from '../../assets/images/symbols_win_4/frame-04.gif';
-import symbolsWin4Frame5 from '../../assets/images/symbols_win_4/frame-05.gif';
-import symbolsWin4Frame6 from '../../assets/images/symbols_win_4/frame-06.gif';
-import symbolsWin4Frame7 from '../../assets/images/symbols_win_4/frame-07.gif';
-import symbolsWin4Frame8 from '../../assets/images/symbols_win_4/frame-08.gif';
-import symbolsWin4Frame9 from '../../assets/images/symbols_win_4/frame-09.gif';
-import symbolsWin4Frame10 from '../../assets/images/symbols_win_4/frame-10.gif';
+import symbolsWin4Frame1 from '../../assets/images/symbols_win_4/frame_00.png';
+import symbolsWin4Frame2 from '../../assets/images/symbols_win_4/frame_01.png';
+import symbolsWin4Frame3 from '../../assets/images/symbols_win_4/frame_02.png';
+import symbolsWin4Frame4 from '../../assets/images/symbols_win_4/frame_03.png';
+import symbolsWin4Frame5 from '../../assets/images/symbols_win_4/frame_04.png';
+import symbolsWin4Frame6 from '../../assets/images/symbols_win_4/frame_05.png';
+import symbolsWin4Frame7 from '../../assets/images/symbols_win_4/frame_06.png';
+import symbolsWin4Frame8 from '../../assets/images/symbols_win_4/frame_07.png';
+import symbolsWin4Frame9 from '../../assets/images/symbols_win_4/frame_08.png';
+import symbolsWin4Frame10 from '../../assets/images/symbols_win_4/frame_09.png';
 
-import symbolsWin5Frame1 from '../../assets/images/symbols_win_5/frame-01.gif';
-import symbolsWin5Frame2 from '../../assets/images/symbols_win_5/frame-02.gif';
-import symbolsWin5Frame3 from '../../assets/images/symbols_win_5/frame-03.gif';
-import symbolsWin5Frame4 from '../../assets/images/symbols_win_5/frame-04.gif';
-import symbolsWin5Frame5 from '../../assets/images/symbols_win_5/frame-05.gif';
-import symbolsWin5Frame6 from '../../assets/images/symbols_win_5/frame-06.gif';
-import symbolsWin5Frame7 from '../../assets/images/symbols_win_5/frame-07.gif';
-import symbolsWin5Frame8 from '../../assets/images/symbols_win_5/frame-08.gif';
-import symbolsWin5Frame9 from '../../assets/images/symbols_win_5/frame-09.gif';
-import symbolsWin5Frame10 from '../../assets/images/symbols_win_5/frame-10.gif';
+import symbolsWin5Frame1 from '../../assets/images/symbols_win_5/frame_00.png';
+import symbolsWin5Frame2 from '../../assets/images/symbols_win_5/frame_01.png';
+import symbolsWin5Frame3 from '../../assets/images/symbols_win_5/frame_02.png';
+import symbolsWin5Frame4 from '../../assets/images/symbols_win_5/frame_03.png';
+import symbolsWin5Frame5 from '../../assets/images/symbols_win_5/frame_04.png';
+import symbolsWin5Frame6 from '../../assets/images/symbols_win_5/frame_05.png';
+import symbolsWin5Frame7 from '../../assets/images/symbols_win_5/frame_06.png';
+import symbolsWin5Frame8 from '../../assets/images/symbols_win_5/frame_07.png';
+import symbolsWin5Frame9 from '../../assets/images/symbols_win_5/frame_08.png';
+import symbolsWin5Frame10 from '../../assets/images/symbols_win_5/frame_09.png';
 
-import symbolsWin6Frame1 from '../../assets/images/symbols_win_6/frame-01.gif';
-import symbolsWin6Frame2 from '../../assets/images/symbols_win_6/frame-02.gif';
-import symbolsWin6Frame3 from '../../assets/images/symbols_win_6/frame-03.gif';
-import symbolsWin6Frame4 from '../../assets/images/symbols_win_6/frame-04.gif';
-import symbolsWin6Frame5 from '../../assets/images/symbols_win_6/frame-05.gif';
-import symbolsWin6Frame6 from '../../assets/images/symbols_win_6/frame-06.gif';
-import symbolsWin6Frame7 from '../../assets/images/symbols_win_6/frame-07.gif';
-import symbolsWin6Frame8 from '../../assets/images/symbols_win_6/frame-08.gif';
-import symbolsWin6Frame9 from '../../assets/images/symbols_win_6/frame-09.gif';
-import symbolsWin6Frame10 from '../../assets/images/symbols_win_6/frame-10.gif';
+import symbolsWin6Frame1 from '../../assets/images/symbols_win_6/frame_00.png';
+import symbolsWin6Frame2 from '../../assets/images/symbols_win_6/frame_01.png';
+import symbolsWin6Frame3 from '../../assets/images/symbols_win_6/frame_02.png';
+import symbolsWin6Frame4 from '../../assets/images/symbols_win_6/frame_03.png';
+import symbolsWin6Frame5 from '../../assets/images/symbols_win_6/frame_04.png';
+import symbolsWin6Frame6 from '../../assets/images/symbols_win_6/frame_05.png';
+import symbolsWin6Frame7 from '../../assets/images/symbols_win_6/frame_06.png';
+import symbolsWin6Frame8 from '../../assets/images/symbols_win_6/frame_07.png';
+import symbolsWin6Frame9 from '../../assets/images/symbols_win_6/frame_08.png';
+import symbolsWin6Frame10 from '../../assets/images/symbols_win_6/frame_09.png';
 
-import symbolsWin7Frame1 from '../../assets/images/symbols_win_7/frame-01.gif';
-import symbolsWin7Frame2 from '../../assets/images/symbols_win_7/frame-02.gif';
-import symbolsWin7Frame3 from '../../assets/images/symbols_win_7/frame-03.gif';
-import symbolsWin7Frame4 from '../../assets/images/symbols_win_7/frame-04.gif';
-import symbolsWin7Frame5 from '../../assets/images/symbols_win_7/frame-05.gif';
-import symbolsWin7Frame6 from '../../assets/images/symbols_win_7/frame-06.gif';
-import symbolsWin7Frame7 from '../../assets/images/symbols_win_7/frame-07.gif';
-import symbolsWin7Frame8 from '../../assets/images/symbols_win_7/frame-08.gif';
-import symbolsWin7Frame9 from '../../assets/images/symbols_win_7/frame-09.gif';
-import symbolsWin7Frame10 from '../../assets/images/symbols_win_7/frame-10.gif';
+import symbolsWin7Frame1 from '../../assets/images/symbols_win_7/frame_00.png';
+import symbolsWin7Frame2 from '../../assets/images/symbols_win_7/frame_01.png';
+import symbolsWin7Frame3 from '../../assets/images/symbols_win_7/frame_02.png';
+import symbolsWin7Frame4 from '../../assets/images/symbols_win_7/frame_03.png';
+import symbolsWin7Frame5 from '../../assets/images/symbols_win_7/frame_04.png';
+import symbolsWin7Frame6 from '../../assets/images/symbols_win_7/frame_05.png';
+import symbolsWin7Frame7 from '../../assets/images/symbols_win_7/frame_06.png';
+import symbolsWin7Frame8 from '../../assets/images/symbols_win_7/frame_07.png';
+import symbolsWin7Frame9 from '../../assets/images/symbols_win_7/frame_08.png';
+import symbolsWin7Frame10 from '../../assets/images/symbols_win_7/frame_09.png';
 
-import symbolsWin8Frame1 from '../../assets/images/symbols_win_8/frame-01.gif';
-import symbolsWin8Frame2 from '../../assets/images/symbols_win_8/frame-02.gif';
-import symbolsWin8Frame3 from '../../assets/images/symbols_win_8/frame-03.gif';
-import symbolsWin8Frame4 from '../../assets/images/symbols_win_8/frame-04.gif';
-import symbolsWin8Frame5 from '../../assets/images/symbols_win_8/frame-05.gif';
-import symbolsWin8Frame6 from '../../assets/images/symbols_win_8/frame-06.gif';
-import symbolsWin8Frame7 from '../../assets/images/symbols_win_8/frame-07.gif';
-import symbolsWin8Frame8 from '../../assets/images/symbols_win_8/frame-08.gif';
-import symbolsWin8Frame9 from '../../assets/images/symbols_win_8/frame-09.gif';
-import symbolsWin8Frame10 from '../../assets/images/symbols_win_8/frame-10.gif';
+import symbolsWin8Frame1 from '../../assets/images/symbols_win_8/frame_00.png';
+import symbolsWin8Frame2 from '../../assets/images/symbols_win_8/frame_01.png';
+import symbolsWin8Frame3 from '../../assets/images/symbols_win_8/frame_02.png';
+import symbolsWin8Frame4 from '../../assets/images/symbols_win_8/frame_03.png';
+import symbolsWin8Frame5 from '../../assets/images/symbols_win_8/frame_04.png';
+import symbolsWin8Frame6 from '../../assets/images/symbols_win_8/frame_05.png';
+import symbolsWin8Frame7 from '../../assets/images/symbols_win_8/frame_06.png';
+import symbolsWin8Frame8 from '../../assets/images/symbols_win_8/frame_07.png';
+import symbolsWin8Frame9 from '../../assets/images/symbols_win_8/frame_08.png';
+import symbolsWin8Frame10 from '../../assets/images/symbols_win_8/frame_09.png';
 
-import symbolsWin9Frame1 from '../../assets/images/symbols_win_9/frame-01.gif';
-import symbolsWin9Frame2 from '../../assets/images/symbols_win_9/frame-02.gif';
-import symbolsWin9Frame3 from '../../assets/images/symbols_win_9/frame-03.gif';
-import symbolsWin9Frame4 from '../../assets/images/symbols_win_9/frame-04.gif';
-import symbolsWin9Frame5 from '../../assets/images/symbols_win_9/frame-05.gif';
-import symbolsWin9Frame6 from '../../assets/images/symbols_win_9/frame-06.gif';
-import symbolsWin9Frame7 from '../../assets/images/symbols_win_9/frame-07.gif';
-import symbolsWin9Frame8 from '../../assets/images/symbols_win_9/frame-08.gif';
-import symbolsWin9Frame9 from '../../assets/images/symbols_win_9/frame-09.gif';
-import symbolsWin9Frame10 from '../../assets/images/symbols_win_9/frame-10.gif';
+import symbolsWin9Frame1 from '../../assets/images/symbols_win_9/frame_00.png';
+import symbolsWin9Frame2 from '../../assets/images/symbols_win_9/frame_01.png';
+import symbolsWin9Frame3 from '../../assets/images/symbols_win_9/frame_02.png';
+import symbolsWin9Frame4 from '../../assets/images/symbols_win_9/frame_03.png';
+import symbolsWin9Frame5 from '../../assets/images/symbols_win_9/frame_04.png';
+import symbolsWin9Frame6 from '../../assets/images/symbols_win_9/frame_05.png';
+import symbolsWin9Frame7 from '../../assets/images/symbols_win_9/frame_06.png';
+import symbolsWin9Frame8 from '../../assets/images/symbols_win_9/frame_07.png';
+import symbolsWin9Frame9 from '../../assets/images/symbols_win_9/frame_08.png';
+import symbolsWin9Frame10 from '../../assets/images/symbols_win_9/frame_09.png';
 
-import symbolsWin10Frame1 from '../../assets/images/symbols_win_10/frame-01.gif';
-import symbolsWin10Frame2 from '../../assets/images/symbols_win_10/frame-02.gif';
-import symbolsWin10Frame3 from '../../assets/images/symbols_win_10/frame-03.gif';
-import symbolsWin10Frame4 from '../../assets/images/symbols_win_10/frame-04.gif';
-import symbolsWin10Frame5 from '../../assets/images/symbols_win_10/frame-05.gif';
-import symbolsWin10Frame6 from '../../assets/images/symbols_win_10/frame-06.gif';
-import symbolsWin10Frame7 from '../../assets/images/symbols_win_10/frame-07.gif';
-import symbolsWin10Frame8 from '../../assets/images/symbols_win_10/frame-08.gif';
-import symbolsWin10Frame9 from '../../assets/images/symbols_win_10/frame-09.gif';
-import symbolsWin10Frame10 from '../../assets/images/symbols_win_10/frame-10.gif';
+import symbolsWin10Frame1 from '../../assets/images/symbols_win_10/frame_00.png';
+import symbolsWin10Frame2 from '../../assets/images/symbols_win_10/frame_01.png';
+import symbolsWin10Frame3 from '../../assets/images/symbols_win_10/frame_02.png';
+import symbolsWin10Frame4 from '../../assets/images/symbols_win_10/frame_03.png';
+import symbolsWin10Frame5 from '../../assets/images/symbols_win_10/frame_04.png';
+import symbolsWin10Frame6 from '../../assets/images/symbols_win_10/frame_05.png';
+import symbolsWin10Frame7 from '../../assets/images/symbols_win_10/frame_06.png';
+import symbolsWin10Frame8 from '../../assets/images/symbols_win_10/frame_07.png';
+import symbolsWin10Frame9 from '../../assets/images/symbols_win_10/frame_08.png';
+import symbolsWin10Frame10 from '../../assets/images/symbols_win_10/frame_09.png';
 
 const preloaderGifTexture = [
   prelTexture1,
@@ -158,7 +158,7 @@ const preloaderGifTexture = [
   prelTexture14,
 ];
 
-const symbolsWin: any = [
+export const symbolsWin: any = [
   [
     symbolsWin1Frame1,
     symbolsWin1Frame2,
@@ -320,38 +320,45 @@ export async function loadCriticalData(): Promise<void> {
     itemsKeyForPreloaderGif.push('preloder' + i);
   });
 
-  await PIXI.Assets.load(itemsKeyForPreloaderGif);
-
-  for (let i = 0; i < itemsKeyForPreloaderGif.length; i++) {
-    readyGameDataPreloader.push(PIXI.Texture.from(preloaderGifTexture[i]));
-  }
+  await PIXI.Assets.load(itemsKeyForPreloaderGif, progress => {
+    if (progress === 1) {
+      for (let i = 0; i < itemsKeyForPreloaderGif.length; i++) {
+        readyGameDataPreloader.push(PIXI.Texture.from(preloaderGifTexture[i]));
+      }
+    }
+  });
 }
 
-export function createGameDataSymbolsWin(pixiData: any) {
+export async function createGameDataSymbolsWin(pixiData: any) {
   readyGameDataSymbolsWin = [];
-  const getSymbolsWin: any = Object.entries(pixiData).filter(
-    (arr: Array<any>) => {
-      return arr[0].includes('symbolsWin');
-    },
-  );
+  // const getSymbolsWin: any = Object.entries(pixiData).filter(
+  //   (arr: Array<any>) => {
+  //     return arr[0].includes('symbolsWin');
+  //   },
+  // );
 
-  let counter = 0;
-  let arrayCounter = 0;
-  const maxPixiObjectsInOneArray = 10;
-  for (let i = 0; i < getSymbolsWin.length; i++) {
-    if (counter === 0) {
-      readyGameDataSymbolsWin.push([]);
-    }
-    if (counter < maxPixiObjectsInOneArray) {
-      const createPixiTexture: any = new PIXI.AnimatedSprite(
-        getSymbolsWin[i][1],
-      );
-      readyGameDataSymbolsWin[arrayCounter].push(createPixiTexture);
-      counter++;
-    }
-    if (counter === 10) {
-      counter = 0;
-      arrayCounter++;
+  // let counter = 0;
+  // let arrayCounter = 0;
+  // const maxPixiObjectsInOneArray = 10;
+  // for (let i = 0; i < getSymbolsWin.length; i++) {
+  //   if (counter === 0) {
+  //     readyGameDataSymbolsWin.push([]);
+  //   }
+  //   if (counter < maxPixiObjectsInOneArray) {
+  //     readyGameDataSymbolsWin[arrayCounter].push(getSymbolsWin[i][1]);
+  //     counter++;
+  //   }
+  //   if (counter === 10) {
+  //     counter = 0;
+  //     arrayCounter++;
+  //   }
+  // }
+
+  for (let i = 0; i < symbolsWin.length; i++) {
+    readyGameDataSymbolsWin.push([]);
+    for (let g = 0; g < symbolsWin[i].length; g++) {
+      const newPixiTexture = PIXI.Texture.from(symbolsWin[i][g]);
+      readyGameDataSymbolsWin[i].push(newPixiTexture);
     }
   }
 }
