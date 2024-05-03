@@ -12,6 +12,8 @@ import symbol10 from '../../assets/images/symbols/10.png';
 import bgSlotGame from '../../assets/images/bg-slot.jpg';
 import spinBtn from '../../assets/images/spin.png';
 import bgLoadingAnubis from '../../assets/images/bg-loading-slot.jpg';
+import arrowTop from '../../assets/images/arrow_top.png';
+import arrowBottom from '../../assets/images/arrow_bottom.png';
 
 import prelTexture1 from '../../assets/images/preloader-textures/frame-01.png';
 import prelTexture2 from '../../assets/images/preloader-textures/frame-02.png';
@@ -297,6 +299,8 @@ export const gameData = {
   bgSlotGame,
   bgLoadingAnubis,
   spinBtn,
+  arrowBottom,
+  arrowTop,
 };
 
 export const gameDataGif: any = {};

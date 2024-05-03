@@ -52,9 +52,14 @@ const Game = (props: any) => {
 
             {props.isAdditionStage ? gameField : null}
 
-            {!props.isGameOn && (
-              <GameControls handleClickSpin={props.handleClickSpin} />
-            )}
+            <GameControls
+              handlePlaceBetUp={props.handlePlaceBetUp}
+              handlePlaceBetLow={props.handlePlaceBetLow}
+              handleClickSpin={props.handleClickSpin}
+              balance={props.balance}
+              bet={props.bet}
+              isGameOn={props.isGameOn}
+            />
           </Container>
         )}
       </Stage>

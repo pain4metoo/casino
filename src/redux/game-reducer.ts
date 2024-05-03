@@ -15,7 +15,7 @@ interface IInitialState {
   isInitStage: boolean;
   isRemoveSymbolsStage: boolean;
   isAdditionStage: boolean;
-  balance: number;
+  bet: number;
 }
 
 const initialState: IInitialState = {
@@ -27,7 +27,7 @@ const initialState: IInitialState = {
   isInitStage: false,
   isRemoveSymbolsStage: false,
   isAdditionStage: false,
-  balance: 0,
+  bet: 0.1,
 };
 
 const gameSlice = createSlice({
@@ -70,6 +70,9 @@ const gameSlice = createSlice({
     },
     setGameOnState(state, action) {
       state.isGameOn = action.payload.flag;
+    },
+    setBet(state, action) {
+      state.bet = action.payload.bet;
     },
   },
 });
@@ -150,6 +153,7 @@ export const {
   omitStage,
   additionStage,
   setGameOnState,
+  setBet,
 } = gameSlice.actions;
 
 export default gameSlice.reducer;

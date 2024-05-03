@@ -28,7 +28,7 @@ class SlotApi {
         throw Error(response);
       }
 
-      return changeBalanceResponse.data.balance;
+      return +changeBalanceResponse.data.balance.toFixed(2);
     } catch (err) {
       console.log(err);
     }
