@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import store from '../../redux/store';
 import LoadingContainer from './Loading/LoadingContainer';
 import { gameData } from './textures';
+import GameControls from './GameControls';
 
 const Game = (props: any) => {
   const startingField = createSymbols(props.startingField);
@@ -52,15 +53,7 @@ const Game = (props: any) => {
             {props.isAdditionStage ? gameField : null}
 
             {!props.isGameOn && (
-              <Container position={[1000, 575]}>
-                <Sprite
-                  width={100}
-                  height={100}
-                  image={gameData.spinBtn}
-                  pointerdown={props.handleClickSpin}
-                  eventMode={'dynamic'}
-                />
-              </Container>
+              <GameControls handleClickSpin={props.handleClickSpin} />
             )}
           </Container>
         )}

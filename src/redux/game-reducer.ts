@@ -1,8 +1,10 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { Dispatch, createSlice } from '@reduxjs/toolkit';
 import GenerateSpinCycle, {
   ISymbol,
   Stages,
 } from '../components/Game/GenerateGameLogic';
+import SlotApi from '../api/slot/slot-api';
+import { updateUserBalance } from './auth-reducer';
 
 interface IInitialState {
   startingField: Array<Array<ISymbol>>;
@@ -13,6 +15,7 @@ interface IInitialState {
   isInitStage: boolean;
   isRemoveSymbolsStage: boolean;
   isAdditionStage: boolean;
+  balance: number;
 }
 
 const initialState: IInitialState = {
@@ -24,6 +27,7 @@ const initialState: IInitialState = {
   isInitStage: false,
   isRemoveSymbolsStage: false,
   isAdditionStage: false,
+  balance: 0,
 };
 
 const gameSlice = createSlice({
@@ -69,6 +73,14 @@ const gameSlice = createSlice({
     },
   },
 });
+
+export const placeBetThunk = (bet: number, balance: number) => {
+  return async (dispatch: Dispatch) => {
+    const newBalance = await SlotApi.placeBet(bet, balance);
+
+    dispatch(updateUserBalance({ balance: newBalance }));
+  };
+};
 
 export const spinCycleThunk = (isInitStage: boolean) => {
   return (dispatch: any) => {

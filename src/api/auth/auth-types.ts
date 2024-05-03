@@ -3,7 +3,7 @@ export interface UserData {
   password: string;
   login: string;
   avatar: null;
-  coins: number;
+  balance: number;
   achievements: Array<string>;
   exp: number;
   level: number;

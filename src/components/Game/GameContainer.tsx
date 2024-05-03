@@ -3,10 +3,11 @@ import { compose } from 'redux';
 import Game from './Game';
 import { withAuthMeRedirect } from '../../hoc/withAuthMeRedirect';
 import { isAuthMeThunk } from '../../redux/auth-reducer';
-import { spinCycleThunk } from '../../redux/game-reducer';
+import { placeBetThunk, spinCycleThunk } from '../../redux/game-reducer';
 
 const GameContainer = (props: any) => {
-  const handleClickSpin = () => {
+  const handleClickSpin = (bet: number, balance: number) => {
+    props.placeBetThunk(bet, balance);
     props.spinCycleThunk(true);
 
     setTimeout(() => {
@@ -34,6 +35,7 @@ const mapStateToProps = (state: any) => {
 };
 export default compose(
   connect(mapStateToProps, {
+    placeBetThunk,
     isAuthMeThunk,
     spinCycleThunk,
   }),

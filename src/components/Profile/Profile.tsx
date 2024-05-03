@@ -6,7 +6,7 @@ import avatar from '../../assets/images/avatar.webp';
 const Profile = (props: any) => {
   const avatarIMG: any = props.user.avatar ? props.user.avatar : avatar;
   const exp: number = props.user.exp ? props.user.exp : 0;
-  const balance: string = props.user.coins ? props.user.coins : 0;
+  const balance: string = props.user.balance ? props.user.balance : 0;
   const level: string = props.user.level ? props.user.level : 1;
 
   return (

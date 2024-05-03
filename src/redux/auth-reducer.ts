@@ -9,7 +9,7 @@ const initialState: AuthData = {
     password: '',
     login: '',
     avatar: null,
-    coins: 0,
+    balance: 0,
     achievements: [],
     exp: 0,
     level: 1,
@@ -58,6 +58,9 @@ const authSlice = createSlice({
       localStorage.clear();
       state.user.isAuth = false;
     },
+    updateUserBalance(state, action) {
+      state.user.balance = action.payload.balance;
+    },
   },
 });
 
@@ -70,6 +73,7 @@ export const {
   setAuthErrorLogin,
   setShowModalAuthError,
   exitFromProfile,
+  updateUserBalance,
 } = authSlice.actions;
 
 export default authSlice.reducer;

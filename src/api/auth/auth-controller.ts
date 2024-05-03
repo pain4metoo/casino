@@ -14,7 +14,7 @@ class AuthController {
         login: login,
         password: password,
         avatar: null,
-        coins: 1000,
+        balance: 1000,
         achievements: [],
         exp: 0,
         level: 1,
