@@ -77,9 +77,9 @@ const gameSlice = createSlice({
   },
 });
 
-export const placeBetThunk = (bet: number, balance: number) => {
+export const placeBetThunk = (bet: number) => {
   return async (dispatch: Dispatch) => {
-    const newBalance = await SlotApi.placeBet(bet, balance);
+    const newBalance = await SlotApi.placeBet(bet);
 
     dispatch(updateUserBalance({ balance: newBalance }));
   };

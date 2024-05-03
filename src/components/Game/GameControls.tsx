@@ -64,7 +64,7 @@ const GameControls = (props: any) => {
           width={100}
           height={100}
           image={gameData.spinBtn}
-          pointerdown={() => props.handleClickSpin(props.bet, props.balance)}
+          pointerdown={() => props.handleClickSpin(props.bet)}
           eventMode={props.isGameOn ? 'none' : 'dynamic'}
         />
       </Container>

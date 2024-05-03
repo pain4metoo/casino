@@ -33,7 +33,6 @@ const authSlice = createSlice({
     },
     loginUser(state, action) {
       state.user = action.payload.user;
-      state.user.balance = +state.user.balance.toFixed(2);
       state.user.isAuth = true;
     },
     setToken(state, action) {
@@ -44,7 +43,6 @@ const authSlice = createSlice({
     },
     setAuthMe(state, action) {
       state.user = action.payload.user;
-      state.user.balance = +state.user.balance.toFixed(2);
       state.user.isAuth = true;
     },
     setAuthErrorRegister(state, action) {

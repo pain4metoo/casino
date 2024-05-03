@@ -1,10 +1,10 @@
 import { instance } from '../instance';
 
 class SlotApi {
-  public static async placeBet(bet: number, balance: number) {
+  public static async placeBet(bet: number) {
     try {
       const response: any = await instance.get(
-        `/600/users/${localStorage.getItem('id')}`,
+        `/users/${localStorage.getItem('id')}`,
       );
 
       if (!response.data) {
@@ -17,10 +17,12 @@ class SlotApi {
         throw Error('No Money');
       }
 
+      const updateBalance = (currentBalance - bet).toFixed(2);
+
       const changeBalanceResponse: any = await instance.patch(
-        `/600/users/${localStorage.getItem('id')}`,
+        `/users/${localStorage.getItem('id')}`,
         {
-          balance: currentBalance - bet,
+          balance: updateBalance,
         },
       );
 
@@ -28,7 +30,7 @@ class SlotApi {
         throw Error(response);
       }
 
-      return +changeBalanceResponse.data.balance.toFixed(2);
+      return changeBalanceResponse.data.balance;
     } catch (err) {
       console.log(err);
     }
