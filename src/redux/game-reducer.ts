@@ -4,7 +4,7 @@ import GenerateSpinCycle, {
   Stages,
 } from '../components/Game/GenerateGameLogic';
 import SlotApi from '../api/slot/slot-api';
-import { updateUserBalance } from './auth-reducer';
+import { isAuthMeThunk, updateUserBalance } from './auth-reducer';
 
 interface IInitialState {
   startingField: Array<Array<ISymbol>>;
@@ -16,6 +16,7 @@ interface IInitialState {
   isRemoveSymbolsStage: boolean;
   isAdditionStage: boolean;
   bet: number;
+  winAmount: number;
 }
 
 const initialState: IInitialState = {
@@ -28,6 +29,7 @@ const initialState: IInitialState = {
   isRemoveSymbolsStage: false,
   isAdditionStage: false,
   bet: 0.1,
+  winAmount: 0,
 };
 
 const gameSlice = createSlice({
@@ -48,6 +50,7 @@ const gameSlice = createSlice({
         state.gameField = [];
         state.isAdditionStage = false;
         state.isRemoveSymbolsStage = false;
+        state.winAmount = 0;
       } else {
         state.gameField = action.payload.gameField;
         state.isInitStage = true;
@@ -73,6 +76,9 @@ const gameSlice = createSlice({
     },
     setBet(state, action) {
       state.bet = action.payload.bet;
+    },
+    updateWinAmount(state, action) {
+      state.winAmount = action.payload.winAmount;
     },
   },
 });
@@ -106,6 +112,18 @@ export const spinCycleThunk = (isInitStage: boolean) => {
             winStage({
               gameField: GenerateSpinCycle.getStage(Stages.WIN),
             }),
+          );
+
+          SlotApi.updateBalance(GenerateSpinCycle.getWinAmount()).then(res => {
+            dispatch(
+              updateUserBalance({
+                balance: res,
+              }),
+            );
+          });
+
+          dispatch(
+            updateWinAmount({ winAmount: GenerateSpinCycle.getWinAmount() }),
           );
 
           setTimeout(() => {
@@ -154,6 +172,7 @@ export const {
   additionStage,
   setGameOnState,
   setBet,
+  updateWinAmount,
 } = gameSlice.actions;
 
 export default gameSlice.reducer;

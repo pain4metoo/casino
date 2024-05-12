@@ -60,12 +60,17 @@ class AuthController {
 
   public static async isAuthMe() {
     try {
+      const config = {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      };
+
       const response: any = await instance.get(
-        `/600/users/${localStorage.getItem('id')}`,
+        `/users/${localStorage.getItem('id')}`,
+        config,
       );
 
       if (!response.data) {
-        throw new Error(response);
+        throw Error(response);
       }
 
       return response.data;

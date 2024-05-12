@@ -36,10 +36,8 @@ const authSlice = createSlice({
       state.user.isAuth = true;
     },
     setToken(state, action) {
-      if (action.payload.data) {
-        localStorage.setItem('token', action.payload.data.accessToken);
-        localStorage.setItem('id', action.payload.data.user.id);
-      }
+      localStorage.setItem('token', action.payload.data.accessToken);
+      localStorage.setItem('id', action.payload.data.user.id);
     },
     setAuthMe(state, action) {
       state.user = action.payload.user;
@@ -83,44 +81,44 @@ export const registerUserThunk = (
   password: string,
   login: string,
 ) => {
-  return (dispatch: Dispatch) => {
-    AuthController.createNewUser(email, password, login).then(
-      (response: any) => {
-        if (response.user) {
-          dispatch(setToken({ data: response }));
-          dispatch(registerUser({ user: response.user }));
-        } else {
-          dispatch(setAuthErrorRegister({ errorTextRegister: response }));
-        }
-      },
-    );
+  return async (dispatch: Dispatch) => {
+    const response = await AuthController.createNewUser(email, password, login);
+
+    if (response.user) {
+      dispatch(setToken({ data: response }));
+      dispatch(registerUser({ user: response.user }));
+    } else {
+      dispatch(setAuthErrorRegister({ errorTextRegister: response }));
+    }
   };
 };
 
 export const loginUserThunk = (email: string, password: string) => {
-  return (dispatch: Dispatch) => {
-    AuthController.isAuthUser(email, password).then((response: any) => {
-      if (response.user) {
-        dispatch(setToken({ data: response }));
-        dispatch(loginUser({ user: response.user }));
-      } else {
-        dispatch(setAuthErrorLogin({ errorTextLogin: response }));
-      }
-    });
+  return async (dispatch: Dispatch) => {
+    const response = await AuthController.isAuthUser(email, password);
+
+    if (response.user) {
+      dispatch(setToken({ data: response }));
+      dispatch(loginUser({ user: response.user }));
+    } else {
+      dispatch(setAuthErrorLogin({ errorTextLogin: response }));
+    }
   };
 };
 
 export const isAuthMeThunk = () => {
-  return (dispatch: Dispatch) => {
+  return async (dispatch: Dispatch) => {
     if (AuthController.isAuthMeCheckData()) {
-      AuthController.isAuthMe().then(response => {
-        if (response) {
-          dispatch(setAuthMe({ user: response }));
-        } else {
-          dispatch(exitFromProfile());
-          dispatch(setShowModalAuthError({ flag: true }));
-        }
-      });
+      const response = await AuthController.isAuthMe();
+
+      if (response) {
+        dispatch(setAuthMe({ user: response }));
+      } else {
+        dispatch(exitFromProfile());
+        dispatch(setShowModalAuthError({ flag: true }));
+      }
+    } else {
+      dispatch(exitFromProfile());
     }
   };
 };

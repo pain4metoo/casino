@@ -8,8 +8,25 @@ const GameControls = (props: any) => {
       <Container>
         <Text
           text={'Balance: ' + props.balance + '$'}
-          x={50}
+          x={20}
           y={620}
+          style={
+            new PIXI.TextStyle({
+              align: 'center',
+              fontFamily: '"Source Sans Pro", Helvetica, sans-serif',
+              fontSize: 30,
+              fontWeight: '400',
+              fill: ['#ffffff', '#00ff99'], // gradient
+              stroke: '#01d27e',
+              wordWrap: false,
+              wordWrapWidth: 100,
+            })
+          }
+        />
+        <Text
+          text={'Win: ' + props.winAmount + '$'}
+          x={20}
+          y={560}
           style={
             new PIXI.TextStyle({
               align: 'center',

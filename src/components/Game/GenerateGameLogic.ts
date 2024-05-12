@@ -36,12 +36,15 @@ interface IStagesPlayingField {
 }
 
 export class GenerateSpinCycle {
+  private static currentBet: number = 0.01;
+
   private static symbolsInColumn: number = 6;
   private static maxRowCount: number = 5;
   private static symbolsCount: number = 10;
   private static rowCounter: number = 0;
   private static columnCounter: number = 0;
   private static isWinSpin: boolean = false;
+  private static currentWinSum: number = 0;
 
   private static xStartDefault: number = 350;
   private static yStartDefault: number = -550;
@@ -74,6 +77,17 @@ export class GenerateSpinCycle {
     additionStage: [],
   };
 
+  public static getWinAmount(): number {
+    return this.currentWinSum;
+  }
+  public static changeCurrentBet(newBet: number) {
+    if (newBet > 0 && newBet <= 1000) {
+      this.currentBet = newBet;
+    } else {
+      throw new Error('Incorrect bet');
+    }
+  }
+
   public static getStage(stage: Stages): Array<Array<ISymbol>> {
     return this.stagesPlayingField[stage];
   }
@@ -103,6 +117,7 @@ export class GenerateSpinCycle {
     this.rowCounter = 0;
     this.columnCounter = 0;
     this.isWinSpin = false;
+    this.currentWinSum = 0;
 
     this.stagesPlayingField.initStage = [];
     this.stagesPlayingField.winStage = [];
@@ -222,9 +237,55 @@ export class GenerateSpinCycle {
     return this.xStart;
   }
 
-  public static checkWinSymbols(gameField: Array<Array<ISymbol>>): boolean {
-    const winSymbolsCount: { [id: string]: number } = {};
+  public static calculateWinSum(winSymbols: { [id: string]: number }): void {
+    this.currentWinSum = 0;
+    const copySymbols = { ...winSymbols };
+    const intervalDefSymbols = 5;
 
+    const winTableDefault = {
+      symbolsDef: {
+        6: 0.07,
+        7: 0.08,
+        8: 0.1,
+        9: 0.5,
+        10: 1,
+        11: 1.5,
+      },
+      symbolsWin: {
+        6: { 6: 0.06, 7: 0.1, 8: 0.2, 9: 0.3, 10: 1.5, 11: 2.0 },
+        7: { 6: 0.06, 7: 0.1, 8: 0.2, 9: 0.3, 10: 1.5, 11: 2.0 },
+        8: { 6: 0.12, 7: 0.2, 8: 0.4, 9: 0.6, 10: 3, 11: 4 },
+        9: { 6: 0.24, 7: 0.4, 8: 0.8, 9: 1.2, 10: 6, 11: 8 },
+        10: { 6: 0.48, 7: 0.8, 8: 1.6, 9: 2.4, 10: 12, 11: 16 },
+      },
+    };
+
+    const calculate = (id: number, count: number): any => {
+      const key = count as keyof typeof winTableDefault.symbolsDef;
+
+      if (id <= intervalDefSymbols) {
+        return winTableDefault.symbolsDef[key] * this.currentBet * 10;
+      } else {
+        return (
+          (winTableDefault.symbolsWin as any)[id][key] * this.currentBet * 10
+        );
+      }
+    };
+
+    let winResult = 0;
+
+    for (const id in copySymbols) {
+      if (copySymbols[id] >= 6) {
+        winResult += calculate(+id, copySymbols[id]);
+      }
+    }
+
+    this.currentWinSum = +winResult.toFixed(2);
+  }
+
+  public static checkWinSymbols(gameField: Array<Array<ISymbol>>): boolean {
+    this.currentWinSum = 0;
+    const winSymbolsCount: { [id: string]: number } = {};
     for (let i = 0; i < gameField.length; i++) {
       for (let g = 0; g < gameField[i].length; g++) {
         if (!winSymbolsCount[gameField[i][g].id]) {
@@ -235,9 +296,11 @@ export class GenerateSpinCycle {
       }
     }
 
-    const currentWinSymbols = Object.entries(winSymbolsCount)
+    this.calculateWinSum(winSymbolsCount);
+
+    const currentWinSymbols = Object.entries({ ...winSymbolsCount })
       .map(el => {
-        if (el[1] >= 11) {
+        if (el[1] >= 6) {
           // Check the number of characters
           return +el[0]; // return the number id
         }

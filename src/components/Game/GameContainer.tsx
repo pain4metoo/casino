@@ -8,9 +8,15 @@ import {
   setBet,
   spinCycleThunk,
 } from '../../redux/game-reducer';
+import GenerateSpinCycle from './GenerateGameLogic';
 
 const GameContainer = (props: any) => {
+  if (!props.isAuth) {
+    props.isAuthMeThunk();
+  }
+
   const handleClickSpin = (bet: number, balance: number) => {
+    props.isAuthMeThunk();
     props.placeBetThunk(bet, balance);
     props.spinCycleThunk(true);
 
@@ -33,7 +39,7 @@ const GameContainer = (props: any) => {
     }
 
     currentBet = +currentBet.toFixed(2);
-
+    GenerateSpinCycle.changeCurrentBet(currentBet);
     props.setBet({ bet: currentBet });
   };
 
@@ -52,18 +58,17 @@ const GameContainer = (props: any) => {
     }
 
     currentBet = +currentBet.toFixed(2);
+    GenerateSpinCycle.changeCurrentBet(currentBet);
     props.setBet({ bet: currentBet });
   };
 
-  if (!props.isAuth) {
-    props.isAuthMeThunk();
-  }
   return (
     <Game
       {...props}
       handleClickSpin={handleClickSpin}
       handlePlaceBetUp={handlePlaceBetUp}
       handlePlaceBetLow={handlePlaceBetLow}
+      isAuthMeThunk={props.isAuthMeThunk}
     />
   );
 };
@@ -80,6 +85,7 @@ const mapStateToProps = (state: any) => {
     isLoadData: state.loading.isLoadData,
     balance: state.auth.user.balance,
     bet: state.game.bet,
+    winAmount: state.game.winAmount,
   };
 };
 export default compose(

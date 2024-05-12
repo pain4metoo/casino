@@ -19,19 +19,6 @@ const store = configureStore({
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
+(window as any).store = store;
+
 export default store;
-
-// import {
-//   applyMiddleware,
-//   combineReducers,
-//   legacy_createStore as createStore,
-// } from 'redux';
-
-// const reducers = combineReducers({
-// });
-
-// const store = createStore(reducers, applyMiddleware(thunk));
-
-// window.store = store;
-
-// export default store;
