@@ -1,8 +1,11 @@
 .nav {
+  display: flex;
   margin-right: 3rem;
+  align-items: center;
 }
 
 .link {
+  display: block;
   text-decoration: none;
   &:not(:last-child) {
     margin-right: 2rem;
@@ -12,4 +15,44 @@
 .button {
   width: 10rem;
   font-size: 2rem;
+}
+
+.header_info {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 1rem;
+  min-width: 20rem;
+  width: 100%;
+  transition: ease 0.5s;
+}
+
+.name {
+  text-decoration: none;
+  font-size: 2rem;
+  line-height: 100%;
+  color: white;
+  font-weight: 400;
+  user-select: none;
+  width: 100%;
+  transition: ease 0.5s;
+}
+
+.balance {
+  text-decoration: none;
+  font-size: 2rem;
+  line-height: 100%;
+  color: white;
+  font-weight: 400;
+  user-select: none;
+  width: 100%;
+  transition: ease 0.5s;
+}
+
+.header_info:hover .name {
+  color: wheat;
+}
+
+.header_info:hover .balance {
+  color: wheat;
 }

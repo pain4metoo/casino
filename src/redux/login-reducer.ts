@@ -20,9 +20,14 @@ const loginSlice = createSlice({
     loginPagePassword(state, action) {
       state.password = action.payload.password;
     },
+    loginPageClearFields(state) {
+      state.email = '';
+      state.password = '';
+    },
   },
 });
 
-export const { loginPageEmail, loginPagePassword } = loginSlice.actions;
+export const { loginPageEmail, loginPagePassword, loginPageClearFields } =
+  loginSlice.actions;
 
 export default loginSlice.reducer;

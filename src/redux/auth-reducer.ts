@@ -2,6 +2,8 @@ import { AuthData } from './../api/auth/auth-types';
 import { Dispatch } from 'redux';
 import AuthController from '../api/auth/auth-controller';
 import { createSlice } from '@reduxjs/toolkit';
+import { clearFieldsWelcome } from './welcome-reducer';
+import { loginPageClearFields } from './login-reducer';
 
 const initialState: AuthData = {
   user: {
@@ -55,22 +57,13 @@ const authSlice = createSlice({
     updateUserBalance(state, action) {
       state.user.balance = action.payload.balance;
     },
+    clearAuthInfo(state) {
+      state.authWarnings.errorTextLogin = '';
+      state.authWarnings.errorTextRegister = '';
+      state.authWarnings.isShowModalError = false;
+    },
   },
 });
-
-export const {
-  registerUser,
-  loginUser,
-  setToken,
-  setAuthMe,
-  setAuthErrorRegister,
-  setAuthErrorLogin,
-  setShowModalAuthError,
-  exitFromProfile,
-  updateUserBalance,
-} = authSlice.actions;
-
-export default authSlice.reducer;
 
 export const registerUserThunk = (
   email: string,
@@ -81,6 +74,8 @@ export const registerUserThunk = (
     const response = await AuthController.createNewUser(email, password, login);
 
     if (response.user) {
+      dispatch(clearAuthInfo());
+      dispatch(clearFieldsWelcome());
       dispatch(setToken({ data: response }));
       dispatch(registerUser({ user: response.user }));
     } else {
@@ -94,6 +89,8 @@ export const loginUserThunk = (email: string, password: string) => {
     const response = await AuthController.isAuthUser(email, password);
 
     if (response.user) {
+      dispatch(clearAuthInfo());
+      dispatch(loginPageClearFields());
       dispatch(setToken({ data: response }));
       dispatch(loginUser({ user: response.user }));
     } else {
@@ -118,3 +115,18 @@ export const isAuthMeThunk = () => {
     }
   };
 };
+
+export const {
+  registerUser,
+  loginUser,
+  setToken,
+  setAuthMe,
+  setAuthErrorRegister,
+  setAuthErrorLogin,
+  setShowModalAuthError,
+  exitFromProfile,
+  updateUserBalance,
+  clearAuthInfo,
+} = authSlice.actions;
+
+export default authSlice.reducer;

@@ -9,6 +9,8 @@ const HeaderContainer = (props: any) => {
 const mapStateToProps = (state: any) => {
   return {
     isAuth: state.auth.user.isAuth,
+    name: state.auth.user.login,
+    balance: state.auth.user.balance,
   };
 };
 

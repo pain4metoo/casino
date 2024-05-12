@@ -25,10 +25,15 @@ const welcomeSlice = createSlice({
     changeLogin(state, action) {
       state.login = action.payload.login;
     },
+    clearFieldsWelcome(state) {
+      state.login = '';
+      state.password = '';
+      state.email = '';
+    },
   },
 });
 
-export const { changeEmail, changePassword, changeLogin } =
+export const { changeEmail, changePassword, changeLogin, clearFieldsWelcome } =
   welcomeSlice.actions;
 
 export default welcomeSlice.reducer;
