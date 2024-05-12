@@ -5,6 +5,7 @@ import { withAuthMeRedirect } from '../../hoc/withAuthMeRedirect';
 import { isAuthMeThunk } from '../../redux/auth-reducer';
 import {
   placeBetThunk,
+  restartGame,
   setBet,
   spinCycleThunk,
 } from '../../redux/game-reducer';
@@ -13,6 +14,12 @@ import { useEffect } from 'react';
 
 const GameContainer = (props: any) => {
   props.isAuthMeThunk();
+  useEffect(() => {
+    return () => {
+      GenerateSpinCycle.clearLastResults();
+      props.restartGame();
+    };
+  }, []);
 
   const handleClickSpin = (bet: number, balance: number) => {
     props.placeBetThunk(bet, balance);
@@ -92,6 +99,7 @@ export default compose(
     placeBetThunk,
     isAuthMeThunk,
     spinCycleThunk,
+    restartGame,
   }),
   withAuthMeRedirect,
 )(GameContainer);

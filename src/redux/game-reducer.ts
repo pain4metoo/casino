@@ -4,7 +4,7 @@ import GenerateSpinCycle, {
   Stages,
 } from '../components/Game/GenerateGameLogic';
 import SlotApi from '../api/slot/slot-api';
-import { isAuthMeThunk, updateUserBalance } from './auth-reducer';
+import { updateUserBalance } from './auth-reducer';
 
 interface IInitialState {
   startingField: Array<Array<ISymbol>>;
@@ -35,12 +35,7 @@ const gameSlice = createSlice({
   initialState,
   reducers: {
     setGenerateDefauldField(state, action) {
-      if (action.payload.isStartGame) {
-        state.isStartGame = true;
-      } else {
-        state.isStartGame = false;
-      }
-
+      state.isStartGame = true;
       state.startingField = action.payload.startingField;
     },
     initStage(state, action) {
@@ -77,6 +72,17 @@ const gameSlice = createSlice({
     },
     updateWinAmount(state, action) {
       state.winAmount = action.payload.winAmount;
+    },
+    restartGame(state) {
+      state.gameField = [];
+      state.startingField = [];
+      state.isGameOn = false;
+      state.isStartGame = false;
+      state.isInitStage = false;
+      state.isRemoveSymbolsStage = false;
+      state.isAdditionStage = false;
+      state.bet = 0.1;
+      state.winAmount = 0;
     },
   },
 });
@@ -171,6 +177,7 @@ export const {
   setGameOnState,
   setBet,
   updateWinAmount,
+  restartGame,
 } = gameSlice.actions;
 
 export default gameSlice.reducer;

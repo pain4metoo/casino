@@ -26,7 +26,6 @@ const Loading = (props: any) => {
     g.endFill();
     g.on('pointerdown', () => {
       props.setGenerateDefauldField({
-        isStartGame: true,
         startingField: GenerateSpinCycle.generateDefaultField(),
       });
     });

@@ -103,7 +103,7 @@ export class GenerateSpinCycle {
     return this.stagesPlayingField.initStage;
   }
 
-  private static clearLastResults(): void {
+  public static clearLastResults(): void {
     this.gameField = [];
     this.columnsInNeedOfSymbols = [];
 
