@@ -11,12 +11,9 @@ import {
 import GenerateSpinCycle from './GenerateGameLogic';
 
 const GameContainer = (props: any) => {
-  if (!props.isAuth) {
-    props.isAuthMeThunk();
-  }
+  props.isAuthMeThunk();
 
   const handleClickSpin = (bet: number, balance: number) => {
-    props.isAuthMeThunk();
     props.placeBetThunk(bet, balance);
     props.spinCycleThunk(true);
 

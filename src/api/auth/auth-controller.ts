@@ -65,7 +65,7 @@ class AuthController {
       };
 
       const response: any = await instance.get(
-        `/users/${localStorage.getItem('id')}`,
+        `/600/users/${localStorage.getItem('id')}`,
         config,
       );
 

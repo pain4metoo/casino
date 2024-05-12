@@ -4,7 +4,6 @@ import HeaderContainer from './Header/HeaderContainer';
 import WelcomeContainer from './Welcome/WelcomeContainer';
 import GameContainer from './Game/GameContainer';
 import ProfileContainer from './Profile/ProfileContainer';
-import ScoreContainer from './Score/ScoreContainer';
 import LoginContainer from './Login/LoginContainer';
 import Footer from './Footer/Footer';
 
@@ -18,7 +17,6 @@ const App = () => {
           <Route path='/login' element={<LoginContainer />} />
           <Route path='/game' element={<GameContainer />} />
           <Route path='/profile' element={<ProfileContainer />} />
-          <Route path='/score' element={<ScoreContainer />} />
         </Routes>
       </div>
       <Footer />
