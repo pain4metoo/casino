@@ -13,11 +13,7 @@ class AuthController {
         email: email,
         login: login,
         password: password,
-        avatar: null,
         balance: 1000,
-        achievements: [],
-        exp: 0,
-        level: 1,
       };
 
       const response: any = await instance.post('/register', user);

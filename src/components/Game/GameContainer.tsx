@@ -9,6 +9,7 @@ import {
   spinCycleThunk,
 } from '../../redux/game-reducer';
 import GenerateSpinCycle from './GenerateGameLogic';
+import { useEffect } from 'react';
 
 const GameContainer = (props: any) => {
   props.isAuthMeThunk();

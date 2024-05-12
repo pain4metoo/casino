@@ -9,7 +9,6 @@ import { isAuthMeThunk, updateUserBalance } from './auth-reducer';
 interface IInitialState {
   startingField: Array<Array<ISymbol>>;
   gameField: Array<Array<ISymbol>>;
-  isPlayAnim: boolean;
   isGameOn: boolean;
   isStartGame: boolean;
   isInitStage: boolean;
@@ -22,7 +21,6 @@ interface IInitialState {
 const initialState: IInitialState = {
   startingField: [],
   gameField: [],
-  isPlayAnim: false,
   isGameOn: false,
   isStartGame: false,
   isInitStage: false,
