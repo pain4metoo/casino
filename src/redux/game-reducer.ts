@@ -16,6 +16,7 @@ interface IInitialState {
   isAdditionStage: boolean;
   bet: number;
   winAmount: number;
+  isNotEnoughMoney: boolean;
 }
 
 const initialState: IInitialState = {
@@ -28,6 +29,7 @@ const initialState: IInitialState = {
   isAdditionStage: false,
   bet: 0.1,
   winAmount: 0,
+  isNotEnoughMoney: false,
 };
 
 const gameSlice = createSlice({
@@ -83,6 +85,9 @@ const gameSlice = createSlice({
       state.isAdditionStage = false;
       state.bet = 0.1;
       state.winAmount = 0;
+    },
+    checkAmountMoney(state, action) {
+      state.isNotEnoughMoney = action.payload.flag;
     },
   },
 });
@@ -178,6 +183,7 @@ export const {
   setBet,
   updateWinAmount,
   restartGame,
+  checkAmountMoney,
 } = gameSlice.actions;
 
 export default gameSlice.reducer;

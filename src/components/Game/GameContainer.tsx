@@ -4,6 +4,7 @@ import Game from './Game';
 import { withAuthMeRedirect } from '../../hoc/withAuthMeRedirect';
 import { isAuthMeThunk } from '../../redux/auth-reducer';
 import {
+  checkAmountMoney,
   placeBetThunk,
   restartGame,
   setBet,
@@ -21,8 +22,13 @@ const GameContainer = (props: any) => {
     };
   }, []);
 
-  const handleClickSpin = (bet: number, balance: number) => {
-    props.placeBetThunk(bet, balance);
+  const handleClickSpin = (bet: number) => {
+    if (bet > props.balance) {
+      props.checkAmountMoney({ flag: true });
+      return;
+    }
+    props.checkAmountMoney({ flag: false });
+    props.placeBetThunk(bet, props.balance);
     props.spinCycleThunk(true);
 
     setTimeout(() => {
@@ -47,6 +53,13 @@ const GameContainer = (props: any) => {
 
     currentBet = +currentBet.toFixed(2);
     GenerateSpinCycle.changeCurrentBet(currentBet);
+
+    if (currentBet > props.balance) {
+      props.checkAmountMoney({ flag: true });
+    } else {
+      props.checkAmountMoney({ flag: false });
+    }
+
     props.setBet({ bet: currentBet });
   };
 
@@ -66,6 +79,13 @@ const GameContainer = (props: any) => {
 
     currentBet = +currentBet.toFixed(2);
     GenerateSpinCycle.changeCurrentBet(currentBet);
+
+    if (currentBet > props.balance) {
+      props.checkAmountMoney({ flag: true });
+    } else {
+      props.checkAmountMoney({ flag: false });
+    }
+
     props.setBet({ bet: currentBet });
   };
 
@@ -93,6 +113,7 @@ const mapStateToProps = (state: any) => {
     balance: state.auth.user.balance,
     bet: state.game.bet,
     winAmount: state.game.winAmount,
+    isNotEnoughMoney: state.game.isNotEnoughMoney,
   };
 };
 export default compose(
@@ -101,6 +122,7 @@ export default compose(
     placeBetThunk,
     isAuthMeThunk,
     spinCycleThunk,
+    checkAmountMoney,
     restartGame,
   }),
   withAuthMeRedirect,

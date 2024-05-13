@@ -60,6 +60,7 @@ const Game = (props: any) => {
               bet={props.bet}
               isGameOn={props.isGameOn}
               winAmount={props.winAmount}
+              isNotEnoughMoney={props.isNotEnoughMoney}
             />
           </Container>
         )}

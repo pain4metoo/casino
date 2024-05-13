@@ -21,7 +21,9 @@ const GameControls = (props: any) => {
               fontFamily: '"Thasadith", Helvetica, sans-serif',
               fontSize: 30,
               fontWeight: '400',
-              fill: ['#ffffff', '#00ff99'], // gradient
+              fill: props.isNotEnoughMoney
+                ? ['#f01414', '#c2c2c2']
+                : ['#ffffff', '#00ff99'], // gradient
               stroke: '#01d27e',
               wordWrap: false,
               wordWrapWidth: 100,
@@ -55,7 +57,9 @@ const GameControls = (props: any) => {
               fontFamily: 'Thasadith, sans-serif',
               fontSize: 30,
               fontWeight: '400',
-              fill: ['#ffffff', '#00ff99'], // gradient
+              fill: props.isNotEnoughMoney
+                ? ['#f01414', '#c2c2c2']
+                : ['#ffffff', '#00ff99'], // gradient
               stroke: '#01d27e',
               wordWrap: false,
               wordWrapWidth: 100,
