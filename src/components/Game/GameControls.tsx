@@ -1,6 +1,11 @@
 import * as PIXI from 'pixi.js';
-import { Container, Sprite, Text } from '@pixi/react';
-import { gameData } from './textures';
+import { AnimatedSprite, Container, Sprite, Text } from '@pixi/react';
+import { gameData, spinBtnOffTexture } from './textures';
+import {
+  readyGameDataArrowLow,
+  readyGameDataArrowUp,
+  readyGameDataSpinBtnOff,
+} from './textures-create';
 
 const GameControls = (props: any) => {
   return (
@@ -13,7 +18,7 @@ const GameControls = (props: any) => {
           style={
             new PIXI.TextStyle({
               align: 'center',
-              fontFamily: '"Source Sans Pro", Helvetica, sans-serif',
+              fontFamily: '"Thasadith", Helvetica, sans-serif',
               fontSize: 30,
               fontWeight: '400',
               fill: ['#ffffff', '#00ff99'], // gradient
@@ -30,7 +35,7 @@ const GameControls = (props: any) => {
           style={
             new PIXI.TextStyle({
               align: 'center',
-              fontFamily: '"Source Sans Pro", Helvetica, sans-serif',
+              fontFamily: '"Thasadith", Helvetica, sans-serif',
               fontSize: 30,
               fontWeight: '400',
               fill: ['#ffffff', '#00ff99'], // gradient
@@ -47,7 +52,7 @@ const GameControls = (props: any) => {
           style={
             new PIXI.TextStyle({
               align: 'center',
-              fontFamily: '"Source Sans Pro", Helvetica, sans-serif',
+              fontFamily: 'Thasadith, sans-serif',
               fontSize: 30,
               fontWeight: '400',
               fill: ['#ffffff', '#00ff99'], // gradient
@@ -57,33 +62,70 @@ const GameControls = (props: any) => {
             })
           }
         />
-        <Sprite
-          x={1040}
-          y={590}
-          width={30}
-          height={30}
-          image={gameData.arrowTop}
-          pointerdown={props.handlePlaceBetUp}
-          eventMode={props.isGameOn ? 'none' : 'dynamic'}
-        />
-        <Sprite
-          x={1040}
-          y={630}
-          width={30}
-          height={30}
-          image={gameData.arrowBottom}
-          pointerdown={props.handlePlaceBetLow}
-          eventMode={props.isGameOn ? 'none' : 'dynamic'}
-        />
-        <Sprite
-          x={1070}
-          y={575}
-          width={100}
-          height={100}
-          image={gameData.spinBtn}
-          pointerdown={() => props.handleClickSpin(props.bet)}
-          eventMode={props.isGameOn ? 'none' : 'dynamic'}
-        />
+        {props.isGameOn ? (
+          <AnimatedSprite
+            x={1035}
+            y={590}
+            width={30}
+            height={30}
+            isPlaying={true}
+            textures={readyGameDataArrowUp}
+            animationSpeed={0.5}
+          />
+        ) : (
+          <Sprite
+            x={1035}
+            y={590}
+            width={30}
+            height={30}
+            image={gameData.arrowTop}
+            pointerdown={props.handlePlaceBetUp}
+            eventMode={props.isGameOn ? 'none' : 'dynamic'}
+          />
+        )}
+        {props.isGameOn ? (
+          <AnimatedSprite
+            x={1035}
+            y={630}
+            width={30}
+            height={30}
+            isPlaying={true}
+            textures={readyGameDataArrowLow}
+            animationSpeed={0.5}
+          />
+        ) : (
+          <Sprite
+            x={1035}
+            y={630}
+            width={30}
+            height={30}
+            image={gameData.arrowBottom}
+            pointerdown={props.handlePlaceBetLow}
+            eventMode={props.isGameOn ? 'none' : 'dynamic'}
+          />
+        )}
+
+        {props.isGameOn ? (
+          <AnimatedSprite
+            x={1070}
+            y={575}
+            width={100}
+            height={100}
+            isPlaying={true}
+            textures={readyGameDataSpinBtnOff}
+            animationSpeed={0.5}
+          />
+        ) : (
+          <Sprite
+            x={1070}
+            y={575}
+            width={100}
+            height={100}
+            image={gameData.spinBtn}
+            pointerdown={() => props.handleClickSpin(props.bet)}
+            eventMode={props.isGameOn ? 'none' : 'dynamic'}
+          />
+        )}
       </Container>
     </>
   );

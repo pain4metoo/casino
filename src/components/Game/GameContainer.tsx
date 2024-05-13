@@ -41,6 +41,8 @@ const GameContainer = (props: any) => {
       currentBet += 10;
     } else if (currentBet < 1000) {
       currentBet += 100;
+    } else {
+      currentBet = 0.1;
     }
 
     currentBet = +currentBet.toFixed(2);
@@ -53,7 +55,7 @@ const GameContainer = (props: any) => {
 
     if (currentBet <= 1) {
       currentBet -= 0.1;
-      currentBet = currentBet < 0.1 ? 0.1 : currentBet;
+      currentBet = currentBet < 0.1 ? 1000 : currentBet;
     } else if (currentBet <= 10) {
       currentBet -= 1;
     } else if (currentBet <= 100) {

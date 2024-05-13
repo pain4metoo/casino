@@ -1,9 +1,21 @@
 import * as PIXI from 'pixi.js';
-import { preloaderGifTexture, symbolsWin } from './textures';
+import {
+  arrowsLowTexture,
+  arrowsTopTexture,
+  preloaderGifTexture,
+  spinBtnOffTexture,
+  symbolsWin,
+} from './textures';
 
 export let readyGameDataSymbolsWin: any = [];
 
 export let readyGameDataPreloader: any = [];
+
+export let readyGameDataSpinBtnOff: any = [];
+
+export let readyGameDataArrowUp: any = [];
+
+export let readyGameDataArrowLow: any = [];
 
 export async function loadCriticalData(): Promise<void> {
   readyGameDataPreloader = [];
@@ -34,5 +46,26 @@ export async function createGameDataSymbolsWin() {
       const newPixiTexture = PIXI.Texture.from(symbolsWin[i][g]);
       readyGameDataSymbolsWin[i].push(newPixiTexture);
     }
+  }
+}
+
+export async function createGameDataSpinBtnOff() {
+  readyGameDataSpinBtnOff = [];
+
+  for (let i = 0; i < spinBtnOffTexture.length; i++) {
+    readyGameDataSpinBtnOff.push(PIXI.Texture.from(spinBtnOffTexture[i]));
+  }
+}
+
+export async function createGameDataArrows() {
+  readyGameDataArrowLow = [];
+  readyGameDataArrowUp = [];
+
+  for (let i = 0; i < arrowsTopTexture.length; i++) {
+    readyGameDataArrowUp.push(PIXI.Texture.from(arrowsTopTexture[i]));
+  }
+
+  for (let g = 0; g < arrowsLowTexture.length; g++) {
+    readyGameDataArrowLow.push(PIXI.Texture.from(arrowsLowTexture[g]));
   }
 }

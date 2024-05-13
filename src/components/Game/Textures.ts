@@ -140,6 +140,136 @@ import symbolsWin10Frame8 from '../../assets/images/symbols_win_10/frame_07.png'
 import symbolsWin10Frame9 from '../../assets/images/symbols_win_10/frame_08.png';
 import symbolsWin10Frame10 from '../../assets/images/symbols_win_10/frame_09.png';
 
+import spinBtnOff0 from '../../assets/images/spin_btn_off/frame_00.png';
+import spinBtnOff1 from '../../assets/images/spin_btn_off/frame_01.png';
+import spinBtnOff2 from '../../assets/images/spin_btn_off/frame_02.png';
+import spinBtnOff3 from '../../assets/images/spin_btn_off/frame_03.png';
+import spinBtnOff4 from '../../assets/images/spin_btn_off/frame_04.png';
+import spinBtnOff5 from '../../assets/images/spin_btn_off/frame_05.png';
+import spinBtnOff6 from '../../assets/images/spin_btn_off/frame_06.png';
+import spinBtnOff7 from '../../assets/images/spin_btn_off/frame_07.png';
+import spinBtnOff8 from '../../assets/images/spin_btn_off/frame_08.png';
+import spinBtnOff9 from '../../assets/images/spin_btn_off/frame_09.png';
+import spinBtnOff10 from '../../assets/images/spin_btn_off/frame_10.png';
+import spinBtnOff11 from '../../assets/images/spin_btn_off/frame_11.png';
+import spinBtnOff12 from '../../assets/images/spin_btn_off/frame_12.png';
+import spinBtnOff13 from '../../assets/images/spin_btn_off/frame_13.png';
+import spinBtnOff14 from '../../assets/images/spin_btn_off/frame_14.png';
+import spinBtnOff15 from '../../assets/images/spin_btn_off/frame_15.png';
+import spinBtnOff16 from '../../assets/images/spin_btn_off/frame_16.png';
+import spinBtnOff17 from '../../assets/images/spin_btn_off/frame_17.png';
+import spinBtnOff18 from '../../assets/images/spin_btn_off/frame_18.png';
+import spinBtnOff19 from '../../assets/images/spin_btn_off/frame_19.png';
+import spinBtnOff20 from '../../assets/images/spin_btn_off/frame_20.png';
+import spinBtnOff21 from '../../assets/images/spin_btn_off/frame_21.png';
+import spinBtnOff22 from '../../assets/images/spin_btn_off/frame_22.png';
+import spinBtnOff23 from '../../assets/images/spin_btn_off/frame_23.png';
+import spinBtnOff24 from '../../assets/images/spin_btn_off/frame_24.png';
+import spinBtnOff25 from '../../assets/images/spin_btn_off/frame_25.png';
+import spinBtnOff26 from '../../assets/images/spin_btn_off/frame_26.png';
+import spinBtnOff27 from '../../assets/images/spin_btn_off/frame_27.png';
+import spinBtnOff28 from '../../assets/images/spin_btn_off/frame_28.png';
+import spinBtnOff29 from '../../assets/images/spin_btn_off/frame_29.png';
+import spinBtnOff30 from '../../assets/images/spin_btn_off/frame_30.png';
+import spinBtnOff31 from '../../assets/images/spin_btn_off/frame_31.png';
+import spinBtnOff32 from '../../assets/images/spin_btn_off/frame_32.png';
+import spinBtnOff33 from '../../assets/images/spin_btn_off/frame_33.png';
+import spinBtnOff34 from '../../assets/images/spin_btn_off/frame_34.png';
+import spinBtnOff35 from '../../assets/images/spin_btn_off/frame_35.png';
+import spinBtnOff36 from '../../assets/images/spin_btn_off/frame_36.png';
+import spinBtnOff37 from '../../assets/images/spin_btn_off/frame_37.png';
+import spinBtnOff38 from '../../assets/images/spin_btn_off/frame_38.png';
+
+import arrowTop0 from '../../assets/images/arrow_top_text/frame_00.png';
+import arrowTop1 from '../../assets/images/arrow_top_text/frame_01.png';
+import arrowTop2 from '../../assets/images/arrow_top_text/frame_02.png';
+import arrowTop3 from '../../assets/images/arrow_top_text/frame_03.png';
+import arrowTop4 from '../../assets/images/arrow_top_text/frame_04.png';
+import arrowTop5 from '../../assets/images/arrow_top_text/frame_05.png';
+import arrowTop6 from '../../assets/images/arrow_top_text/frame_06.png';
+import arrowTop7 from '../../assets/images/arrow_top_text/frame_07.png';
+import arrowTop8 from '../../assets/images/arrow_top_text/frame_08.png';
+import arrowTop9 from '../../assets/images/arrow_top_text/frame_09.png';
+
+import arrowLow0 from '../../assets/images/arrow_low_text/frame_00.png';
+import arrowLow1 from '../../assets/images/arrow_low_text/frame_01.png';
+import arrowLow2 from '../../assets/images/arrow_low_text/frame_02.png';
+import arrowLow3 from '../../assets/images/arrow_low_text/frame_03.png';
+import arrowLow4 from '../../assets/images/arrow_low_text/frame_04.png';
+import arrowLow5 from '../../assets/images/arrow_low_text/frame_05.png';
+import arrowLow6 from '../../assets/images/arrow_low_text/frame_06.png';
+import arrowLow7 from '../../assets/images/arrow_low_text/frame_07.png';
+import arrowLow8 from '../../assets/images/arrow_low_text/frame_08.png';
+import arrowLow9 from '../../assets/images/arrow_low_text/frame_09.png';
+
+export const arrowsTopTexture = [
+  arrowTop0,
+  arrowTop1,
+  arrowTop2,
+  arrowTop3,
+  arrowTop4,
+  arrowTop5,
+  arrowTop6,
+  arrowTop7,
+  arrowTop8,
+  arrowTop9,
+];
+
+export const arrowsLowTexture = [
+  arrowLow0,
+  arrowLow1,
+  arrowLow2,
+  arrowLow3,
+  arrowLow4,
+  arrowLow5,
+  arrowLow6,
+  arrowLow7,
+  arrowLow8,
+  arrowLow9,
+];
+
+export const spinBtnOffTexture = [
+  spinBtnOff0,
+  spinBtnOff1,
+  spinBtnOff2,
+  spinBtnOff3,
+  spinBtnOff4,
+  spinBtnOff5,
+  spinBtnOff6,
+  spinBtnOff7,
+  spinBtnOff8,
+  spinBtnOff9,
+  spinBtnOff10,
+  spinBtnOff11,
+  spinBtnOff12,
+  spinBtnOff13,
+  spinBtnOff14,
+  spinBtnOff15,
+  spinBtnOff16,
+  spinBtnOff17,
+  spinBtnOff18,
+  spinBtnOff19,
+  spinBtnOff20,
+  spinBtnOff21,
+  spinBtnOff22,
+  spinBtnOff23,
+  spinBtnOff24,
+  spinBtnOff25,
+  spinBtnOff26,
+  spinBtnOff27,
+  spinBtnOff28,
+  spinBtnOff29,
+  spinBtnOff30,
+  spinBtnOff31,
+  spinBtnOff32,
+  spinBtnOff33,
+  spinBtnOff34,
+  spinBtnOff35,
+  spinBtnOff36,
+  spinBtnOff37,
+  spinBtnOff38,
+];
+
 export const preloaderGifTexture = [
   prelTexture1,
   prelTexture2,
@@ -301,6 +431,9 @@ export const gameData = {
   spinBtn,
   arrowBottom,
   arrowTop,
+  spinBtnOffTexture,
+  arrowsTopTexture,
+  arrowsLowTexture,
 };
 
 export const gameDataGif: any = {};
