@@ -2,6 +2,8 @@ import * as PIXI from 'pixi.js';
 import {
   arrowsLowTexture,
   arrowsTopTexture,
+  bgLoadingAnubisTexture,
+  gameData,
   preloaderGifTexture,
   spinBtnOffTexture,
   symbolsWin,
@@ -17,29 +19,67 @@ export let readyGameDataArrowUp: any = [];
 
 export let readyGameDataArrowLow: any = [];
 
-export async function loadCriticalData(): Promise<void> {
-  readyGameDataPreloader = [];
+export async function loadingAnubisBgTexture(): Promise<void> {
+  if (!PIXI.Assets.resolver.hasKey('bgLoadingAnubis')) {
+    PIXI.Assets.add({
+      alias: 'bgLoadingAnubis',
+      src: bgLoadingAnubisTexture,
+    });
 
+    await PIXI.Assets.load('bgLoadingAnubis');
+  }
+}
+
+export async function loadPreloaderTexture(): Promise<void> {
+  readyGameDataPreloader = [];
   const itemsKeyForPreloaderGif: Array<string> = [];
+  const keyForPreloader = 'preloader';
 
   preloaderGifTexture.forEach((el: any, i: number) => {
-    PIXI.Assets.add({ alias: `preloader${i}`, src: el });
-
-    itemsKeyForPreloaderGif.push('preloder' + i);
-  });
-
-  await PIXI.Assets.load(itemsKeyForPreloaderGif, progress => {
-    if (progress === 1) {
-      for (let i = 0; i < itemsKeyForPreloaderGif.length; i++) {
-        readyGameDataPreloader.push(PIXI.Texture.from(preloaderGifTexture[i]));
-      }
+    if (!PIXI.Assets.resolver.hasKey(`${keyForPreloader}${i}`)) {
+      PIXI.Assets.add({ alias: `${keyForPreloader}${i}`, src: el });
     }
+
+    itemsKeyForPreloaderGif.push(`${keyForPreloader}${i}`);
   });
+
+  await PIXI.Assets.load(itemsKeyForPreloaderGif);
+
+  for (let i = 0; i < itemsKeyForPreloaderGif.length; i++) {
+    readyGameDataPreloader.push(PIXI.Texture.from(preloaderGifTexture[i]));
+  }
+}
+
+export function createKeysForTextures(): Array<string> {
+  const itemsKeyForLoading: Array<string> = [];
+
+  for (const key in gameData) {
+    const el = key as keyof typeof gameData;
+    if (Array.isArray(gameData[el])) {
+      for (let i = 0; i < gameData[el].length; i++) {
+        if (!PIXI.Assets.resolver.hasKey(`${key}${i}`)) {
+          PIXI.Assets.add({
+            alias: `${key}${i}`,
+            src: gameData[el][i],
+          });
+        }
+
+        itemsKeyForLoading.push(`${key}${i}`);
+      }
+    } else {
+      if (!PIXI.Assets.resolver.hasKey(`${key}`)) {
+        PIXI.Assets.add({ alias: `${key}`, src: gameData[el] });
+      }
+
+      itemsKeyForLoading.push(`${key}`);
+    }
+  }
+
+  return itemsKeyForLoading;
 }
 
 export async function createGameDataSymbolsWin() {
   readyGameDataSymbolsWin = [];
-
   for (let i = 0; i < symbolsWin.length; i++) {
     readyGameDataSymbolsWin.push([]);
     for (let g = 0; g < symbolsWin[i].length; g++) {
@@ -51,16 +91,14 @@ export async function createGameDataSymbolsWin() {
 
 export async function createGameDataSpinBtnOff() {
   readyGameDataSpinBtnOff = [];
-
   for (let i = 0; i < spinBtnOffTexture.length; i++) {
     readyGameDataSpinBtnOff.push(PIXI.Texture.from(spinBtnOffTexture[i]));
   }
 }
 
 export async function createGameDataArrows() {
-  readyGameDataArrowLow = [];
   readyGameDataArrowUp = [];
-
+  readyGameDataArrowLow = [];
   for (let i = 0; i < arrowsTopTexture.length; i++) {
     readyGameDataArrowUp.push(PIXI.Texture.from(arrowsTopTexture[i]));
   }

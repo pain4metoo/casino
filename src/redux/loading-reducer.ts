@@ -4,9 +4,10 @@ import {
   createGameDataArrows,
   createGameDataSpinBtnOff,
   createGameDataSymbolsWin,
-  loadCriticalData,
+  createKeysForTextures,
+  loadPreloaderTexture,
+  loadingAnubisBgTexture,
 } from '../components/Game/textures-create';
-import { gameData } from '../components/Game/textures';
 
 interface IinitialState {
   isShowPreloader: boolean;
@@ -43,32 +44,16 @@ const loadingSlice = createSlice({
 
 export const loadingThunk = () => {
   return async (dispatch: Dispatch) => {
-    await loadCriticalData();
+    await loadPreloaderTexture();
 
     dispatch(togglePreloader({ flag: true }));
 
-    await PIXI.Assets.load(gameData.bgLoadingAnubis);
+    await loadingAnubisBgTexture();
 
     dispatch(togglePreloader({ flag: false }));
     dispatch(setLoadData({ flag: true }));
 
-    const itemsKeyForLoading: Array<string> = [];
-
-    for (const key in gameData) {
-      const el = key as keyof typeof gameData;
-      if (Array.isArray(gameData[el])) {
-        for (let i = 0; i < gameData[el].length; i++) {
-          PIXI.Assets.add({ alias: `${key}${i}`, src: gameData[el][i] });
-
-          itemsKeyForLoading.push(key + i);
-        }
-      } else {
-        PIXI.Assets.add({ alias: key, src: gameData[el] });
-        itemsKeyForLoading.push(key);
-      }
-    }
-
-    await PIXI.Assets.load(itemsKeyForLoading, progress => {
+    await PIXI.Assets.load(createKeysForTextures(), progress => {
       dispatch(updateProgress({ value: progress }));
 
       if (progress === 1) {
@@ -88,3 +73,6 @@ export const { togglePreloader, setLoadData, setEndLoadData, updateProgress } =
   loadingSlice.actions;
 
 export default loadingSlice.reducer;
+function loadLoadingAnubisBg() {
+  throw new Error('Function not implemented.');
+}

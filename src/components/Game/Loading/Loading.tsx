@@ -20,7 +20,7 @@ const Loading = (props: any) => {
   };
 
   const drawBtnStart = (g: any) => {
-    g.beginFill(0x86ff02, 1);
+    g.beginFill(0x7a785c, 1);
     g.drawRect(400, 500, 400, 70);
     g.eventMode = 'dynamic';
     g.endFill();
@@ -57,25 +57,16 @@ const Loading = (props: any) => {
             <Graphics draw={drawBtnStart}></Graphics>
             <Text
               text='START GAME'
-              x={420}
+              x={494}
               y={510}
               style={
                 new PIXI.TextStyle({
                   align: 'center',
-                  fontFamily: '"Source Sans Pro", Helvetica, sans-serif',
+                  fontFamily: '"Thasadith", Helvetica, sans-serif',
                   fontSize: 40,
                   fontWeight: '400',
-                  fill: ['#ffffff', '#00ff99'], // gradient
+                  fill: ['#ffffff', '#ffffff'], // gradient
                   stroke: '#01d27e',
-                  strokeThickness: 5,
-                  letterSpacing: 10,
-                  dropShadow: true,
-                  dropShadowColor: '#ccced2',
-                  dropShadowBlur: 4,
-                  dropShadowAngle: Math.PI / 6,
-                  dropShadowDistance: 6,
-                  wordWrap: false,
-                  wordWrapWidth: 440,
                 })
               }
             />

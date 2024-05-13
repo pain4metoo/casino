@@ -202,6 +202,7 @@ import arrowLow7 from '../../assets/images/arrow_low_text/frame_07.png';
 import arrowLow8 from '../../assets/images/arrow_low_text/frame_08.png';
 import arrowLow9 from '../../assets/images/arrow_low_text/frame_09.png';
 
+export const bgLoadingAnubisTexture = bgLoadingAnubis;
 export const arrowsTopTexture = [
   arrowTop0,
   arrowTop1,
@@ -427,7 +428,6 @@ export const gameData = {
   symbolsDef,
   symbolsWin: [...symbolsWin.flat()],
   bgSlotGame,
-  bgLoadingAnubis,
   spinBtn,
   arrowBottom,
   arrowTop,

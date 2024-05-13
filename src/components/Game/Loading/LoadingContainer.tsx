@@ -10,8 +10,11 @@ import { useEffect } from 'react';
 
 const LoadingContainer = (props: any) => {
   useEffect(() => {
-    props.loadingThunk();
+    if (!props.isEndLoadData) {
+      props.loadingThunk();
+    }
   }, []);
+
   return <Loading {...props} />;
 };
 
