@@ -93,6 +93,7 @@ const gameSlice = createSlice({
       state.isAdditionStage = false;
       state.bet = 0.1;
       state.winAmount = 0;
+      state.isDarkGame = false;
     },
     checkAmountMoney(state, action) {
       state.isNotEnoughMoney = action.payload.flag;
@@ -122,6 +123,7 @@ export const placeBetThunk = (bet: number) => {
 
 export const spinCycleThunk = (isInitStage: boolean) => {
   return (dispatch: any) => {
+    dispatch(showDarkSlot({ flag: false }));
     dispatch(setGameOnState({ flag: true }));
     dispatch(playStoneFallSound({ flag: true }));
     if (isInitStage) {
@@ -137,7 +139,7 @@ export const spinCycleThunk = (isInitStage: boolean) => {
       }, 0);
     } else {
       if (GenerateSpinCycle.getIsWinSpin()) {
-        if (GenerateSpinCycle.getWinCount() === 2) {
+        if (GenerateSpinCycle.getWinCount() >= 2) {
           dispatch(showDarkSlot({ flag: true }));
         }
         setTimeout(() => {

@@ -25,27 +25,29 @@ const Symbol = (props: any) => {
   }
 
   return (
-    <Container position={[props.symbolData.xStart, yStart]}>
-      {props.symbolData.isWin ? (
-        <AnimatedSprite
-          isPlaying={true}
-          textures={winSymbol}
-          width={props.symbolData.width}
-          height={props.symbolData.height}
-          animationSpeed={0.3}
-          loop={true}
-        />
-      ) : (
-        <Sprite
-          image={defaultSymbol}
-          width={props.symbolData.width}
-          height={props.symbolData.height}
-        />
-      )}
+    <>
+      <Container position={[props.symbolData.xStart, yStart]}>
+        {props.symbolData.isWin ? (
+          <AnimatedSprite
+            isPlaying={true}
+            textures={winSymbol}
+            width={props.symbolData.width}
+            height={props.symbolData.height}
+            animationSpeed={0.3}
+            loop={true}
+          />
+        ) : (
+          <Sprite
+            image={defaultSymbol}
+            width={props.symbolData.width}
+            height={props.symbolData.height}
+          />
+        )}
+      </Container>
       {props.isDarkGame && props.isLastSymbolInColumn && (
         <AnimatedSprite
-          x={0}
-          y={85}
+          x={350 + props.numberOfColumn * 100}
+          y={640}
           isPlaying={true}
           textures={readyGameDataFireTextures}
           width={props.symbolData.width}
@@ -54,7 +56,7 @@ const Symbol = (props: any) => {
           loop={true}
         />
       )}
-    </Container>
+    </>
   );
 };
 

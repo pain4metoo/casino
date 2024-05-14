@@ -7,10 +7,6 @@ import store from '../../redux/store';
 import LoadingContainer from './Loading/LoadingContainer';
 import { gameData } from './textures';
 import GameControls from './GameControls';
-import {
-  readyGameDataFireTextures,
-  readyGameDataStormTextures,
-} from './textures-create';
 
 const Game = (props: any) => {
   const startingField = createSymbols(props.startingField);
@@ -32,6 +28,7 @@ const Game = (props: any) => {
             symbolData={symbol}
             isLastSymbolInColumn={g === arrSymbolsColumn.length - 1}
             isDarkGame={props.isDarkGame}
+            numberOfColumn={i}
           />
         );
       });

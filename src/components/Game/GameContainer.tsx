@@ -22,13 +22,16 @@ import gameMusicWin from '../../assets/sounds/anubis_win.mp3';
 import gameMusicStone from '../../assets/sounds/stone_fall.mp3';
 
 const GameContainer = (props: any) => {
+  console.log(props);
   const [playGameMusicDef, controlsDef] = useSound(gameMusicDef, {
     volume: props.isOnSound ? 1 : 0,
+    interrupt: true,
     loop: true,
   });
   const [playGameMusicWin, controlsWin] = useSound(gameMusicWin, {
     volume: props.isOnSound ? 1 : 0,
     loop: true,
+    interrupt: true,
   });
 
   const [playMusicStoneFall, controlsStoneFall] = useSound(gameMusicStone, {
@@ -39,9 +42,8 @@ const GameContainer = (props: any) => {
 
   useEffect(() => {
     return () => {
-      props.playStoneFallSound({ flag: false });
-      GenerateSpinCycle.clearLastResults();
       props.restartGame();
+      GenerateSpinCycle.clearLastResults();
     };
   }, []);
 
@@ -64,6 +66,8 @@ const GameContainer = (props: any) => {
   useEffect(() => {
     if (props.isStartGame) {
       playGameMusicDef();
+    } else {
+      controlsDef.stop();
     }
 
     return () => {
