@@ -2,6 +2,7 @@ import * as PIXI from 'pixi.js';
 import { Dispatch, createSlice } from '@reduxjs/toolkit';
 import {
   createGameDataArrows,
+  createGameDataFire,
   createGameDataSpinBtnOff,
   createGameDataSymbolsWin,
   createKeysForTextures,
@@ -64,6 +65,7 @@ export const loadingThunk = () => {
     await createGameDataArrows();
     await createGameDataSpinBtnOff();
     await createGameDataSymbolsWin();
+    await createGameDataFire();
 
     dispatch(setEndLoadData({ flag: true }));
   };

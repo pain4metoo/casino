@@ -6,10 +6,12 @@ import { isAuthMeThunk } from '../../redux/auth-reducer';
 import {
   checkAmountMoney,
   placeBetThunk,
+  playStoneFallSound,
   playWinMusic,
   restartGame,
   setBet,
   setSoundState,
+  showDarkSlot,
   spinCycleThunk,
 } from '../../redux/game-reducer';
 import GenerateSpinCycle from './GenerateGameLogic';
@@ -17,21 +19,27 @@ import { useEffect } from 'react';
 import useSound from 'use-sound';
 import gameMusicDef from '../../assets/sounds/anubis_def.mp3';
 import gameMusicWin from '../../assets/sounds/anubis_win.mp3';
+import gameMusicStone from '../../assets/sounds/stone_fall.mp3';
 
 const GameContainer = (props: any) => {
   const [playGameMusicDef, controlsDef] = useSound(gameMusicDef, {
-    volume: props.isOnSound ? 0.25 : 0,
+    volume: props.isOnSound ? 1 : 0,
     loop: true,
   });
   const [playGameMusicWin, controlsWin] = useSound(gameMusicWin, {
-    volume: props.isOnSound ? 0.25 : 0,
+    volume: props.isOnSound ? 1 : 0,
     loop: true,
+  });
+
+  const [playMusicStoneFall, controlsStoneFall] = useSound(gameMusicStone, {
+    volume: props.isOnSound ? 1 : 0,
   });
 
   props.isAuthMeThunk();
 
   useEffect(() => {
     return () => {
+      props.playStoneFallSound({ flag: false });
       GenerateSpinCycle.clearLastResults();
       props.restartGame();
     };
@@ -48,6 +56,12 @@ const GameContainer = (props: any) => {
   }, [props.isWinMusic]);
 
   useEffect(() => {
+    if (props.isStoneFallSound) {
+      playMusicStoneFall();
+    }
+  }, [props.isStoneFallSound]);
+
+  useEffect(() => {
     if (props.isStartGame) {
       playGameMusicDef();
     }
@@ -55,6 +69,7 @@ const GameContainer = (props: any) => {
     return () => {
       controlsDef.stop();
       controlsWin.stop();
+      controlsStoneFall.stop();
     };
   }, [props.isStartGame]);
 
@@ -152,9 +167,10 @@ const mapStateToProps = (state: any) => {
     isNotEnoughMoney: state.game.isNotEnoughMoney,
     isWinMusic: state.game.isWinMusic,
     isOnSound: state.game.isOnSound,
+    isStoneFallSound: state.game.isStoneFallSound,
+    isDarkGame: state.game.isDarkGame,
   };
 };
-
 export default compose(
   connect(mapStateToProps, {
     setBet,
@@ -165,6 +181,8 @@ export default compose(
     restartGame,
     playWinMusic,
     setSoundState,
+    playStoneFallSound,
+    showDarkSlot,
   }),
   withAuthMeRedirect,
 )(GameContainer);

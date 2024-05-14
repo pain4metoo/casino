@@ -11,7 +11,7 @@ import btnBetSound from '../../assets/sounds/button_click.mp3';
 
 const GameControls = (props: any) => {
   const [playBtnBetSound] = useSound(btnBetSound, {
-    volume: props.isOnSound ? 0.25 : 0,
+    volume: props.isOnSound ? 0.5 : 0,
   });
 
   return (

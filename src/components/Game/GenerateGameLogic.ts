@@ -45,6 +45,7 @@ export class GenerateSpinCycle {
   private static columnCounter: number = 0;
   private static isWinSpin: boolean = false;
   private static currentWinSum: number = 0;
+  private static winCounter: number = 0;
 
   private static xStartDefault: number = 350;
   private static yStartDefault: number = -550;
@@ -76,6 +77,10 @@ export class GenerateSpinCycle {
     omitStage: [],
     additionStage: [],
   };
+
+  public static getWinCount(): number {
+    return this.winCounter;
+  }
 
   public static getWinAmount(): number {
     return this.currentWinSum;
@@ -118,6 +123,7 @@ export class GenerateSpinCycle {
     this.columnCounter = 0;
     this.isWinSpin = false;
     this.currentWinSum = 0;
+    this.winCounter = 0;
 
     this.stagesPlayingField.initStage = [];
     this.stagesPlayingField.winStage = [];
@@ -238,12 +244,15 @@ export class GenerateSpinCycle {
   }
 
   public static calculateWinSum(winSymbols: { [id: string]: number }): void {
+    this.winCounter++;
     this.currentWinSum = 0;
     const copySymbols = { ...winSymbols };
     const intervalDefSymbols = 5;
 
     const winTableDefault = {
       symbolsDef: {
+        5: 0.01,
+        6: 0.01,
         7: 0.07,
         8: 0.08,
         9: 0.1,
@@ -252,11 +261,56 @@ export class GenerateSpinCycle {
         12: 1.5,
       },
       symbolsWin: {
-        6: { 7: 0.06, 8: 0.1, 9: 0.2, 10: 0.3, 11: 1.5, 12: 2.0 },
-        7: { 7: 0.06, 8: 0.1, 9: 0.2, 10: 0.3, 11: 1.5, 12: 2.0 },
-        8: { 7: 0.12, 8: 0.2, 9: 0.4, 10: 0.6, 11: 3, 12: 4 },
-        9: { 7: 0.24, 8: 0.4, 9: 0.8, 10: 1.2, 11: 6, 12: 8 },
-        10: { 7: 0.48, 8: 0.8, 9: 1.6, 10: 2.4, 11: 12, 12: 16 },
+        6: {
+          5: 0.01,
+          6: 0.012,
+          7: 0.06,
+          8: 0.1,
+          9: 0.2,
+          10: 0.3,
+          11: 1.5,
+          12: 2.0,
+        },
+        7: {
+          5: 0.01,
+          6: 0.012,
+          7: 0.06,
+          8: 0.1,
+          9: 0.2,
+          10: 0.3,
+          11: 1.5,
+          12: 2.0,
+        },
+        8: {
+          5: 0.01,
+          6: 0.012,
+          7: 0.12,
+          8: 0.2,
+          9: 0.4,
+          10: 0.6,
+          11: 3,
+          12: 4,
+        },
+        9: {
+          5: 0.01,
+          6: 0.012,
+          7: 0.24,
+          8: 0.4,
+          9: 0.8,
+          10: 1.2,
+          11: 6,
+          12: 8,
+        },
+        10: {
+          5: 0.01,
+          6: 0.012,
+          7: 0.48,
+          8: 0.8,
+          9: 1.6,
+          10: 2.4,
+          11: 12,
+          12: 16,
+        },
       },
     };
 
@@ -275,7 +329,7 @@ export class GenerateSpinCycle {
     let winResult = 0;
 
     for (const id in copySymbols) {
-      if (copySymbols[id] >= 7) {
+      if (copySymbols[id] >= 5) {
         winResult += calculate(+id, copySymbols[id]);
       }
     }
@@ -300,7 +354,7 @@ export class GenerateSpinCycle {
 
     const currentWinSymbols = Object.entries({ ...winSymbolsCount })
       .map(el => {
-        if (el[1] >= 7) {
+        if (el[1] >= 5) {
           // Check the number of characters
           return +el[0]; // return the number id
         }

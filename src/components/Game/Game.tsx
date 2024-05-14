@@ -1,5 +1,5 @@
 import styles from './Game.module.scss';
-import { Stage, Container, Sprite, useApp } from '@pixi/react';
+import { Stage, Container, Sprite, useApp, AnimatedSprite } from '@pixi/react';
 import { ISymbol } from './GenerateGameLogic';
 import Symbol from './GameSymbol';
 import { Provider } from 'react-redux';
@@ -7,16 +7,22 @@ import store from '../../redux/store';
 import LoadingContainer from './Loading/LoadingContainer';
 import { gameData } from './textures';
 import GameControls from './GameControls';
+import {
+  readyGameDataFireTextures,
+  readyGameDataStormTextures,
+} from './textures-create';
 
 const Game = (props: any) => {
   const startingField = createSymbols(props.startingField);
   const gameField = createSymbols(props.gameField);
 
-  function createSymbols(arr: Array<Array<ISymbol>>) {
+  function createSymbols(arrSymbols: Array<Array<ISymbol>>) {
     let numberSymbol = 0;
-
-    return arr.map((arr: Array<ISymbol>, i: number) => {
-      return arr.map((symbol: ISymbol, g) => {
+    if (numberSymbol === 29) {
+      props.setShowFire({ flag: true });
+    }
+    return arrSymbols.map((arrSymbolsColumn: Array<ISymbol>, i: number) => {
+      return arrSymbolsColumn.map((symbol: ISymbol, g) => {
         numberSymbol += 1;
 
         return (
@@ -24,7 +30,8 @@ const Game = (props: any) => {
             key={numberSymbol}
             isRemoveSymbolsStage={props.isRemoveSymbolsStage}
             symbolData={symbol}
-            isLoadData={props.isLoadData}
+            isLastSymbolInColumn={g === arrSymbolsColumn.length - 1}
+            isDarkGame={props.isDarkGame}
           />
         );
       });
@@ -46,7 +53,13 @@ const Game = (props: any) => {
           </Provider>
         ) : (
           <Container>
-            <Sprite image={gameData.bgSlotGame} width={1200} height={700} />
+            <Sprite
+              image={
+                props.isDarkGame ? gameData.bgSlotDark : gameData.bgSlotGame
+              }
+              width={1200}
+              height={700}
+            />
             {!props.isInitStage ? startingField : null}
             {props.isInitStage && !props.isAdditionStage ? gameField : null}
 

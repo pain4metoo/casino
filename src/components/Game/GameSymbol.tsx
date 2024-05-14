@@ -1,14 +1,16 @@
 import { AnimatedSprite, Container, Sprite, useTick } from '@pixi/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { gameData } from './textures';
-import { readyGameDataSymbolsWin } from './textures-create';
+import {
+  readyGameDataFireTextures,
+  readyGameDataSymbolsWin,
+} from './textures-create';
 
 const Symbol = (props: any) => {
   const [yStart, setYStart] = useState(props.symbolData.yStart);
 
-  let winSymbol: any = readyGameDataSymbolsWin[props.symbolData.id - 1];
-
   const defaultSymbol: any = gameData.symbolsDef[props.symbolData.id - 1];
+  const winSymbol: any = readyGameDataSymbolsWin[props.symbolData.id - 1];
 
   useTick((delta, ticker) => {
     if (yStart < props.symbolData.yEnd) {
@@ -31,13 +33,25 @@ const Symbol = (props: any) => {
           width={props.symbolData.width}
           height={props.symbolData.height}
           animationSpeed={0.3}
-          initialFrame={0}
+          loop={true}
         />
       ) : (
         <Sprite
           image={defaultSymbol}
           width={props.symbolData.width}
           height={props.symbolData.height}
+        />
+      )}
+      {props.isDarkGame && props.isLastSymbolInColumn && (
+        <AnimatedSprite
+          x={0}
+          y={85}
+          isPlaying={true}
+          textures={readyGameDataFireTextures}
+          width={props.symbolData.width}
+          height={props.symbolData.height}
+          animationSpeed={0.3}
+          loop={true}
         />
       )}
     </Container>

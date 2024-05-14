@@ -19,6 +19,8 @@ interface IInitialState {
   isNotEnoughMoney: boolean;
   isWinMusic: boolean;
   isOnSound: boolean;
+  isStoneFallSound: boolean;
+  isDarkGame: boolean;
 }
 
 const initialState: IInitialState = {
@@ -34,6 +36,8 @@ const initialState: IInitialState = {
   isNotEnoughMoney: false,
   isWinMusic: false,
   isOnSound: true,
+  isStoneFallSound: false,
+  isDarkGame: false,
 };
 
 const gameSlice = createSlice({
@@ -96,8 +100,14 @@ const gameSlice = createSlice({
     playWinMusic(state, action) {
       state.isWinMusic = action.payload.flag;
     },
+    playStoneFallSound(state, action) {
+      state.isStoneFallSound = action.payload.flag;
+    },
     setSoundState(state, action) {
       state.isOnSound = action.payload.flag;
+    },
+    showDarkSlot(state, action) {
+      state.isDarkGame = action.payload.flag;
     },
   },
 });
@@ -113,9 +123,10 @@ export const placeBetThunk = (bet: number) => {
 export const spinCycleThunk = (isInitStage: boolean) => {
   return (dispatch: any) => {
     dispatch(setGameOnState({ flag: true }));
+    dispatch(playStoneFallSound({ flag: true }));
     if (isInitStage) {
       dispatch(initStage({ flag: true }));
-
+      dispatch(playStoneFallSound({ flag: false }));
       setTimeout(() => {
         dispatch(
           initStage({
@@ -126,6 +137,9 @@ export const spinCycleThunk = (isInitStage: boolean) => {
       }, 0);
     } else {
       if (GenerateSpinCycle.getIsWinSpin()) {
+        if (GenerateSpinCycle.getWinCount() === 2) {
+          dispatch(showDarkSlot({ flag: true }));
+        }
         setTimeout(() => {
           dispatch(playWinMusic({ flag: true }));
           dispatch(
@@ -167,10 +181,9 @@ export const spinCycleThunk = (isInitStage: boolean) => {
                   if (GenerateSpinCycle.checkWinAfterAdditionStage()) {
                     dispatch(spinCycleThunk(false));
                   } else {
+                    dispatch(showDarkSlot({ flag: false }));
                     dispatch(setGameOnState({ flag: false }));
-                    setTimeout(() => {
-                      dispatch(playWinMusic({ flag: false }));
-                    }, 5000);
+                    dispatch(playWinMusic({ flag: false }));
                   }
                 }, 1000);
               }, 1000);
@@ -200,6 +213,8 @@ export const {
   checkAmountMoney,
   playWinMusic,
   setSoundState,
+  playStoneFallSound,
+  showDarkSlot,
 } = gameSlice.actions;
 
 export default gameSlice.reducer;

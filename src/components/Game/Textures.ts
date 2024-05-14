@@ -16,6 +16,7 @@ import arrowTop from '../../assets/images/arrow_top.png';
 import arrowBottom from '../../assets/images/arrow_bottom.png';
 import volumeOn from '../../assets/images/volume_on.png';
 import volumeOff from '../../assets/images/volume_off.png';
+import bgSlotDark from '../../assets/images/bg-slot-dark.jpg';
 
 import gameMusicDef from '../../assets/sounds/anubis_def.mp3';
 import gameMusicWin from '../../assets/sounds/anubis_win.mp3';
@@ -207,6 +208,15 @@ import arrowLow6 from '../../assets/images/arrow_low_text/frame_06.png';
 import arrowLow7 from '../../assets/images/arrow_low_text/frame_07.png';
 import arrowLow8 from '../../assets/images/arrow_low_text/frame_08.png';
 import arrowLow9 from '../../assets/images/arrow_low_text/frame_09.png';
+
+import fire0 from '../../assets/images/fire/frame_00.png';
+import fire1 from '../../assets/images/fire/frame_01.png';
+import fire2 from '../../assets/images/fire/frame_02.png';
+import fire3 from '../../assets/images/fire/frame_03.png';
+import fire4 from '../../assets/images/fire/frame_04.png';
+import fire5 from '../../assets/images/fire/frame_05.png';
+
+export const fireTextures = [fire0, fire1, fire2, fire3, fire4, fire5];
 
 export const bgLoadingAnubisTexture = bgLoadingAnubis;
 export const arrowsTopTexture = [
@@ -445,6 +455,8 @@ export const gameData = {
   gameMusicDef,
   gameMusicWin,
   soundBetBtn,
+  fireTextures,
+  bgSlotDark,
 };
 
 export const gameDataGif: any = {};

@@ -3,6 +3,7 @@ import {
   arrowsLowTexture,
   arrowsTopTexture,
   bgLoadingAnubisTexture,
+  fireTextures,
   gameData,
   preloaderGifTexture,
   spinBtnOffTexture,
@@ -18,6 +19,10 @@ export let readyGameDataSpinBtnOff: any = [];
 export let readyGameDataArrowUp: any = [];
 
 export let readyGameDataArrowLow: any = [];
+
+export let readyGameDataFireTextures: any = [];
+
+export let readyGameDataStormTextures: any = [];
 
 export async function loadingAnubisBgTexture(): Promise<void> {
   if (!PIXI.Assets.resolver.hasKey('bgLoadingAnubis')) {
@@ -76,6 +81,14 @@ export function createKeysForTextures(): Array<string> {
   }
 
   return itemsKeyForLoading;
+}
+
+export async function createGameDataFire() {
+  readyGameDataFireTextures = [];
+
+  for (let i = 0; i < fireTextures.length; i++) {
+    readyGameDataFireTextures.push(PIXI.Texture.from(fireTextures[i]));
+  }
 }
 
 export async function createGameDataSymbolsWin() {
