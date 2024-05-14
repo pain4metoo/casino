@@ -61,6 +61,8 @@ const Game = (props: any) => {
               isGameOn={props.isGameOn}
               winAmount={props.winAmount}
               isNotEnoughMoney={props.isNotEnoughMoney}
+              isOnSound={props.isOnSound}
+              setSoundState={props.setSoundState}
             />
           </Container>
         )}

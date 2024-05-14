@@ -17,6 +17,8 @@ interface IInitialState {
   bet: number;
   winAmount: number;
   isNotEnoughMoney: boolean;
+  isWinMusic: boolean;
+  isOnSound: boolean;
 }
 
 const initialState: IInitialState = {
@@ -30,6 +32,8 @@ const initialState: IInitialState = {
   bet: 0.1,
   winAmount: 0,
   isNotEnoughMoney: false,
+  isWinMusic: false,
+  isOnSound: true,
 };
 
 const gameSlice = createSlice({
@@ -89,6 +93,12 @@ const gameSlice = createSlice({
     checkAmountMoney(state, action) {
       state.isNotEnoughMoney = action.payload.flag;
     },
+    playWinMusic(state, action) {
+      state.isWinMusic = action.payload.flag;
+    },
+    setSoundState(state, action) {
+      state.isOnSound = action.payload.flag;
+    },
   },
 });
 
@@ -117,6 +127,7 @@ export const spinCycleThunk = (isInitStage: boolean) => {
     } else {
       if (GenerateSpinCycle.getIsWinSpin()) {
         setTimeout(() => {
+          dispatch(playWinMusic({ flag: true }));
           dispatch(
             winStage({
               gameField: GenerateSpinCycle.getStage(Stages.WIN),
@@ -157,6 +168,9 @@ export const spinCycleThunk = (isInitStage: boolean) => {
                     dispatch(spinCycleThunk(false));
                   } else {
                     dispatch(setGameOnState({ flag: false }));
+                    setTimeout(() => {
+                      dispatch(playWinMusic({ flag: false }));
+                    }, 5000);
                   }
                 }, 1000);
               }, 1000);
@@ -184,6 +198,8 @@ export const {
   updateWinAmount,
   restartGame,
   checkAmountMoney,
+  playWinMusic,
+  setSoundState,
 } = gameSlice.actions;
 
 export default gameSlice.reducer;

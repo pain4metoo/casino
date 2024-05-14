@@ -1,16 +1,33 @@
 import * as PIXI from 'pixi.js';
 import { AnimatedSprite, Container, Sprite, Text } from '@pixi/react';
-import { gameData, spinBtnOffTexture } from './textures';
+import { gameData } from './textures';
 import {
   readyGameDataArrowLow,
   readyGameDataArrowUp,
   readyGameDataSpinBtnOff,
 } from './textures-create';
+import useSound from 'use-sound';
+import btnBetSound from '../../assets/sounds/button_click.mp3';
 
 const GameControls = (props: any) => {
+  const [playBtnBetSound] = useSound(btnBetSound, {
+    volume: props.isOnSound ? 0.25 : 0,
+  });
+
   return (
     <>
       <Container>
+        <Sprite
+          x={15}
+          y={15}
+          width={70}
+          height={70}
+          image={props.isOnSound ? gameData.volumeOn : gameData.volumeOff}
+          pointerdown={() => {
+            props.setSoundState({ flag: !props.isOnSound });
+          }}
+          eventMode={'dynamic'}
+        />
         <Text
           text={'Balance: ' + props.balance + '$'}
           x={20}
@@ -83,7 +100,10 @@ const GameControls = (props: any) => {
             width={30}
             height={30}
             image={gameData.arrowTop}
-            pointerdown={props.handlePlaceBetUp}
+            pointerdown={() => {
+              props.handlePlaceBetUp();
+              playBtnBetSound();
+            }}
             eventMode={props.isGameOn ? 'none' : 'dynamic'}
           />
         )}
@@ -104,7 +124,10 @@ const GameControls = (props: any) => {
             width={30}
             height={30}
             image={gameData.arrowBottom}
-            pointerdown={props.handlePlaceBetLow}
+            pointerdown={() => {
+              props.handlePlaceBetLow();
+              playBtnBetSound();
+            }}
             eventMode={props.isGameOn ? 'none' : 'dynamic'}
           />
         )}

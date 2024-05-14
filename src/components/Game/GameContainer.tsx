@@ -6,21 +6,57 @@ import { isAuthMeThunk } from '../../redux/auth-reducer';
 import {
   checkAmountMoney,
   placeBetThunk,
+  playWinMusic,
   restartGame,
   setBet,
+  setSoundState,
   spinCycleThunk,
 } from '../../redux/game-reducer';
 import GenerateSpinCycle from './GenerateGameLogic';
 import { useEffect } from 'react';
+import useSound from 'use-sound';
+import gameMusicDef from '../../assets/sounds/anubis_def.mp3';
+import gameMusicWin from '../../assets/sounds/anubis_win.mp3';
 
 const GameContainer = (props: any) => {
+  const [playGameMusicDef, controlsDef] = useSound(gameMusicDef, {
+    volume: props.isOnSound ? 0.25 : 0,
+    loop: true,
+  });
+  const [playGameMusicWin, controlsWin] = useSound(gameMusicWin, {
+    volume: props.isOnSound ? 0.25 : 0,
+    loop: true,
+  });
+
   props.isAuthMeThunk();
+
   useEffect(() => {
     return () => {
       GenerateSpinCycle.clearLastResults();
       props.restartGame();
     };
   }, []);
+
+  useEffect(() => {
+    if (props.isWinMusic) {
+      controlsDef.pause();
+      playGameMusicWin();
+    } else {
+      controlsWin.stop();
+      playGameMusicDef();
+    }
+  }, [props.isWinMusic]);
+
+  useEffect(() => {
+    if (props.isStartGame) {
+      playGameMusicDef();
+    }
+
+    return () => {
+      controlsDef.stop();
+      controlsWin.stop();
+    };
+  }, [props.isStartGame]);
 
   const handleClickSpin = (bet: number) => {
     if (bet > props.balance) {
@@ -114,8 +150,11 @@ const mapStateToProps = (state: any) => {
     bet: state.game.bet,
     winAmount: state.game.winAmount,
     isNotEnoughMoney: state.game.isNotEnoughMoney,
+    isWinMusic: state.game.isWinMusic,
+    isOnSound: state.game.isOnSound,
   };
 };
+
 export default compose(
   connect(mapStateToProps, {
     setBet,
@@ -124,6 +163,8 @@ export default compose(
     spinCycleThunk,
     checkAmountMoney,
     restartGame,
+    playWinMusic,
+    setSoundState,
   }),
   withAuthMeRedirect,
 )(GameContainer);

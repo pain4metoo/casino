@@ -14,6 +14,12 @@ import spinBtn from '../../assets/images/spin.png';
 import bgLoadingAnubis from '../../assets/images/bg-loading-slot.jpg';
 import arrowTop from '../../assets/images/arrow_top.png';
 import arrowBottom from '../../assets/images/arrow_bottom.png';
+import volumeOn from '../../assets/images/volume_on.png';
+import volumeOff from '../../assets/images/volume_off.png';
+
+import gameMusicDef from '../../assets/sounds/anubis_def.mp3';
+import gameMusicWin from '../../assets/sounds/anubis_win.mp3';
+import soundBetBtn from '../../assets/sounds/button_click.mp3';
 
 import prelTexture1 from '../../assets/images/preloader-textures/frame-01.png';
 import prelTexture2 from '../../assets/images/preloader-textures/frame-02.png';
@@ -434,6 +440,11 @@ export const gameData = {
   spinBtnOffTexture,
   arrowsTopTexture,
   arrowsLowTexture,
+  volumeOff,
+  volumeOn,
+  gameMusicDef,
+  gameMusicWin,
+  soundBetBtn,
 };
 
 export const gameDataGif: any = {};
