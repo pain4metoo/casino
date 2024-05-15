@@ -16,8 +16,8 @@ class AuthController {
         balance: 1000,
       };
 
-      const response: any = await instance.post('/register', user);
-      console.log(response);
+      const response: AxiosResponse = await instance.post('/register', user);
+
       const data = response.data;
 
       if (!data) {
@@ -60,16 +60,18 @@ class AuthController {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       };
 
-      const response: any = await instance.get(
+      const response: AxiosResponse = await instance.get(
         `/600/users/${localStorage.getItem('id')}`,
         config,
       );
 
-      if (!response.data) {
-        throw Error(response);
+      const data = response.data;
+
+      if (!data) {
+        throw Error(data);
       }
 
-      return response.data;
+      return data;
     } catch (err) {
       console.log(err);
     }

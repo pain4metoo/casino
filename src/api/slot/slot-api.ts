@@ -1,3 +1,4 @@
+import { Axios, AxiosResponse } from 'axios';
 import { instance } from '../instance';
 
 class SlotApi {
@@ -7,13 +8,15 @@ class SlotApi {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       };
 
-      const response: any = await instance.get(
+      const response: AxiosResponse = await instance.get(
         `/660/users/${localStorage.getItem('id')}`,
         config,
       );
 
-      if (!response.data) {
-        throw Error(response);
+      const data = response.data;
+
+      if (!data) {
+        throw Error(data);
       }
 
       const currentBalance = response.data.balance;
@@ -24,7 +27,7 @@ class SlotApi {
 
       const updateBalance = (currentBalance - bet).toFixed(2);
 
-      const changeBalanceResponse: any = await instance.patch(
+      const changeBalanceResponse: AxiosResponse = await instance.patch(
         `/660/users/${localStorage.getItem('id')}`,
         {
           balance: updateBalance,
@@ -32,11 +35,13 @@ class SlotApi {
         config,
       );
 
-      if (!changeBalanceResponse.data) {
-        throw Error(response);
+      const newBalanceData = changeBalanceResponse.data;
+
+      if (!newBalanceData) {
+        throw Error(newBalanceData);
       }
 
-      return changeBalanceResponse.data.balance;
+      return newBalanceData.balance;
     } catch (err) {
       console.log(err);
     }
@@ -47,18 +52,20 @@ class SlotApi {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       };
 
-      const response: any = await instance.get(
+      const response: AxiosResponse = await instance.get(
         `/660/users/${localStorage.getItem('id')}`,
         config,
       );
 
-      if (!response.data) {
-        throw Error(response);
+      const data = response.data;
+
+      if (!data) {
+        throw Error(data);
       }
 
       const currentBalance = +(+response.data.balance + amount).toFixed(2);
 
-      const changeBalanceResponse: any = await instance.patch(
+      const changeBalanceResponse: AxiosResponse = await instance.patch(
         `/660/users/${localStorage.getItem('id')}`,
         {
           balance: currentBalance,
@@ -66,11 +73,13 @@ class SlotApi {
         config,
       );
 
-      if (!changeBalanceResponse.data) {
-        throw Error(response);
+      const newBalanceData = changeBalanceResponse.data;
+
+      if (!newBalanceData) {
+        throw Error(newBalanceData);
       }
 
-      return changeBalanceResponse.data.balance;
+      return newBalanceData.balance;
     } catch (err) {
       console.log(err);
     }
