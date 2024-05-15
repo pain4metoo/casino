@@ -314,15 +314,14 @@ export class GenerateSpinCycle {
       },
     };
 
-    const calculate = (id: number, count: number): any => {
+    const calculate = (id: number, count: number): number => {
       const key = count as keyof typeof winTableDefault.symbolsDef;
+      const keyId = id as keyof typeof winTableDefault.symbolsWin;
 
       if (id <= intervalDefSymbols) {
         return winTableDefault.symbolsDef[key] * this.currentBet * 10;
       } else {
-        return (
-          (winTableDefault.symbolsWin as any)[id][key] * this.currentBet * 10
-        );
+        return winTableDefault.symbolsWin[keyId][key] * this.currentBet * 10;
       }
     };
 

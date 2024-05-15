@@ -39,7 +39,7 @@ export async function loadPreloaderTexture(): Promise<void> {
   const itemsKeyForPreloaderGif: Array<string> = [];
   const keyForPreloader = 'preloader';
 
-  preloaderGifTexture.forEach((el: any, i: number) => {
+  preloaderGifTexture.forEach((el: string, i: number) => {
     if (!PIXI.Assets.resolver.hasKey(`${keyForPreloader}${i}`)) {
       PIXI.Assets.add({ alias: `${keyForPreloader}${i}`, src: el });
     }

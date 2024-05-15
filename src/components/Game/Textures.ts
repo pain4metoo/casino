@@ -18,10 +18,6 @@ import volumeOn from '../../assets/images/volume_on.png';
 import volumeOff from '../../assets/images/volume_off.png';
 import bgSlotDark from '../../assets/images/bg-slot-dark.jpg';
 
-import gameMusicDef from '../../assets/sounds/anubis_def.mp3';
-import gameMusicWin from '../../assets/sounds/anubis_win.mp3';
-import soundBetBtn from '../../assets/sounds/button_click.mp3';
-
 import prelTexture1 from '../../assets/images/preloader-textures/frame-01.png';
 import prelTexture2 from '../../assets/images/preloader-textures/frame-02.png';
 import prelTexture3 from '../../assets/images/preloader-textures/frame-03.png';

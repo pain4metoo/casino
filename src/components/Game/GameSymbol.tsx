@@ -5,12 +5,14 @@ import {
   readyGameDataFireTextures,
   readyGameDataSymbolsWin,
 } from './textures-create';
+import * as PIXI from 'pixi.js';
 
 const Symbol = (props: any) => {
   const [yStart, setYStart] = useState(props.symbolData.yStart);
 
-  const defaultSymbol: any = gameData.symbolsDef[props.symbolData.id - 1];
-  const winSymbol: any = readyGameDataSymbolsWin[props.symbolData.id - 1];
+  const defaultSymbol: string = gameData.symbolsDef[props.symbolData.id - 1];
+  const winSymbol: Array<PIXI.Texture> =
+    readyGameDataSymbolsWin[props.symbolData.id - 1];
 
   useTick((delta, ticker) => {
     if (yStart < props.symbolData.yEnd) {
