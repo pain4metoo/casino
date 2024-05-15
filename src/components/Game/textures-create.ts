@@ -10,19 +10,19 @@ import {
   symbolsWin,
 } from './textures';
 
-export let readyGameDataSymbolsWin: any = [];
+export let readyGameDataSymbolsWin: Array<Array<PIXI.Texture>> = [];
 
-export let readyGameDataPreloader: any = [];
+export let readyGameDataPreloader: Array<PIXI.Texture> = [];
 
-export let readyGameDataSpinBtnOff: any = [];
+export let readyGameDataSpinBtnOff: Array<PIXI.Texture> = [];
 
-export let readyGameDataArrowUp: any = [];
+export let readyGameDataArrowUp: Array<PIXI.Texture> = [];
 
-export let readyGameDataArrowLow: any = [];
+export let readyGameDataArrowLow: Array<PIXI.Texture> = [];
 
-export let readyGameDataFireTextures: any = [];
+export let readyGameDataFireTextures: Array<PIXI.Texture> = [];
 
-export let readyGameDataStormTextures: any = [];
+export let readyGameDataStormTextures: Array<PIXI.Texture> = [];
 
 export async function loadingAnubisBgTexture(): Promise<void> {
   if (!PIXI.Assets.resolver.hasKey('bgLoadingAnubis')) {
@@ -36,7 +36,6 @@ export async function loadingAnubisBgTexture(): Promise<void> {
 }
 
 export async function loadPreloaderTexture(): Promise<void> {
-  readyGameDataPreloader = [];
   const itemsKeyForPreloaderGif: Array<string> = [];
   const keyForPreloader = 'preloader';
 
@@ -86,34 +85,27 @@ export function createKeysForTextures(): Array<string> {
 }
 
 export async function createGameDataFire() {
-  readyGameDataFireTextures = [];
-
   for (let i = 0; i < fireTextures.length; i++) {
     readyGameDataFireTextures.push(PIXI.Texture.from(fireTextures[i]));
   }
 }
 
 export async function createGameDataSymbolsWin() {
-  readyGameDataSymbolsWin = [];
   for (let i = 0; i < symbolsWin.length; i++) {
     readyGameDataSymbolsWin.push([]);
     for (let g = 0; g < symbolsWin[i].length; g++) {
-      const newPixiTexture = PIXI.Texture.from(symbolsWin[i][g]);
-      readyGameDataSymbolsWin[i].push(newPixiTexture);
+      readyGameDataSymbolsWin[i].push(PIXI.Texture.from(symbolsWin[i][g]));
     }
   }
 }
 
 export async function createGameDataSpinBtnOff() {
-  readyGameDataSpinBtnOff = [];
   for (let i = 0; i < spinBtnOffTexture.length; i++) {
     readyGameDataSpinBtnOff.push(PIXI.Texture.from(spinBtnOffTexture[i]));
   }
 }
 
 export async function createGameDataArrows() {
-  readyGameDataArrowUp = [];
-  readyGameDataArrowLow = [];
   for (let i = 0; i < arrowsTopTexture.length; i++) {
     readyGameDataArrowUp.push(PIXI.Texture.from(arrowsTopTexture[i]));
   }
