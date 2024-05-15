@@ -17,7 +17,7 @@ class AuthController {
       };
 
       const response: any = await instance.post('/register', user);
-
+      console.log(response);
       const data = response.data;
 
       if (!data) {

@@ -452,9 +452,6 @@ export const gameData = {
   arrowsLowTexture,
   volumeOff,
   volumeOn,
-  gameMusicDef,
-  gameMusicWin,
-  soundBetBtn,
   fireTextures,
   bgSlotDark,
 };

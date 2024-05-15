@@ -84,8 +84,6 @@ const gameSlice = createSlice({
       state.winAmount = action.payload.winAmount;
     },
     restartGame(state) {
-      state.gameField = [];
-      state.startingField = [];
       state.isGameOn = false;
       state.isStartGame = false;
       state.isInitStage = false;
@@ -94,6 +92,8 @@ const gameSlice = createSlice({
       state.bet = 0.1;
       state.winAmount = 0;
       state.isDarkGame = false;
+      state.isOnSound = true;
+      state.isWinMusic = false;
     },
     checkAmountMoney(state, action) {
       state.isNotEnoughMoney = action.payload.flag;
@@ -123,13 +123,12 @@ export const placeBetThunk = (bet: number) => {
 
 export const spinCycleThunk = (isInitStage: boolean) => {
   return (dispatch: any) => {
-    dispatch(showDarkSlot({ flag: false }));
-    dispatch(setGameOnState({ flag: true }));
-    dispatch(playStoneFallSound({ flag: true }));
     if (isInitStage) {
+      dispatch(setGameOnState({ flag: true }));
+      dispatch(playStoneFallSound({ flag: true }));
       dispatch(initStage({ flag: true }));
-      dispatch(playStoneFallSound({ flag: false }));
       setTimeout(() => {
+        GenerateSpinCycle.clearLastResults();
         dispatch(
           initStage({
             gameField: GenerateSpinCycle.spinCycle(),
@@ -139,11 +138,12 @@ export const spinCycleThunk = (isInitStage: boolean) => {
       }, 0);
     } else {
       if (GenerateSpinCycle.getIsWinSpin()) {
-        if (GenerateSpinCycle.getWinCount() >= 2) {
-          dispatch(showDarkSlot({ flag: true }));
-        }
         setTimeout(() => {
-          dispatch(playWinMusic({ flag: true }));
+          if (GenerateSpinCycle.getWinCount() >= 2) {
+            dispatch(showDarkSlot({ flag: true }));
+            dispatch(playWinMusic({ flag: true }));
+          }
+
           dispatch(
             winStage({
               gameField: GenerateSpinCycle.getStage(Stages.WIN),

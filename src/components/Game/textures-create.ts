@@ -30,9 +30,9 @@ export async function loadingAnubisBgTexture(): Promise<void> {
       alias: 'bgLoadingAnubis',
       src: bgLoadingAnubisTexture,
     });
-
-    await PIXI.Assets.load('bgLoadingAnubis');
   }
+
+  await PIXI.Assets.load('bgLoadingAnubis');
 }
 
 export async function loadPreloaderTexture(): Promise<void> {
@@ -48,11 +48,13 @@ export async function loadPreloaderTexture(): Promise<void> {
     itemsKeyForPreloaderGif.push(`${keyForPreloader}${i}`);
   });
 
-  await PIXI.Assets.load(itemsKeyForPreloaderGif);
-
-  for (let i = 0; i < itemsKeyForPreloaderGif.length; i++) {
-    readyGameDataPreloader.push(PIXI.Texture.from(preloaderGifTexture[i]));
-  }
+  await PIXI.Assets.load(itemsKeyForPreloaderGif, progress => {
+    if (progress === 1) {
+      for (let i = 0; i < itemsKeyForPreloaderGif.length; i++) {
+        readyGameDataPreloader.push(PIXI.Texture.from(preloaderGifTexture[i]));
+      }
+    }
+  });
 }
 
 export function createKeysForTextures(): Array<string> {

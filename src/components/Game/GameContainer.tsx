@@ -20,9 +20,9 @@ import useSound from 'use-sound';
 import gameMusicDef from '../../assets/sounds/anubis_def.mp3';
 import gameMusicWin from '../../assets/sounds/anubis_win.mp3';
 import gameMusicStone from '../../assets/sounds/stone_fall.mp3';
+import { useApp } from '@pixi/react';
 
 const GameContainer = (props: any) => {
-  console.log(props);
   const [playGameMusicDef, controlsDef] = useSound(gameMusicDef, {
     volume: props.isOnSound ? 1 : 0,
     interrupt: true,
@@ -42,8 +42,8 @@ const GameContainer = (props: any) => {
 
   useEffect(() => {
     return () => {
-      props.restartGame();
       GenerateSpinCycle.clearLastResults();
+      props.restartGame();
     };
   }, []);
 
