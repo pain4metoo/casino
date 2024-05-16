@@ -84,11 +84,11 @@ export class GenerateSpinCycle {
   }
 
   public static getTotalWinAmount(): number {
-    return this.totalWinAmount;
+    return +this.totalWinAmount.toFixed(2);
   }
 
   public static getWinAmount(): number {
-    return this.currentWinSum;
+    return +this.currentWinSum.toFixed(2);
   }
   public static changeCurrentBet(newBet: number) {
     if (newBet > 0 && newBet <= 1000) {

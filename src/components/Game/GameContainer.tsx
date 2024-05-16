@@ -208,12 +208,13 @@ const mapStateToProps = (state: any) => {
     isColumnFallSound: state.game.isColumnFallSound,
   };
 };
+
 export default compose(
   connect(mapStateToProps, {
-    setBet,
     placeBetThunk,
     isAuthMeThunk,
     spinCycleThunk,
+    setBet,
     checkAmountMoney,
     restartGame,
     playWinMusic,

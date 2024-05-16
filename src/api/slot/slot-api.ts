@@ -1,9 +1,17 @@
 import { Axios, AxiosResponse } from 'axios';
 import { instance } from '../instance';
 
+export type GiveMoneyType = {
+  balance: number;
+  increase: number;
+};
+
 class SlotApi {
   public static async placeBet(bet: number) {
     try {
+      if (!bet) {
+        throw Error('Bet is incorrect');
+      }
       const config = {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       };
@@ -30,7 +38,7 @@ class SlotApi {
       const changeBalanceResponse: AxiosResponse = await instance.patch(
         `/660/users/${localStorage.getItem('id')}`,
         {
-          balance: updateBalance,
+          balance: +updateBalance,
         },
         config,
       );
@@ -68,7 +76,7 @@ class SlotApi {
       const changeBalanceResponse: AxiosResponse = await instance.patch(
         `/660/users/${localStorage.getItem('id')}`,
         {
-          balance: currentBalance,
+          balance: +currentBalance,
         },
         config,
       );
@@ -80,6 +88,50 @@ class SlotApi {
       }
 
       return newBalanceData.balance;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  public static async giveMeMoney(): Promise<GiveMoneyType | undefined> {
+    try {
+      const config = {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      };
+
+      const userResponse: AxiosResponse = await instance.get(
+        `/660/users/${localStorage.getItem('id')}`,
+        config,
+      );
+
+      const user = userResponse.data;
+
+      if (!user) {
+        throw Error(user);
+      }
+
+      const randomMoneyCount: number = Math.ceil(Math.random() * 1000);
+
+      const changeBalanceResponse: AxiosResponse = await instance.patch(
+        `/660/users/${localStorage.getItem('id')}`,
+        {
+          balance: +user.balance + randomMoneyCount,
+        },
+        config,
+      );
+
+      const newBalanceData = changeBalanceResponse.data;
+
+      if (!newBalanceData) {
+        throw Error(newBalanceData);
+      }
+
+      const newBalance: GiveMoneyType = {
+        balance: +newBalanceData.balance,
+        increase: randomMoneyCount,
+      };
+
+      return newBalance;
     } catch (err) {
       console.log(err);
     }

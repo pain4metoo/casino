@@ -11,7 +11,7 @@ import btnBetSound from '../../assets/sounds/button_click.mp3';
 
 const GameControls = (props: any) => {
   const [playBtnBetSound] = useSound(btnBetSound, {
-    volume: props.isOnSound ? 0.5 : 0,
+    volume: props.isOnSound ? 0.3 : 0,
   });
 
   return (
@@ -37,10 +37,10 @@ const GameControls = (props: any) => {
               align: 'center',
               fontFamily: '"Thasadith", Helvetica, sans-serif',
               fontSize: 30,
-              fontWeight: '400',
+              fontWeight: '600',
               fill: props.isNotEnoughMoney
                 ? ['#f01414', '#c2c2c2']
-                : ['#ffffff', '#00ff99'], // gradient
+                : ['#FFA07A', '#FFA07A'], // gradient
               stroke: '#01d27e',
               wordWrap: false,
               wordWrapWidth: 100,
@@ -56,8 +56,8 @@ const GameControls = (props: any) => {
               align: 'center',
               fontFamily: '"Thasadith", Helvetica, sans-serif',
               fontSize: 30,
-              fontWeight: '400',
-              fill: ['#ffffff', '#00ff99'], // gradient
+              fontWeight: '600',
+              fill: ['#FFA07A', '#FFA07A'], // gradient
               stroke: '#01d27e',
               wordWrap: false,
               wordWrapWidth: 100,
@@ -73,8 +73,8 @@ const GameControls = (props: any) => {
               align: 'center',
               fontFamily: '"Thasadith", Helvetica, sans-serif',
               fontSize: 30,
-              fontWeight: '400',
-              fill: ['#ffffff', '#00ff99'], // gradient
+              fontWeight: '600',
+              fill: ['#FFA07A', '#FFA07A'], // gradient
               stroke: '#01d27e',
               wordWrap: false,
               wordWrapWidth: 100,
@@ -90,10 +90,10 @@ const GameControls = (props: any) => {
               align: 'center',
               fontFamily: 'Thasadith, sans-serif',
               fontSize: 30,
-              fontWeight: '400',
+              fontWeight: '600',
               fill: props.isNotEnoughMoney
                 ? ['#f01414', '#c2c2c2']
-                : ['#ffffff', '#00ff99'], // gradient
+                : ['#FFA07A', '#FFA07A'], // gradient
               stroke: '#01d27e',
               wordWrap: false,
               wordWrapWidth: 100,

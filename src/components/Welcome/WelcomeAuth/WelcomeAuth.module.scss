@@ -11,9 +11,33 @@
   margin: 0 auto;
 }
 
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+}
+
+.link {
+  text-decoration: none;
+}
+
+.money {
+  margin-top: 2rem;
+}
+
 .welcome {
   font-size: 2.5rem;
   line-height: 100%;
   text-align: center;
   margin-top: 2rem;
+  &_text {
+    user-select: none;
+  }
+  &_title {
+    user-select: none;
+  }
+  &_card {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
 }

@@ -1,5 +1,5 @@
 import styles from './Header.module.scss';
-import logo from '../../assets/images/logo.png';
+import logo from '../../assets/images/logo.svg';
 import NavbarAuth from './Navbar-Auth/Navbar-Auth';
 import NavbarUnauth from './Navbar-Unauth/Navbar-Unauth';
 import { NavLink } from 'react-router-dom';

@@ -3,7 +3,7 @@ import GenerateSpinCycle, {
   ISymbol,
   Stages,
 } from '../components/Game/GenerateGameLogic';
-import SlotApi from '../api/slot/slot-api';
+import SlotApi, { GiveMoneyType } from '../api/slot/slot-api';
 import { updateUserBalance } from './auth-reducer';
 
 export type IGameState = {
@@ -24,6 +24,8 @@ export type IGameState = {
   isDarkGame: boolean;
   isWinSound: boolean;
   isColumnFallSound: boolean;
+  isMoneyBtnOff: boolean;
+  giveMeMoneyCount: number;
 };
 
 const initialState: IGameState = {
@@ -44,6 +46,8 @@ const initialState: IGameState = {
   isDarkGame: false,
   isWinSound: false,
   isColumnFallSound: false,
+  isMoneyBtnOff: false,
+  giveMeMoneyCount: 0,
 };
 
 const gameSlice = createSlice({
@@ -102,7 +106,6 @@ const gameSlice = createSlice({
       state.winAmount = 0;
       state.totalWinAmount = 0;
       state.isDarkGame = false;
-      state.isOnSound = true;
       state.isWinMusic = false;
     },
     checkAmountMoney(state, action) {
@@ -126,8 +129,37 @@ const gameSlice = createSlice({
     playColumnFallSound(state, action) {
       state.isColumnFallSound = action.payload.flag;
     },
+    changeMoneyBtnState(state, action) {
+      state.isMoneyBtnOff = action.payload.flag;
+    },
+    showIncreaseMoney(state, action) {
+      state.giveMeMoneyCount = action.payload.increase;
+    },
   },
 });
+
+export const giveMeMoneyThunk = () => {
+  return async (dispatch: Dispatch) => {
+    dispatch(changeMoneyBtnState({ flag: true }));
+
+    const newBalance: GiveMoneyType | undefined = await SlotApi.giveMeMoney();
+
+    if (newBalance) {
+      dispatch(
+        updateUserBalance({
+          balance: +newBalance.balance.toFixed(2),
+        }),
+      );
+
+      dispatch(showIncreaseMoney({ increase: newBalance.increase }));
+
+      setTimeout(() => {
+        dispatch(changeMoneyBtnState({ flag: false }));
+        dispatch(showIncreaseMoney({ increase: 0 }));
+      }, 1000);
+    }
+  };
+};
 
 export const placeBetThunk = (bet: number) => {
   return async (dispatch: Dispatch) => {
@@ -142,7 +174,7 @@ export const spinCycleThunk = (isInitStage: boolean) => {
     if (isInitStage) {
       dispatch(
         updateTotalWinAmount({
-          totalWinAmount: GenerateSpinCycle.getTotalWinAmount(),
+          totalWinAmount: 0,
         }),
       );
       dispatch(playStoneFallSound({ flag: true }));
@@ -229,7 +261,7 @@ export const spinCycleThunk = (isInitStage: boolean) => {
         setTimeout(() => {
           dispatch(playStoneFallSound({ flag: false }));
           dispatch(setGameOnState({ flag: false }));
-        }, 1000);
+        }, 1100);
       }
     }
   };
@@ -254,6 +286,8 @@ export const {
   showDarkSlot,
   playWinSound,
   playColumnFallSound,
+  changeMoneyBtnState,
+  showIncreaseMoney,
 } = gameSlice.actions;
 
 export default gameSlice.reducer;
