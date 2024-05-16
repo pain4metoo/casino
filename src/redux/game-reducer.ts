@@ -102,7 +102,6 @@ const gameSlice = createSlice({
       state.isInitStage = false;
       state.isRemoveSymbolsStage = false;
       state.isAdditionStage = false;
-      state.bet = 0.1;
       state.winAmount = 0;
       state.totalWinAmount = 0;
       state.isDarkGame = false;
