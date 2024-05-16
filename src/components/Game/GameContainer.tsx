@@ -114,8 +114,8 @@ const GameContainer = (props: any) => {
     }
     props.checkAmountMoney({ flag: false });
     props.placeBetThunk(bet, props.balance);
-    props.spinCycleThunk(true);
 
+    props.spinCycleThunk(true);
     setTimeout(() => {
       props.spinCycleThunk(false);
     }, 0);
@@ -198,6 +198,7 @@ const mapStateToProps = (state: any) => {
     balance: state.auth.user.balance,
     bet: state.game.bet,
     winAmount: state.game.winAmount,
+    totalWinAmount: state.game.totalWinAmount,
     isNotEnoughMoney: state.game.isNotEnoughMoney,
     isWinMusic: state.game.isWinMusic,
     isOnSound: state.game.isOnSound,

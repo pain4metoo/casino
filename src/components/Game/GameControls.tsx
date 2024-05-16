@@ -48,9 +48,26 @@ const GameControls = (props: any) => {
           }
         />
         <Text
-          text={'Win: ' + props.winAmount + '$'}
+          text={'Total win: ' + props.totalWinAmount + '$'}
           x={20}
-          y={560}
+          y={520}
+          style={
+            new PIXI.TextStyle({
+              align: 'center',
+              fontFamily: '"Thasadith", Helvetica, sans-serif',
+              fontSize: 30,
+              fontWeight: '400',
+              fill: ['#ffffff', '#00ff99'], // gradient
+              stroke: '#01d27e',
+              wordWrap: false,
+              wordWrapWidth: 100,
+            })
+          }
+        />
+        <Text
+          text={'Last win: ' + props.winAmount + '$'}
+          x={20}
+          y={570}
           style={
             new PIXI.TextStyle({
               align: 'center',

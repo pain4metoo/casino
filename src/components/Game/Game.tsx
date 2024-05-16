@@ -70,6 +70,7 @@ const Game = (props: any) => {
               bet={props.bet}
               isGameOn={props.isGameOn}
               winAmount={props.winAmount}
+              totalWinAmount={props.totalWinAmount}
               isNotEnoughMoney={props.isNotEnoughMoney}
               isOnSound={props.isOnSound}
               setSoundState={props.setSoundState}

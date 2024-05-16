@@ -46,6 +46,7 @@ export class GenerateSpinCycle {
   private static isWinSpin: boolean = false;
   private static currentWinSum: number = 0;
   private static winCounter: number = 0;
+  private static totalWinAmount: number = 0;
 
   private static xStartDefault: number = 350;
   private static yStartDefault: number = -550;
@@ -80,6 +81,10 @@ export class GenerateSpinCycle {
 
   public static getWinCount(): number {
     return this.winCounter;
+  }
+
+  public static getTotalWinAmount(): number {
+    return this.totalWinAmount;
   }
 
   public static getWinAmount(): number {
@@ -124,6 +129,7 @@ export class GenerateSpinCycle {
     this.isWinSpin = false;
     this.currentWinSum = 0;
     this.winCounter = 0;
+    this.totalWinAmount = 0;
 
     this.stagesPlayingField.initStage = [];
     this.stagesPlayingField.winStage = [];
@@ -321,12 +327,14 @@ export class GenerateSpinCycle {
     let winResult = 0;
 
     for (const id in copySymbols) {
-      if (copySymbols[id] >= 7) {
+      if (copySymbols[id] >= 5) {
         winResult += calculate(+id, copySymbols[id]);
       }
     }
 
     this.currentWinSum = +winResult.toFixed(2);
+    this.totalWinAmount =
+      +this.totalWinAmount.toFixed(2) + +winResult.toFixed(2);
   }
 
   public static checkWinSymbols(gameField: Array<Array<ISymbol>>): boolean {
@@ -346,7 +354,7 @@ export class GenerateSpinCycle {
 
     const currentWinSymbols = Object.entries({ ...winSymbolsCount })
       .map(el => {
-        if (el[1] >= 7) {
+        if (el[1] >= 5) {
           // Check the number of characters
           return +el[0]; // return the number id
         }

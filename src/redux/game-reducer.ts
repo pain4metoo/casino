@@ -16,6 +16,7 @@ export type IGameState = {
   isAdditionStage: boolean;
   bet: number;
   winAmount: number;
+  totalWinAmount: number;
   isNotEnoughMoney: boolean;
   isWinMusic: boolean;
   isOnSound: boolean;
@@ -35,6 +36,7 @@ const initialState: IGameState = {
   isAdditionStage: false,
   bet: 0.1,
   winAmount: 0,
+  totalWinAmount: 0,
   isNotEnoughMoney: false,
   isWinMusic: false,
   isOnSound: true,
@@ -87,6 +89,9 @@ const gameSlice = createSlice({
     updateWinAmount(state, action) {
       state.winAmount = action.payload.winAmount;
     },
+    updateTotalWinAmount(state, action) {
+      state.totalWinAmount = action.payload.totalWinAmount;
+    },
     restartGame(state) {
       state.isGameOn = false;
       state.isStartGame = false;
@@ -95,6 +100,7 @@ const gameSlice = createSlice({
       state.isAdditionStage = false;
       state.bet = 0.1;
       state.winAmount = 0;
+      state.totalWinAmount = 0;
       state.isDarkGame = false;
       state.isOnSound = true;
       state.isWinMusic = false;
@@ -134,6 +140,11 @@ export const placeBetThunk = (bet: number) => {
 export const spinCycleThunk = (isInitStage: boolean) => {
   return (dispatch: any) => {
     if (isInitStage) {
+      dispatch(
+        updateTotalWinAmount({
+          totalWinAmount: GenerateSpinCycle.getTotalWinAmount(),
+        }),
+      );
       dispatch(playStoneFallSound({ flag: true }));
       dispatch(setGameOnState({ flag: true }));
 
@@ -173,6 +184,11 @@ export const spinCycleThunk = (isInitStage: boolean) => {
 
           dispatch(
             updateWinAmount({ winAmount: GenerateSpinCycle.getWinAmount() }),
+          );
+          dispatch(
+            updateTotalWinAmount({
+              totalWinAmount: GenerateSpinCycle.getTotalWinAmount(),
+            }),
           );
 
           setTimeout(() => {
@@ -229,6 +245,7 @@ export const {
   setGameOnState,
   setBet,
   updateWinAmount,
+  updateTotalWinAmount,
   restartGame,
   checkAmountMoney,
   playWinMusic,
