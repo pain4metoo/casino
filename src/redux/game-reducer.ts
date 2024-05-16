@@ -6,7 +6,7 @@ import GenerateSpinCycle, {
 import SlotApi from '../api/slot/slot-api';
 import { updateUserBalance } from './auth-reducer';
 
-interface IInitialState {
+export type IGameState = {
   startingField: Array<Array<ISymbol>>;
   gameField: Array<Array<ISymbol>>;
   isGameOn: boolean;
@@ -21,9 +21,11 @@ interface IInitialState {
   isOnSound: boolean;
   isStoneFallSound: boolean;
   isDarkGame: boolean;
-}
+  isWinSound: boolean;
+  isColumnFallSound: boolean;
+};
 
-const initialState: IInitialState = {
+const initialState: IGameState = {
   startingField: [],
   gameField: [],
   isGameOn: false,
@@ -38,6 +40,8 @@ const initialState: IInitialState = {
   isOnSound: true,
   isStoneFallSound: false,
   isDarkGame: false,
+  isWinSound: false,
+  isColumnFallSound: false,
 };
 
 const gameSlice = createSlice({
@@ -110,6 +114,12 @@ const gameSlice = createSlice({
     showDarkSlot(state, action) {
       state.isDarkGame = action.payload.flag;
     },
+    playWinSound(state, action) {
+      state.isWinSound = action.payload.flag;
+    },
+    playColumnFallSound(state, action) {
+      state.isColumnFallSound = action.payload.flag;
+    },
   },
 });
 
@@ -124,8 +134,9 @@ export const placeBetThunk = (bet: number) => {
 export const spinCycleThunk = (isInitStage: boolean) => {
   return (dispatch: any) => {
     if (isInitStage) {
-      dispatch(setGameOnState({ flag: true }));
       dispatch(playStoneFallSound({ flag: true }));
+      dispatch(setGameOnState({ flag: true }));
+
       dispatch(initStage({ flag: true }));
       setTimeout(() => {
         GenerateSpinCycle.clearLastResults();
@@ -139,6 +150,7 @@ export const spinCycleThunk = (isInitStage: boolean) => {
     } else {
       if (GenerateSpinCycle.getIsWinSpin()) {
         setTimeout(() => {
+          dispatch(playStoneFallSound({ flag: false }));
           if (GenerateSpinCycle.getWinCount() >= 2) {
             dispatch(showDarkSlot({ flag: true }));
             dispatch(playWinMusic({ flag: true }));
@@ -156,6 +168,7 @@ export const spinCycleThunk = (isInitStage: boolean) => {
                 balance: res,
               }),
             );
+            dispatch(playWinSound({ flag: true }));
           });
 
           dispatch(
@@ -163,8 +176,9 @@ export const spinCycleThunk = (isInitStage: boolean) => {
           );
 
           setTimeout(() => {
+            dispatch(playWinSound({ flag: false }));
+            dispatch(playColumnFallSound({ flag: true }));
             dispatch(removeSymbolsStage());
-
             setTimeout(() => {
               dispatch(
                 omitStage({
@@ -173,6 +187,8 @@ export const spinCycleThunk = (isInitStage: boolean) => {
               );
 
               setTimeout(() => {
+                dispatch(playStoneFallSound({ flag: true }));
+                dispatch(playColumnFallSound({ flag: false }));
                 dispatch(
                   additionStage({
                     gameField: GenerateSpinCycle.getStage(Stages.ADDITION),
@@ -180,6 +196,7 @@ export const spinCycleThunk = (isInitStage: boolean) => {
                 );
 
                 setTimeout(() => {
+                  dispatch(playStoneFallSound({ flag: false }));
                   if (GenerateSpinCycle.checkWinAfterAdditionStage()) {
                     dispatch(spinCycleThunk(false));
                   } else {
@@ -194,6 +211,7 @@ export const spinCycleThunk = (isInitStage: boolean) => {
         }, 1000);
       } else {
         setTimeout(() => {
+          dispatch(playStoneFallSound({ flag: false }));
           dispatch(setGameOnState({ flag: false }));
         }, 1000);
       }
@@ -217,6 +235,8 @@ export const {
   setSoundState,
   playStoneFallSound,
   showDarkSlot,
+  playWinSound,
+  playColumnFallSound,
 } = gameSlice.actions;
 
 export default gameSlice.reducer;

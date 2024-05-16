@@ -6,8 +6,8 @@ import { isAuthMeThunk } from '../../redux/auth-reducer';
 import {
   checkAmountMoney,
   placeBetThunk,
-  playStoneFallSound,
   playWinMusic,
+  playWinSound,
   restartGame,
   setBet,
   setSoundState,
@@ -20,23 +20,36 @@ import useSound from 'use-sound';
 import gameMusicDef from '../../assets/sounds/anubis_def.mp3';
 import gameMusicWin from '../../assets/sounds/anubis_win.mp3';
 import gameMusicStone from '../../assets/sounds/stone_fall.mp3';
-import { useApp } from '@pixi/react';
+import gameWinSound from '../../assets/sounds/win_sound.mp3';
+import gameColumnFallSound from '../../assets/sounds/column_fall.mp3';
 
 const GameContainer = (props: any) => {
   const [playGameMusicDef, controlsDef] = useSound(gameMusicDef, {
-    volume: props.isOnSound ? 1 : 0,
+    volume: props.isOnSound ? 0.4 : 0,
     interrupt: true,
     loop: true,
   });
   const [playGameMusicWin, controlsWin] = useSound(gameMusicWin, {
-    volume: props.isOnSound ? 1 : 0,
+    volume: props.isOnSound ? 0.4 : 0,
     loop: true,
     interrupt: true,
   });
 
   const [playMusicStoneFall, controlsStoneFall] = useSound(gameMusicStone, {
     volume: props.isOnSound ? 1 : 0,
+    interrupt: true,
   });
+
+  const [playWinSound] = useSound(gameWinSound, {
+    volume: props.isOnSound ? 1 : 0,
+  });
+
+  const [playColumnFallSound, controlsColumnFallSound] = useSound(
+    gameColumnFallSound,
+    {
+      volume: props.isOnSound ? 1 : 0,
+    },
+  );
 
   props.isAuthMeThunk();
 
@@ -46,6 +59,20 @@ const GameContainer = (props: any) => {
       props.restartGame();
     };
   }, []);
+
+  useEffect(() => {
+    if (props.isColumnFallSound) {
+      playColumnFallSound();
+    } else {
+      controlsColumnFallSound.stop();
+    }
+  }, [props.isColumnFallSound]);
+
+  useEffect(() => {
+    if (props.isWinSound) {
+      playWinSound();
+    }
+  }, [props.isWinSound]);
 
   useEffect(() => {
     if (props.isWinMusic) {
@@ -60,6 +87,8 @@ const GameContainer = (props: any) => {
   useEffect(() => {
     if (props.isStoneFallSound) {
       playMusicStoneFall();
+    } else {
+      controlsStoneFall.stop();
     }
   }, [props.isStoneFallSound]);
 
@@ -74,6 +103,7 @@ const GameContainer = (props: any) => {
       controlsDef.stop();
       controlsWin.stop();
       controlsStoneFall.stop();
+      controlsColumnFallSound.stop();
     };
   }, [props.isStartGame]);
 
@@ -173,6 +203,8 @@ const mapStateToProps = (state: any) => {
     isOnSound: state.game.isOnSound,
     isStoneFallSound: state.game.isStoneFallSound,
     isDarkGame: state.game.isDarkGame,
+    isWinSound: state.game.isWinSound,
+    isColumnFallSound: state.game.isColumnFallSound,
   };
 };
 export default compose(
@@ -185,8 +217,8 @@ export default compose(
     restartGame,
     playWinMusic,
     setSoundState,
-    playStoneFallSound,
     showDarkSlot,
+    playWinSound,
   }),
   withAuthMeRedirect,
 )(GameContainer);

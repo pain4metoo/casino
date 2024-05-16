@@ -249,86 +249,79 @@ export class GenerateSpinCycle {
     const copySymbols = { ...winSymbols };
     const intervalDefSymbols = 5;
 
+    // symbolsDef [key - count: value - price]
+    // symbolsWin [key - symbol id: value - same as in symbolsDef]
+
     const winTableDefault = {
       symbolsDef: {
-        5: 0.01,
-        6: 0.01,
-        7: 0.07,
-        8: 0.08,
-        9: 0.1,
-        10: 0.5,
-        11: 1,
-        12: 1.5,
+        7: 0.3,
+        8: 0.5,
+        9: 0.7,
+        10: 1,
+        11: 1.5,
+        12: 3,
       },
       symbolsWin: {
         6: {
-          5: 0.01,
-          6: 0.012,
-          7: 0.06,
-          8: 0.1,
-          9: 0.2,
-          10: 0.3,
+          7: 0.5,
+          8: 0.7,
+          9: 0.9,
+          10: 1,
           11: 1.5,
-          12: 2.0,
+          12: 2,
         },
         7: {
-          5: 0.01,
-          6: 0.012,
-          7: 0.06,
-          8: 0.1,
-          9: 0.2,
-          10: 0.3,
-          11: 1.5,
-          12: 2.0,
+          7: 0.7,
+          8: 0.9,
+          9: 1,
+          10: 1.5,
+          11: 2,
+          12: 2.5,
         },
         8: {
-          5: 0.01,
-          6: 0.012,
-          7: 0.12,
-          8: 0.2,
-          9: 0.4,
-          10: 0.6,
-          11: 3,
-          12: 4,
+          7: 0.9,
+          8: 1,
+          9: 1.5,
+          10: 2,
+          11: 2.5,
+          12: 5,
         },
         9: {
-          5: 0.01,
-          6: 0.012,
-          7: 0.24,
-          8: 0.4,
-          9: 0.8,
-          10: 1.2,
-          11: 6,
-          12: 8,
+          7: 1,
+          8: 1.5,
+          9: 2,
+          10: 2.5,
+          11: 5,
+          12: 10,
         },
         10: {
-          5: 0.01,
-          6: 0.012,
-          7: 0.48,
-          8: 0.8,
-          9: 1.6,
-          10: 2.4,
-          11: 12,
-          12: 16,
+          7: 1.5,
+          8: 2,
+          9: 2.5,
+          10: 3,
+          11: 3.5,
+          12: 7,
         },
       },
     };
 
     const calculate = (id: number, count: number): number => {
-      const key = count as keyof typeof winTableDefault.symbolsDef;
+      const keyCount = count as keyof typeof winTableDefault.symbolsDef;
       const keyId = id as keyof typeof winTableDefault.symbolsWin;
 
       if (id <= intervalDefSymbols) {
-        return winTableDefault.symbolsDef[key] * this.currentBet * 10;
+        return winTableDefault.symbolsDef[keyCount] * this.currentBet * 10;
       } else {
-        return winTableDefault.symbolsWin[keyId][key] * this.currentBet * 10;
+        return (
+          winTableDefault.symbolsWin[keyId][keyCount] * this.currentBet * 10
+        );
       }
     };
 
     let winResult = 0;
 
     for (const id in copySymbols) {
-      if (copySymbols[id] >= 5) {
+      if (copySymbols[id] >= 7) {
         winResult += calculate(+id, copySymbols[id]);
       }
     }
@@ -353,7 +346,7 @@ export class GenerateSpinCycle {
 
     const currentWinSymbols = Object.entries({ ...winSymbolsCount })
       .map(el => {
-        if (el[1] >= 5) {
+        if (el[1] >= 7) {
           // Check the number of characters
           return +el[0]; // return the number id
         }

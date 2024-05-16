@@ -1,7 +1,9 @@
 import { connect } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 
-const mapStateToPropsForRedirect = (state: any) => ({
+const mapStateToPropsForRedirect = (state: {
+  auth: { user: { isAuth: boolean } };
+}) => ({
   isAuth: state.auth.user.isAuth,
 });
 
