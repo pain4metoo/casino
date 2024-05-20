@@ -6,6 +6,18 @@ import GenerateSpinCycle, {
 import SlotApi, { GiveMoneyType } from '../api/slot/slot-api';
 import { updateUserBalance } from './auth-reducer';
 
+type PositionElements = {
+  gameField: { width: number; height: number };
+  textTotalWin: { x: number; y: number };
+  textLastWin: { x: number; y: number };
+  textBalance: { x: number; y: number };
+  volume: { x: number; y: number };
+  textBet: { x: number; y: number };
+  arrowTop: { x: number; y: number };
+  arrowBottom: { x: number; y: number };
+  spinBtn: { x: number; y: number };
+};
+
 export type IGameState = {
   startingField: Array<Array<ISymbol>>;
   gameField: Array<Array<ISymbol>>;
@@ -26,6 +38,7 @@ export type IGameState = {
   isColumnFallSound: boolean;
   isMoneyBtnOff: boolean;
   giveMeMoneyCount: number;
+  positionElements: PositionElements;
 };
 
 const initialState: IGameState = {
@@ -48,6 +61,17 @@ const initialState: IGameState = {
   isColumnFallSound: false,
   isMoneyBtnOff: false,
   giveMeMoneyCount: 0,
+  positionElements: {
+    gameField: { width: 1200, height: 700 },
+    textTotalWin: { x: 20, y: 520 },
+    textLastWin: { x: 20, y: 570 },
+    textBalance: { x: 20, y: 620 },
+    volume: { x: 15, y: 15 },
+    textBet: { x: 940, y: 610 },
+    arrowTop: { x: 1035, y: 590 },
+    arrowBottom: { x: 1035, y: 630 },
+    spinBtn: { x: 1070, y: 575 },
+  },
 };
 
 const gameSlice = createSlice({
@@ -134,8 +158,18 @@ const gameSlice = createSlice({
     showIncreaseMoney(state, action) {
       state.giveMeMoneyCount = action.payload.increase;
     },
+    changePositionTextures(state, action) {
+      state.positionElements.gameField.width = action.payload.value;
+    },
   },
 });
+
+export const resizePixiTexture = (screenResolution: {
+  windowInnerWidth: number;
+  windowInnerHeight: number;
+}) => {
+  return (dispatch: Dispatch) => {};
+};
 
 export const giveMeMoneyThunk = () => {
   return async (dispatch: Dispatch) => {
@@ -287,6 +321,7 @@ export const {
   playColumnFallSound,
   changeMoneyBtnState,
   showIncreaseMoney,
+  changePositionTextures,
 } = gameSlice.actions;
 
 export default gameSlice.reducer;

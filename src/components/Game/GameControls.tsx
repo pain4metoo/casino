@@ -38,8 +38,8 @@ const GameControls = (props: any) => {
     <>
       <Container>
         <Sprite
-          x={15}
-          y={15}
+          x={props.positionElements.volume.x}
+          y={props.positionElements.volume.y}
           width={70}
           height={70}
           image={props.isOnSound ? gameData.volumeOn : gameData.volumeOff}
@@ -50,8 +50,8 @@ const GameControls = (props: any) => {
         />
         <Text
           text={'Balance: ' + props.balance + '$'}
-          x={20}
-          y={620}
+          x={props.positionElements.textBalance.x}
+          y={props.positionElements.textBalance.y}
           style={
             new PIXI.TextStyle({
               align: 'center',
@@ -69,8 +69,8 @@ const GameControls = (props: any) => {
         />
         <Text
           text={'Total win: ' + props.totalWinAmount + '$'}
-          x={20}
-          y={520}
+          x={props.positionElements.textTotalWin.x}
+          y={props.positionElements.textTotalWin.y}
           style={
             new PIXI.TextStyle({
               align: 'center',
@@ -86,8 +86,8 @@ const GameControls = (props: any) => {
         />
         <Text
           text={'Last win: ' + props.winAmount + '$'}
-          x={20}
-          y={570}
+          x={props.positionElements.textLastWin.x}
+          y={props.positionElements.textLastWin.y}
           style={
             new PIXI.TextStyle({
               align: 'center',
@@ -103,8 +103,8 @@ const GameControls = (props: any) => {
         />
         <Text
           text={props.bet + '$'}
-          x={940}
-          y={610}
+          x={props.positionElements.textBet.x}
+          y={props.positionElements.textBet.y}
           style={
             new PIXI.TextStyle({
               align: 'center',
@@ -122,8 +122,8 @@ const GameControls = (props: any) => {
         />
         {props.isGameOn ? (
           <AnimatedSprite
-            x={1035}
-            y={590}
+            x={props.positionElements.arrowTop.x}
+            y={props.positionElements.arrowTop.y}
             width={30}
             height={30}
             isPlaying={true}
@@ -132,8 +132,8 @@ const GameControls = (props: any) => {
           />
         ) : (
           <Sprite
-            x={1035}
-            y={590}
+            x={props.positionElements.arrowTop.x}
+            y={props.positionElements.arrowTop.y}
             width={30}
             height={30}
             image={gameData.arrowTop}
@@ -146,8 +146,8 @@ const GameControls = (props: any) => {
         )}
         {props.isGameOn ? (
           <AnimatedSprite
-            x={1035}
-            y={630}
+            x={props.positionElements.arrowBottom.x}
+            y={props.positionElements.arrowBottom.y}
             width={30}
             height={30}
             isPlaying={true}
@@ -156,8 +156,8 @@ const GameControls = (props: any) => {
           />
         ) : (
           <Sprite
-            x={1035}
-            y={630}
+            x={props.positionElements.arrowBottom.x}
+            y={props.positionElements.arrowBottom.y}
             width={30}
             height={30}
             image={gameData.arrowBottom}
@@ -171,8 +171,8 @@ const GameControls = (props: any) => {
 
         {props.isGameOn ? (
           <AnimatedSprite
-            x={1070}
-            y={575}
+            x={props.positionElements.spinBtn.x}
+            y={props.positionElements.spinBtn.y}
             width={100}
             height={100}
             isPlaying={true}
@@ -181,8 +181,8 @@ const GameControls = (props: any) => {
           />
         ) : (
           <Sprite
-            x={1070}
-            y={575}
+            x={props.positionElements.spinBtn.x}
+            y={props.positionElements.spinBtn.y}
             width={100}
             height={100}
             image={gameData.spinBtn}

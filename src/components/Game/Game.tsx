@@ -7,10 +7,27 @@ import store from '../../redux/store';
 import LoadingContainer from './Loading/LoadingContainer';
 import { gameData } from './textures';
 import GameControls from './GameControls';
+import { useEffect, useRef, useState } from 'react';
+import * as PIXI from 'pixi.js';
 
 const Game = (props: any) => {
   const startingField = createSymbols(props.startingField);
   const gameField = createSymbols(props.gameField);
+
+  function resize(event: any) {
+    if (event.target) {
+      const windowInnerWidth = window.innerWidth;
+      const windowInnerHeight = window.innerHeight;
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener('resize', resize);
+
+    return () => {
+      window.removeEventListener('resize', resize);
+    };
+  }, []);
 
   function createSymbols(arrSymbols: Array<Array<ISymbol>>) {
     let numberSymbol = 0;
@@ -38,8 +55,8 @@ const Game = (props: any) => {
   return (
     <div className={styles.game}>
       <Stage
-        width={1200}
-        height={700}
+        width={props.positionElements.gameField.width}
+        height={props.positionElements.gameField.height}
         options={{
           antialias: true,
           resizeTo: window,
@@ -54,8 +71,8 @@ const Game = (props: any) => {
               image={
                 props.isDarkGame ? gameData.bgSlotDark : gameData.bgSlotGame
               }
-              width={1200}
-              height={700}
+              width={props.positionElements.gameField.width}
+              height={props.positionElements.gameField.height}
             />
             {!props.isInitStage ? startingField : null}
             {props.isInitStage && !props.isAdditionStage ? gameField : null}
@@ -74,6 +91,7 @@ const Game = (props: any) => {
               isNotEnoughMoney={props.isNotEnoughMoney}
               isOnSound={props.isOnSound}
               setSoundState={props.setSoundState}
+              positionElements={props.positionElements}
             />
           </Container>
         )}

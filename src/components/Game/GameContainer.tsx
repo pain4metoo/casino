@@ -8,6 +8,7 @@ import {
   placeBetThunk,
   playWinMusic,
   playWinSound,
+  resizePixiTexture,
   restartGame,
   setBet,
   setSoundState,
@@ -25,12 +26,12 @@ import gameColumnFallSound from '../../assets/sounds/column_fall.mp3';
 
 const GameContainer = (props: any) => {
   const [playGameMusicDef, controlsDef] = useSound(gameMusicDef, {
-    volume: props.isOnSound ? 0.4 : 0,
+    volume: props.isOnSound ? 0.6 : 0,
     interrupt: true,
     loop: true,
   });
   const [playGameMusicWin, controlsWin] = useSound(gameMusicWin, {
-    volume: props.isOnSound ? 0.4 : 0,
+    volume: props.isOnSound ? 0.6 : 0,
     loop: true,
     interrupt: true,
   });
@@ -194,7 +195,6 @@ const mapStateToProps = (state: any) => {
     isAdditionStage: state.game.isAdditionStage,
     startingField: state.game.startingField,
     gameField: state.game.gameField,
-    isLoadData: state.loading.isLoadData,
     balance: state.auth.user.balance,
     bet: state.game.bet,
     winAmount: state.game.winAmount,
@@ -206,6 +206,7 @@ const mapStateToProps = (state: any) => {
     isDarkGame: state.game.isDarkGame,
     isWinSound: state.game.isWinSound,
     isColumnFallSound: state.game.isColumnFallSound,
+    positionElements: state.game.positionElements,
   };
 };
 
@@ -214,6 +215,7 @@ export default compose(
     placeBetThunk,
     isAuthMeThunk,
     spinCycleThunk,
+    resizePixiTexture,
     setBet,
     checkAmountMoney,
     restartGame,
