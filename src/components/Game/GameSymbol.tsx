@@ -1,11 +1,5 @@
-import {
-  AnimatedSprite,
-  Container,
-  Sprite,
-  useApp,
-  useTick,
-} from '@pixi/react';
-import { useEffect, useState } from 'react';
+import { AnimatedSprite, Container, Sprite, useTick } from '@pixi/react';
+import { useState } from 'react';
 import { gameData } from './textures';
 import {
   readyGameDataFireTextures,
@@ -15,7 +9,6 @@ import * as PIXI from 'pixi.js';
 
 const Symbol = (props: any) => {
   const [yStart, setYStart] = useState(props.symbolData.yStart);
-  const app = useApp();
   const defaultSymbol: string = gameData.symbolsDef[props.symbolData.id - 1];
   const winSymbol: Array<PIXI.Texture> =
     readyGameDataSymbolsWin[props.symbolData.id - 1];

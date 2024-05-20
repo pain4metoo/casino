@@ -7,8 +7,7 @@ import store from '../../redux/store';
 import LoadingContainer from './Loading/LoadingContainer';
 import { gameData } from './textures';
 import GameControls from './GameControls';
-import { useEffect, useRef, useState } from 'react';
-import * as PIXI from 'pixi.js';
+import { useEffect } from 'react';
 
 const Game = (props: any) => {
   const startingField = createSymbols(props.startingField);
