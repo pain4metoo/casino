@@ -26,7 +26,9 @@ class AuthController {
 
       return data;
     } catch (err: any) {
-      console.log(err);
+      if (err.response.data) {
+        return err.response.data;
+      }
     }
   }
   public static async isAuthUser(email: string, password: string) {
