@@ -13,8 +13,8 @@ const App = () => {
       <div className={styles.main}>
         <Routes>
           <Route path='/' element={<WelcomeContainer />} />
-          <Route path='/login' element={<LoginContainer />} />
-          <Route path='/game' element={<GameContainer />} />
+          <Route path='/casino/login' element={<LoginContainer />} />
+          <Route path='/casino/game' element={<GameContainer />} />
         </Routes>
       </div>
       <Footer />
