@@ -36,8 +36,8 @@ const authSlice = createSlice({
       state.user.isAuth = true;
     },
     setToken(state, action) {
-      localStorage.setItem('token', action.payload.data.accessToken);
-      localStorage.setItem('id', action.payload.data.user.id);
+      localStorage.setItem('casinoToken', action.payload.data.accessToken);
+      localStorage.setItem('casinoId', action.payload.data.user.id);
     },
     setAuthMe(state, action) {
       state.user = action.payload.user;

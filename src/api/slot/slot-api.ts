@@ -13,11 +13,13 @@ class SlotApi {
         throw Error('Bet is incorrect');
       }
       const config = {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('casinoToken')}`,
+        },
       };
 
       const response: AxiosResponse = await instance.get(
-        `/660/users/${localStorage.getItem('id')}`,
+        `/660/users/${localStorage.getItem('casinoId')}`,
         config,
       );
 
@@ -36,7 +38,7 @@ class SlotApi {
       const updateBalance = (currentBalance - bet).toFixed(2);
 
       const changeBalanceResponse: AxiosResponse = await instance.patch(
-        `/660/users/${localStorage.getItem('id')}`,
+        `/660/users/${localStorage.getItem('casinoId')}`,
         {
           balance: +updateBalance,
         },
@@ -57,11 +59,13 @@ class SlotApi {
   public static async updateBalance(amount: number): Promise<void> {
     try {
       const config = {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('casinoToken')}`,
+        },
       };
 
       const response: AxiosResponse = await instance.get(
-        `/660/users/${localStorage.getItem('id')}`,
+        `/660/users/${localStorage.getItem('casinoId')}`,
         config,
       );
 
@@ -74,7 +78,7 @@ class SlotApi {
       const currentBalance = +(+response.data.balance + amount).toFixed(2);
 
       const changeBalanceResponse: AxiosResponse = await instance.patch(
-        `/660/users/${localStorage.getItem('id')}`,
+        `/660/users/${localStorage.getItem('casinoId')}`,
         {
           balance: +currentBalance,
         },
@@ -96,11 +100,13 @@ class SlotApi {
   public static async giveMeMoney(): Promise<GiveMoneyType | undefined> {
     try {
       const config = {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('casinoToken')}`,
+        },
       };
 
       const userResponse: AxiosResponse = await instance.get(
-        `/660/users/${localStorage.getItem('id')}`,
+        `/660/users/${localStorage.getItem('casinoId')}`,
         config,
       );
 
@@ -113,7 +119,7 @@ class SlotApi {
       const randomMoneyCount: number = Math.ceil(Math.random() * 1000);
 
       const changeBalanceResponse: AxiosResponse = await instance.patch(
-        `/660/users/${localStorage.getItem('id')}`,
+        `/660/users/${localStorage.getItem('casinoId')}`,
         {
           balance: +user.balance + randomMoneyCount,
         },

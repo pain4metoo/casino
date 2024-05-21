@@ -57,11 +57,13 @@ class AuthController {
   public static async isAuthMe() {
     try {
       const config = {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('casinoToken')}`,
+        },
       };
 
       const response: AxiosResponse = await instance.get(
-        `/600/users/${localStorage.getItem('id')}`,
+        `/600/users/${localStorage.getItem('casinoId')}`,
         config,
       );
 
@@ -78,7 +80,10 @@ class AuthController {
   }
 
   public static isAuthMeCheckData() {
-    if (localStorage.getItem('id') && localStorage.getItem('token')) {
+    if (
+      localStorage.getItem('casinoId') &&
+      localStorage.getItem('casinoToken')
+    ) {
       return true;
     }
 

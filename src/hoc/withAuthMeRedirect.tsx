@@ -9,8 +9,8 @@ const mapStateToPropsForRedirect = (state: {
 
 export const withAuthMeRedirect = (Component: any) => {
   const RedirectComponent = (props: any) => {
-    const id = localStorage.getItem('id');
-    const token = localStorage.getItem('token');
+    const id = localStorage.getItem('casinoId');
+    const token = localStorage.getItem('casinoToken');
 
     if (!id || !token) {
       if (!props.isAuth) {
