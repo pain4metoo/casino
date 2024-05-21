@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "homepage": "https://pain4metoo.github.io/casino",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pain4metoo/casino.git"
+  },
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@pixi/react": "^7.1.1",
