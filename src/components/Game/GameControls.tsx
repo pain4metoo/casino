@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js';
 import { AnimatedSprite, Container, Sprite, Text } from '@pixi/react';
-import { gameData } from './textures';
+import { gameData } from './Textures';
 import {
   readyGameDataArrowLow,
   readyGameDataArrowUp,

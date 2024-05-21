@@ -8,7 +8,7 @@ import {
   preloaderGifTexture,
   spinBtnOffTexture,
   symbolsWin,
-} from './textures';
+} from './Textures';
 
 export let readyGameDataSymbolsWin: Array<Array<PIXI.Texture>> = [];
 

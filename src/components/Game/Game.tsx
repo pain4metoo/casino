@@ -5,7 +5,7 @@ import Symbol from './GameSymbol';
 import { Provider } from 'react-redux';
 import store from '../../redux/store';
 import LoadingContainer from './Loading/LoadingContainer';
-import { gameData } from './textures';
+import { gameData } from './Textures';
 import GameControls from './GameControls';
 import { useEffect } from 'react';
 

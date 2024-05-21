@@ -1,6 +1,6 @@
 import { AnimatedSprite, Container, Sprite, useTick } from '@pixi/react';
 import { useState } from 'react';
-import { gameData } from './textures';
+import { gameData } from './Textures';
 import {
   readyGameDataFireTextures,
   readyGameDataSymbolsWin,

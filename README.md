@@ -1,46 +1,107 @@
-# Getting Started with Create React App
+1. Task: https://github.com/rolling-scopes-school/tasks/blob/master/tasks/rsclone/rsclone.md
+2. Screenshot:
+   ![](https://i.ibb.co/4tr73N9/image.png)
+3. Deploy: https://pain4metoo.github.io/rs-clone/
+4. Done 27.02.2023 / deadline 28.02.2023
+5. Score: 620 / 620
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Cross check example
 
-## Available Scripts
+https://youtu.be/IzWdqBOEjbo
 
-In the project directory, you can run:
+# Для запуска проекта нужно запустить локальный сервер.
 
-### `npm start`
+Для этого нужно:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+1. Склонировать репозиторий `git clone https://github.com/Evermishka/json-server-auth.git`
+2. Перейти в папку с сервером `cd json-server-auth`
+3. Установить зависимости `npm install`
+4. Запустить сервер командой `npm run start`
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Сервер запускается на порте http://localhost:3000
+Все данные находятся в файле db.json
 
-### `npm test`
+# Для финального задания RS-Clone наша команда решила создать обучающее приложение похожее на learn-js.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## **(+70) В подготовительный этап работы:**
 
-### `npm run build`
+1. Было написано ТЗ.
+2. Был нарисован схематичный макет проекта.
+3. Был выбран стек написания проекта, стиль архитектуры написания. (Весь проект
+   строится на _классах_ и выполнен на _JS vanilla (Typescript)_, было также принято решение
+   использовать _bootstrap_ для единого стиля написания css. И для быстрой реализации
+   адаптивной верстки).
+4. Была подготовлена заготовка проекта с _webpack_, _eslint_ и начальной структурой
+   проекта.
+5. Для визуализации прогресса была выбрана _trello board_.
+6. Для хранения базы данных решили использовать json-server с авторизацией.
+   Использование данного сервера позволила организовать возможность регистрации,
+   аутентификации и авторизации для будущего пользователя приложения. Все данные
+   вносились в ручную. Особую сложность составила внесение данных по контенту
+   уроков, тестов и задач, так как их контент нужно было представить уже в виде html-
+   кода. А в связи с тем, что в рамках конкретного проекта каждый урок, задача, тестов
+   представляют собой не только текст, но и кусочки примеров кода для эстетики
+   использовался пакет _code-prettify_.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## **(+100) Header с навигационной панелью и Главная страница:**
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- (+25) Имеется пользовательская навигация, меняющуюся для авторизованного и
+  неавторизованного пользователя.
+- (+25) У пользователя присутствует возможность сменить аватар. В ассортименте имеется более 400 аватарок.
+  Имеется описание приложения и приветствие для авторизованного пользователя.
+- (+25) Для регистрации и входа появляются соответствующие модальные окна. Если
+  пользователь не существует или неверно указан пароль, выводится сообщение об
+  этом.
+- (+25) У всех полей при авторизации и регистрации присутствует валидация.
+  Если все верно, происходит авторизация пользователя. После входа пользователь
+  окажется на странице последнего выполненного урока/ теста/ блока задач.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## **(+200) Страницы &quot;Избранное, Статистика, Настройки&quot;, доступные только для авторизованного пользователя:**
 
-### `npm run eject`
+- (+50) Страница &quot;Избранное&quot; содержит список уроков, тестов, задач, добавленных в
+  избранное. Имеется возможность удалить урок, задачу или тест из этого списка.
+- (+50) Страница &quot;Статистика&quot; содержит информацию о прогрессе данного
+  пользователя в изучении: сколько уроков, задач, тестов выполнено. Прогресс
+  пользователя так же визуализирован при помощи progress bar.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- (+100) Страница &quot;Настройки&quot; позволяет пользователю настроить приложение на свой вкус:
+  - Выбрать темную/светлую тему.
+  - Включить/выключить фоновую анимацию.
+  - Обнулить прогресс.
+  - Отрегулировать звук.
+  - Сменить пароль или имя.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Настройки пользователя сохраняются для последующих сессий, пока он сам не решит
+из поменять.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## **(+50) Страница выбора категории &quot;Уроки, Тесты, Задачи&quot;:**
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Рядом с названием каждого урока/ теста/ блока задач имеется отметка, был ли
+данный урок/ тест/ блок задач уже были выполнен. Визуализирован прогресс. Темы
+раскрываются (аккордеон) после выбора соответствующей категории. Выбрав тему
+пользователь перейдет на соответствующую страницу.
 
-## Learn More
+## **(+200) Страницы &quot;Урок, Тест, Блок задач&quot;:**
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- (+50) У всех данных страниц реализован индикатор, показывающий, был ли данный
+  урок/ тест/ блок задач уже пройден. Также есть возможность добавить в избранное.
+  Между страницами имеются удобные для пользователя переходы, например, к
+  следующему уроку или пройти тест, решить задачи по соответствующей теме…
+- (+50) _Страница &quot;Урок&quot;_:
+  Имеется блок комментариев. Любой пользователь может их видеть, а вот оставить
+  свой может только авторизованный пользователь. Для удобства пользователя
+  имеются кнопки быстрой прокрутки вверх и вниз, в связи с большим объемом текста
+  на странице. Урок считается выполненным после перехода к следующему уроку,
+  блоку задач по этой же теме или тесту.
+- (+50) _Страница &quot;Тест&quot;_:
+  Каждый тест имеет вопросы как с одним ответом, так и с множественным. После того,
+  как все вопросы отмечены, появляется возможность проверить результат, который
+  отображается результат в popup окошке. Для того, чтобы тест был засчитан, нужно
+  набрать не менее 70%.
+- (+50) _Страница &quot;Задач&quot;_:
+  По каждой теме представлен блок задач. Каждая задача имеет свой индикатор
+  сложности. Можно посмотреть решение задачи, которое раскрывается только после
+  нажатия соответствующей кнопки. Можно отметить задачу решенной. После того, как
+  все задачи блока будут решены, то данный блок задач будет отмечен выполненным.
+  Если не все задачи данного блока решены, лишь соответствующие задачи будут
+  отмечены решенными.
