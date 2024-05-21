@@ -8,31 +8,11 @@ import {
 } from './textures-create';
 import useSound from 'use-sound';
 import btnBetSound from '../../assets/sounds/button_click.mp3';
-import { useEffect } from 'react';
 
 const GameControls = (props: any) => {
   const [playBtnBetSound] = useSound(btnBetSound, {
     volume: props.isOnSound ? 0.3 : 0,
   });
-
-  function handleKeyDown(event: KeyboardEvent) {
-    if (props.isGameOn) {
-      return;
-    }
-    const key = event.code;
-
-    if (key === 'Space') {
-      event.preventDefault();
-      props.handleClickSpin(props.bet);
-    }
-  }
-
-  useEffect(() => {
-    document.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [props.isGameOn]);
 
   return (
     <>
